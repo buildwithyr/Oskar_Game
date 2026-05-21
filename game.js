@@ -149,7 +149,7 @@ document.getElementById("clickDog").addEventListener("click", () => {
    LEVEL 2
 ══════════════════════════════════════ */
 
-```js id="k2v9qa"
+
 let mazeData = []
 
 const MAZE_SIZE = 15
@@ -220,7 +220,6 @@ function generateMaze(){
   mazeData[goalY][goalX] = 3
 
 }
-```
 
 
 function movePlayer(dx, dy){

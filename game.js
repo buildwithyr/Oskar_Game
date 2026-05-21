@@ -149,59 +149,79 @@ document.getElementById("clickDog").addEventListener("click", () => {
    LEVEL 2
 ══════════════════════════════════════ */
 
-const mazeData = [
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-  [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
-  [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1],
-  [1,0,1,0,0,0,1,0,1,0,0,0,1,0,1],
-  [1,0,1,1,1,0,1,0,1,1,1,1,1,0,1],
-  [1,0,0,0,1,0,0,0,0,0,0,0,1,0,1],
-  [1,1,1,0,1,1,1,1,1,1,1,0,1,0,1],
-  [1,0,0,0,0,0,0,0,0,0,1,0,0,0,1],
-  [1,0,1,1,1,1,1,1,1,0,1,1,1,0,1],
-  [1,0,1,0,0,0,0,0,1,0,0,0,1,0,1],
-  [1,0,1,0,1,1,1,0,1,1,1,0,1,0,1],
-  [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
-  [1,1,1,0,1,0,1,1,1,0,1,1,1,0,1],
-  [1,0,0,0,0,0,1,0,0,0,0,0,0,3,1],
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-]
+```js id="k2v9qa"
+let mazeData = []
 
-let playerX = 1
-let playerY = 1
+const MAZE_SIZE = 15
 
-function startLevel2(){
-  playerX = 1
-  playerY = 1
-  drawMaze()
-  showScreen("level2")
-}
+function generateMaze(){
 
-function drawMaze(){
+  mazeData = Array.from({ length: MAZE_SIZE }, () =>
+    Array(MAZE_SIZE).fill(1)
+  )
 
-  const maze = document.getElementById("maze")
-  maze.innerHTML = ""
+  function carve(x, y){
 
-  for(let y = 0; y < mazeData.length; y++){
-    for(let x = 0; x < mazeData[y].length; x++){
+    const dirs = [
+      [0, -2],
+      [2, 0],
+      [0, 2],
+      [-2, 0]
+    ]
 
-      const cell = document.createElement("div")
-      cell.className = "cell"
-      cell.classList.add(mazeData[y][x] === 1 ? "wall" : "floor")
+    dirs.sort(() => Math.random() - 0.5)
 
-      if(x === playerX && y === playerY){
-        cell.innerHTML = `<img src="assets/OskarCartoon.png" class="maze-oskar">`
+    for(const [dx, dy] of dirs){
+
+      const nx = x + dx
+      const ny = y + dy
+
+      if(
+        nx > 0 &&
+        nx < MAZE_SIZE - 1 &&
+        ny > 0 &&
+        ny < MAZE_SIZE - 1 &&
+        mazeData[ny][nx] === 1
+      ){
+
+        mazeData[ny][nx] = 0
+        mazeData[y + dy / 2][x + dx / 2] = 0
+
+        carve(nx, ny)
+
       }
 
-      if(mazeData[y][x] === 3){
-        cell.innerHTML = `<img src="assets/OskarLiegestuhl.png" class="maze-goal">`
-      }
-
-      maze.appendChild(cell)
     }
+
   }
 
+  mazeData[1][1] = 0
+
+  carve(1, 1)
+
+  let goalX = MAZE_SIZE - 2
+  let goalY = MAZE_SIZE - 2
+
+  while(mazeData[goalY][goalX] !== 0){
+
+    goalX--
+
+    if(goalX <= 1){
+      goalX = MAZE_SIZE - 2
+      goalY--
+    }
+
+    if(goalY <= 1){
+      break
+    }
+
+  }
+
+  mazeData[goalY][goalX] = 3
+
 }
+```
+
 
 function movePlayer(dx, dy){
 

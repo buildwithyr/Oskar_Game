@@ -20,7 +20,7 @@
 }
 
 body{
-font-family:'Fredoka', sans-serif;
+font-family:'Bubblegum Sans', sans-serif;
 overflow:hidden;
 background:#87CEEB;
 color:white;
@@ -79,7 +79,7 @@ user-select:none;
 }
 
 .logo-text{
-  font-family:'Fredoka One', cursive;
+  font-family:'Bubblegum Sans', cursive;
   font-size:62px;
   line-height:1;
   text-shadow: 0 4px 24px rgba(0,0,0,0.25), 0 2px 0 rgba(0,0,0,0.15);
@@ -101,7 +101,7 @@ user-select:none;
   padding:0 44px;
   border-radius:999px;
   font-size:22px;
-  font-family:'Fredoka One', cursive;
+  font-family:'Bubblegum Sans One', cursive;
   cursor:pointer;
   box-shadow: 0 8px 32px rgba(0,0,0,0.22);
   transition: transform 0.12s, box-shadow 0.12s;
@@ -128,7 +128,7 @@ user-select:none;
 }
 
 .hud-title{
-  font-family:'Fredoka One', cursive;
+  font-family:'Bubblegum Sans One', cursive;
   font-size:26px;
   line-height:1;
 }
@@ -158,7 +158,7 @@ user-select:none;
 }
 
 .goal-text{
-  font-family:'Fredoka One', cursive;
+  font-family:'Bubblegum Sans One', cursive;
   font-size:28px;
   text-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
@@ -413,7 +413,7 @@ user-select:none;
   top:40%;
   left:50%;
   transform:translate(-50%, 0);
-  font-family:'Fredoka One', cursive;
+  font-family:'Bubblegum Sans One', cursive;
   font-size:34px;
   opacity:0;
   transition: opacity 0.3s, transform 0.3s;
@@ -435,7 +435,7 @@ user-select:none;
 }
 
 .speed-label{
-  font-family:'Fredoka One', cursive;
+  font-family:'Bubblegum Sans', cursive;
   font-size:14px;
   opacity:0.9;
 }
@@ -462,7 +462,7 @@ user-select:none;
   bottom:50px;
   left:50%;
   transform:translateX(-50%);
-  font-family:'Fredoka One', cursive;
+  font-family:'Bubblegum Sans', cursive;
   font-size:18px;
   opacity:1;
   transition:opacity 0.8s ease;
@@ -487,7 +487,7 @@ user-select:none;
 }
 
 .radio-title{
-  font-family:'Fredoka One', cursive;
+  font-family:'Bubblegum Sans', cursive;
   font-size:14px;
   opacity:0.8;
 }
@@ -528,7 +528,7 @@ user-select:none;
 }
 
 .popup-box h1{
-  font-family:'Fredoka One', cursive;
+  font-family:'Bubblegum Sans', cursive;
   font-size:34px;
   margin-bottom:8px;
   color:#ff5e62;
@@ -541,7 +541,7 @@ user-select:none;
   height:56px;
   padding:0 36px;
   border-radius:999px;
-  font-family:'Fredoka One', cursive;
+  font-family:'Bubblegum Sans', cursive;
   font-size:20px;
   cursor:pointer;
 }
@@ -650,7 +650,7 @@ user-select:none;
 
 }
 body{
-font-family:'Fredoka', sans-serif;
+font-family:'Bubblegum Sans', sans-serif;
 
 -webkit-text-size-adjust:100%;
 }
@@ -682,6 +682,6 @@ margin-bottom:50px;
 /* BUTTONS */
 
 button{
-font-family:'Fredoka', sans-serif;
+font-family:'Bubblegum Sans', sans-serif;
 font-weight:600;
 }

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<title>Oskar Beach Stories</title>
+
+<link
+rel="stylesheet"
+href="style.css">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap"
+rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- ═════════════ INTRO ═════════════ -->
+
+<div class="screen active" id="intro">
+
+  <div class="logo-wrap">
+
+    <span class="logo-emoji">🐶</span>
+
+    <div class="logo-text">
+      Oskar<br>
+      Beach Stories
+    </div>
+
+  </div>
+
+  <div class="logo-sub">
+    GTA Vibes am Strand 😄🌴
+  </div>
+
+  <button class="startBtn" id="startBtn">
+    Spiel starten 🐾
+  </button>
+
+</div>
+
+<!-- ═════════════ LEVEL 1 ═════════════ -->
+
+<div class="screen" id="level1">
+
+  <div class="hud">
+
+    <div class="hud-title">
+      Level 1 🍖
+    </div>
+
+    <div class="hud-sub">
+      Oskar hat Hunger!
+    </div>
+
+    <div class="hud-score" id="snackCounter">
+      Snacks: 0 / 5
+    </div>
+
+  </div>
+
+  <div class="goal-text">
+    Gib Oskar 5 Snacks 🍖
+  </div>
+
+  <img
+  src="assets/OskarCartoon.png"
+  class="oskar-click"
+  id="clickDog">
+
+  <div
+  class="snack-bar-wrap"
+  id="snackBar"></div>
+
+</div>
+
+<!-- ═════════════ LEVEL 2 ═════════════ -->
+
+<div class="screen" id="level2">
+
+  <div class="hud">
+
+    <div class="hud-title">
+      Level 2 🌴
+    </div>
+
+    <div class="hud-sub">
+      Finde den Weg zum Strand!
+    </div>
+
+  </div>
+
+  <div class="maze-wrap">
+
+    <div
+    class="maze-grid"
+    id="maze"></div>
+
+  </div>
+
+  <!-- MOBILE D-PAD -->
+
+  <div class="dpad" id="dpad">
+
+    <div
+    class="dpad-btn dpad-up"
+    data-dir="up">
+      ▲
+    </div>
+
+    <div
+    class="dpad-btn dpad-left"
+    data-dir="left">
+      ◀
+    </div>
+
+    <div
+    class="dpad-btn dpad-right"
+    data-dir="right">
+      ▶
+    </div>
+
+    <div
+    class="dpad-btn dpad-down"
+    data-dir="down">
+      ▼
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ═════════════ LEVEL 3 ═════════════ -->
+
+<div class="screen" id="level3">
+
+  <div class="world" id="world">
+
+    <div class="sky-bg"></div>
+
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <div class="cloud cloud3"></div>
+
+    <div class="wave"></div>
+
+    <div class="palm palm1">🌴</div>
+    <div class="palm palm2">🌴</div>
+
+    <img
+    src="assets/Frau am Liegestuhl.png"
+    class="beach-person person1">
+
+    <img
+    src="assets/Frau am Liegestuhl 2.png"
+    class="beach-person person2">
+
+    <div class="sand"></div>
+
+  </div>
+
+  <div class="radio">
+
+    <div class="radio-title">
+      Oskar FM 🎵
+    </div>
+
+    <div class="radio-song">
+      Summer Vibes
+      <span class="radio-note">♪</span>
+    </div>
+
+  </div>
+
+  <div class="hud">
+
+    <div class="hud-title">
+      Level 3 🥏
+    </div>
+
+    <div class="hud-sub">
+      Spring über die Hindernisse!
+    </div>
+
+    <div class="hud-score" id="distanceText">
+      Meter: 0
+    </div>
+
+  </div>
+
+  <img
+  src="assets/OskarBadehose.png"
+  class="runner"
+  id="runner">
+
+  <div class="frisbee" id="frisbee">
+    🥏
+  </div>
+
+  <div
+  class="obstacle"
+  id="obstacle"></div>
+
+  <div
+  class="event-toast"
+  id="eventToast"></div>
+
+  <div class="speed-bar-wrap">
+
+    <div class="speed-label">
+      Tempo 🔥
+    </div>
+
+    <div class="speed-bar-bg">
+
+      <div
+      class="speed-bar-fill"
+      id="speedBar"></div>
+
+    </div>
+
+  </div>
+
+  <div
+  class="jump-hint"
+  id="jumpHint">
+
+    Tippen oder Leertaste zum Springen ↑
+
+  </div>
+
+</div>
+
+
+<!-- ═════════════ LEVEL 4 ═════════════ -->
+
+<div class="screen" id="level4">
+
+  <div class="hud">
+
+    <div class="hud-title">
+      Level 4 🍭
+    </div>
+
+    <div class="hud-sub">
+      Match 3 Zeit!
+    </div>
+
+    <div
+    class="hud-score"
+    id="matchScore">
+      Punkte: 0
+    </div>
+
+  </div>
+
+  <div class="match3-wrap">
+
+    <div
+    id="matchBoard"></div>
+
+  </div>
+
+</div>
+
+
+<script src="game.js"></script>
+
+</body>
+</html>

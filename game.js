@@ -296,7 +296,7 @@ let l3HintShown  = true
 const L3_GROUND    = 0       // bottom offset from sand
 const L3_JUMP_VEL  = -18
 const L3_GRAVITY   = 1.0
-const L3_WIN_DIST  = 500
+const L3_WIN_DIST  = 200
 
 function startLevel3(){
 

@@ -28,6 +28,8 @@ body{
   width:100vw;
   touch-action:none;
   user-select:none;
+
+  -webkit-text-size-adjust:100%;
 }
 
 /* ══════════════════════════════════════

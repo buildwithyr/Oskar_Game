@@ -1,15 +1,70 @@
 /* ══════════════════════════════════════
+   CONSTANTS & CONFIG
+══════════════════════════════════════ */
+
+// Asset paths
+const ASSETS = {
+  OSKAR_DEFAULT: "assets/OskarCartoon.png",
+  OSKAR_TONGUE_LEFT: "assets/OskarZungelinks.png",
+  OSKAR_TONGUE_RIGHT: "assets/OskarZungerechts.png",
+  OSKAR_SWIMSUIT: "assets/OskarBadehose.png",
+  OSKAR_JUMP: "assets/Oskar springt.png",
+  OSKAR_CHAIR: "assets/OskarLiegestuhl.png",
+  POOP: "assets/Kothaufen.png"
+}
+
+// Level 1 - Snacks
+const LEVEL1_SNACK_GOAL = 5
+const LEVEL1_SNACK_CLICK_DELAY = 250
+
+// Level 2 - Maze
+const MAZE_SIZE = 15
+
+// Level 3 - Runner
+const L3_GROUND = 0
+const L3_JUMP_VEL = -18
+const L3_GRAVITY = 1.0
+const L3_WIN_DIST = 200
+const L3_SPEED_START = 3.5
+const L3_SPEED_MAX = 9
+const L3_SPEED_INCREASE = 0.012
+const L3_SPEED_FRAME_RATE = 0.05
+const L3_COLLISION_MARGIN = 18
+
+// Level 4 - Match3
+const EMOJIS = ["🐶","🦴","🌴","🥏","🍖","☀️","🌊"]
+const BOARD_COLS = 7
+const BOARD_ROWS = 7
+const MATCH_WIN_SCORE = 300
+const MATCH_POP_DELAY = 280
+const MATCH_POINT_PER_MATCH = 10
+
+// Vibration patterns
+const VIBRATE = {
+  SMALL: 30,
+  MEDIUM: 40,
+  LARGE: [80, 50, 80]
+}
+
+// Timing delays
+const DELAYS = {
+  LEVEL_COMPLETE: 400,
+  POPUP: 200,
+  LEVEL3_RETRY: 300
+}
+
+/* ══════════════════════════════════════
    PRELOAD ASSETS
 ══════════════════════════════════════ */
 
 const preloadImages = [
-  "assets/OskarCartoon.png",
-  "assets/OskarZungelinks.png",
-  "assets/OskarZungerechts.png",
-  "assets/OskarBadehose.png",
-  "assets/Oskar springt.png",
-  "assets/OskarLiegestuhl.png",
-  "assets/Kothaufen.png"
+  ASSETS.OSKAR_DEFAULT,
+  ASSETS.OSKAR_TONGUE_LEFT,
+  ASSETS.OSKAR_TONGUE_RIGHT,
+  ASSETS.OSKAR_SWIMSUIT,
+  ASSETS.OSKAR_JUMP,
+  ASSETS.OSKAR_CHAIR,
+  ASSETS.POOP
 ]
 
 preloadImages.forEach(src => {
@@ -60,7 +115,7 @@ function showLevelComplete({ title, text, button, next, stars = 3 }){
   document.body.appendChild(popup)
 
   document.getElementById("popupNextBtn").addEventListener("click", () => {
-    vibe(40)
+    vibe(VIBRATE.MEDIUM)
     popup.remove()
     next()
   })
@@ -72,12 +127,12 @@ function showLevelComplete({ title, text, button, next, stars = 3 }){
 ══════════════════════════════════════ */
 
 document.getElementById("startBtn").addEventListener("click", () => {
-  vibe(40)
+  vibe(VIBRATE.MEDIUM)
   startLevel1()
 })
 
 /* ══════════════════════════════════════
-   LEVEL 1
+   LEVEL 1 - SNACKS
 ══════════════════════════════════════ */
 
 let snacks = 0
@@ -92,12 +147,12 @@ function startLevel1(){
 function updateSnackUI(){
 
   document.getElementById("snackCounter").textContent =
-    `Snacks: ${snacks} / 5`
+    `Snacks: ${snacks} / ${LEVEL1_SNACK_GOAL}`
 
   const snackBar = document.getElementById("snackBar")
   snackBar.innerHTML = ""
 
-  for(let i = 0; i < 5; i++){
+  for(let i = 0; i < LEVEL1_SNACK_GOAL; i++){
     const dot = document.createElement("div")
     dot.className = "snack-dot"
     if(i < snacks){
@@ -112,21 +167,21 @@ function updateSnackUI(){
 
 document.getElementById("clickDog").addEventListener("click", () => {
 
-  if (snacks >= 5) return
+  if (snacks >= LEVEL1_SNACK_GOAL) return
 
   snacks++
-  vibe(30)
+  vibe(VIBRATE.SMALL)
   updateSnackUI()
 
   const dog = document.getElementById("clickDog")
 
-  dog.src = "assets/OskarZungerechts.png"
+  dog.src = ASSETS.OSKAR_TONGUE_RIGHT
 
   setTimeout(() => {
-    dog.src = "assets/OskarCartoon.png"
-  }, 250)
+    dog.src = ASSETS.OSKAR_DEFAULT
+  }, LEVEL1_SNACK_CLICK_DELAY)
 
-  if (snacks >= 5) {
+  if (snacks >= LEVEL1_SNACK_GOAL) {
 
     setTimeout(() => {
 
@@ -137,7 +192,7 @@ document.getElementById("clickDog").addEventListener("click", () => {
         next: startLevel2
       })
 
-    }, 400)
+    }, DELAYS.LEVEL_COMPLETE)
 
   }
 
@@ -146,14 +201,13 @@ document.getElementById("clickDog").addEventListener("click", () => {
 
 
 /* ══════════════════════════════════════
-   LEVEL 2
+   LEVEL 2 - MAZE
 ══════════════════════════════════════ */
 
 
 let mazeData = []
 let playerX = 1
 let playerY = 1
-const MAZE_SIZE = 15
 
 function generateMaze(){
   mazeData = Array.from({ length: MAZE_SIZE }, () =>
@@ -217,10 +271,10 @@ function drawMaze(){
       const val  = mazeData[y][x]
       if(x === playerX && y === playerY){
         cell.className = "cell floor player"
-        cell.innerHTML = `<img src="assets/OskarCartoon.png" class="maze-oskar">`
+        cell.innerHTML = `<img src="${ASSETS.OSKAR_DEFAULT}" class="maze-oskar">`
       } else if(val === 3){
         cell.className = "cell floor"
-        cell.innerHTML = `<img src="assets/OskarLiegestuhl.png" class="maze-goal">`
+        cell.innerHTML = `<img src="${ASSETS.OSKAR_CHAIR}" class="maze-goal">`
       } else if(val === 1){
         cell.className = "cell wall"
       } else {
@@ -238,7 +292,7 @@ function movePlayer(dx, dy){
   if(mazeData[ny][nx] === 1) return
   playerX = nx
   playerY = ny
-  vibe(20)
+  vibe(VIBRATE.SMALL)
   drawMaze()
   if(mazeData[playerY][playerX] === 3){
     setTimeout(() => {
@@ -248,7 +302,7 @@ function movePlayer(dx, dy){
         button:"🥏 Weiter",
         next:  startLevel3
       })
-    }, 300)
+    }, DELAYS.POPUP)
   }
 }
 
@@ -279,13 +333,13 @@ document.addEventListener("keydown", e => {
 })
 
 /* ══════════════════════════════════════
-   LEVEL 3 — RUNNER
+   LEVEL 3 - RUNNER
 ══════════════════════════════════════ */
 
 let l3Running    = false
 let l3Frame      = null
 let l3Distance   = 0
-let l3Speed      = 3.5
+let l3Speed      = L3_SPEED_START
 let l3ObstacleX  = 0
 let l3IsJumping  = false
 let l3JumpY      = 0
@@ -293,15 +347,10 @@ let l3JumpVel    = 0
 let l3WorldX     = 0
 let l3HintShown  = true
 
-const L3_GROUND    = 0       // bottom offset from sand
-const L3_JUMP_VEL  = -18
-const L3_GRAVITY   = 1.0
-const L3_WIN_DIST  = 200
-
 function startLevel3(){
 
   l3Distance  = 0
-  l3Speed     = 3.5
+  l3Speed     = L3_SPEED_START
   l3ObstacleX = window.innerWidth + 200
   l3IsJumping = false
   l3JumpY     = 0
@@ -318,10 +367,10 @@ function startLevel3(){
   const speedBar = document.getElementById("speedBar")
 
   // Obstacle = Kothaufen
-  obstacle.innerHTML = `<img src="assets/Kothaufen.png">`
+  obstacle.innerHTML = `<img src="${ASSETS.POOP}">`
   obstacle.style.left = l3ObstacleX + "px"
 
-  runner.src = "assets/OskarBadehose.png"
+  runner.src = ASSETS.OSKAR_SWIMSUIT
   runner.style.transform = "translateY(0px)"
 
   toast.style.opacity = "0"
@@ -348,10 +397,10 @@ function l3Jump(){
   if(l3IsJumping) return
   l3IsJumping = true
   l3JumpVel   = L3_JUMP_VEL
-  vibe(30)
+  vibe(VIBRATE.SMALL)
 
   const runner = document.getElementById("runner")
-  runner.src = "assets/Oskar springt.png"
+  runner.src = ASSETS.OSKAR_JUMP
 
   // Hide hint after first jump
   if(l3HintShown){
@@ -370,11 +419,11 @@ function l3Loop(){
   const speedBar = document.getElementById("speedBar")
 
   // Distance & speed
-  l3Distance += l3Speed * 0.05
-  l3Speed = Math.min(3.5 + l3Distance * 0.012, 9)
+  l3Distance += l3Speed * L3_SPEED_FRAME_RATE
+  l3Speed = Math.min(L3_SPEED_START + l3Distance * L3_SPEED_INCREASE, L3_SPEED_MAX)
 
   distTxt.textContent = `Meter: ${Math.floor(l3Distance)}`
-  speedBar.style.width = Math.min((l3Speed - 3.5) / 5.5 * 100, 100) + "%"
+  speedBar.style.width = Math.min((l3Speed - L3_SPEED_START) / (L3_SPEED_MAX - L3_SPEED_START) * 100, 100) + "%"
 
   // World scroll (clouds, palms)
   l3WorldX -= l3Speed * 0.6
@@ -392,7 +441,7 @@ function l3Loop(){
       l3JumpY   = L3_GROUND
       l3JumpVel = 0
       l3IsJumping = false
-      runner.src = "assets/OskarBadehose.png"
+      runner.src = ASSETS.OSKAR_SWIMSUIT
     }
   }
 
@@ -411,18 +460,17 @@ function l3Loop(){
   // Collision detection
   const runnerRect  = runner.getBoundingClientRect()
   const obstRect    = obstacle.getBoundingClientRect()
-  const hitMargin   = 18
 
   const hit =
-    runnerRect.right  - hitMargin > obstRect.left  + hitMargin &&
-    runnerRect.left   + hitMargin < obstRect.right - hitMargin &&
-    runnerRect.bottom - hitMargin > obstRect.top   + hitMargin &&
-    runnerRect.top    + hitMargin < obstRect.bottom - hitMargin
+    runnerRect.right  - L3_COLLISION_MARGIN > obstRect.left  + L3_COLLISION_MARGIN &&
+    runnerRect.left   + L3_COLLISION_MARGIN < obstRect.right - L3_COLLISION_MARGIN &&
+    runnerRect.bottom - L3_COLLISION_MARGIN > obstRect.top   + L3_COLLISION_MARGIN &&
+    runnerRect.top    + L3_COLLISION_MARGIN < obstRect.bottom - L3_COLLISION_MARGIN
 
   if(hit){
     l3Running = false
     cancelAnimationFrame(l3Frame)
-    vibe([80, 50, 80])
+    vibe(VIBRATE.LARGE)
     l3GameOver()
     return
   }
@@ -438,7 +486,7 @@ function l3Loop(){
         button:"🍭 Weiter",
         next:  startLevel4
       })
-    }, 400)
+    }, DELAYS.LEVEL_COMPLETE)
     return
   }
 
@@ -461,7 +509,7 @@ function l3GameOver(){
   document.body.appendChild(overlay)
 
   document.getElementById("l3RetryBtn").addEventListener("click", () => {
-    vibe(40)
+    vibe(VIBRATE.MEDIUM)
     overlay.remove()
     // Remove old click listener before restarting
     const l3screen = document.getElementById("level3")
@@ -472,12 +520,8 @@ function l3GameOver(){
 }
 
 /* ══════════════════════════════════════
-   LEVEL 4 — MATCH 3
+   LEVEL 4 - MATCH 3
 ══════════════════════════════════════ */
-
-const EMOJIS     = ["🐶","🦴","🌴","🥏","🍖","☀️","🌊"]
-const BOARD_COLS = 7
-const BOARD_ROWS = 7
 
 let matchBoard   = []
 let matchScore   = 0
@@ -587,7 +631,7 @@ function onMatchCellClick(row, col){
   matchBusy = true
   renderMatchBoard()
 
-  setTimeout(() => processMatches(), 200)
+  setTimeout(() => processMatches(), DELAYS.POPUP)
 
 }
 
@@ -643,7 +687,7 @@ function processMatches(){
     return
   }
 
-  vibe([30, 20, 30])
+  vibe([VIBRATE.SMALL, 20, VIBRATE.SMALL])
 
   // Pop animation
   matches.forEach(({ r, c }) => {
@@ -652,7 +696,7 @@ function processMatches(){
     if(cell) cell.classList.add("pop")
   })
 
-  matchScore += matches.length * 10
+  matchScore += matches.length * MATCH_POINT_PER_MATCH
   document.getElementById("matchScore").textContent = `Punkte: ${matchScore}`
 
   setTimeout(() => {
@@ -679,26 +723,26 @@ function processMatches(){
     }
 
     renderMatchBoard()
-    setTimeout(() => processMatches(), 300)
+    setTimeout(() => processMatches(), MATCH_POP_DELAY)
 
-  }, 280)
+  }, MATCH_POP_DELAY)
 
 }
 
 function checkWin(){
 
-  if(matchScore >= 300){
+  if(matchScore >= MATCH_WIN_SCORE){
     setTimeout(() => {
       showLevelComplete({
         title: "🏆 Oskar gewinnt!",
         text:  "Du hast alle Levels geschafft! Guter Hund! 🐶🎉",
         button:"🔄 Nochmal spielen",
         next:  () => {
-          vibe(40)
+          vibe(VIBRATE.MEDIUM)
           showScreen("intro")
         }
       })
-    }, 400)
+    }, DELAYS.LEVEL_COMPLETE)
   }
 
 }

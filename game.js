@@ -123,15 +123,6 @@ function showLevelComplete({ title, text, button, next, stars = 3 }){
 }
 
 /* ══════════════════════════════════════
-   INTRO
-══════════════════════════════════════ */
-
-document.getElementById("startBtn").addEventListener("click", () => {
-  vibe(VIBRATE.MEDIUM)
-  startLevel1()
-})
-
-/* ══════════════════════════════════════
    LEVEL 1 - SNACKS
 ══════════════════════════════════════ */
 
@@ -164,8 +155,7 @@ function updateSnackUI(){
 
 }
 
-
-document.getElementById("clickDog").addEventListener("click", () => {
+function handleClickDog(){
 
   if (snacks >= LEVEL1_SNACK_GOAL) return
 
@@ -196,14 +186,11 @@ document.getElementById("clickDog").addEventListener("click", () => {
 
   }
 
-})
-
-
+}
 
 /* ══════════════════════════════════════
    LEVEL 2 - MAZE
 ══════════════════════════════════════ */
-
 
 let mazeData = []
 let playerX = 1
@@ -306,31 +293,29 @@ function movePlayer(dx, dy){
   }
 }
 
-// D-Pad touch events
-document.querySelectorAll(".dpad-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const dir = btn.dataset.dir
-    if(dir === "up")    movePlayer(0, -1)
-    if(dir === "down")  movePlayer(0,  1)
-    if(dir === "left")  movePlayer(-1, 0)
-    if(dir === "right") movePlayer(1,  0)
-  })
-})
+function handleDpadClick(e){
+  const dir = e.target.dataset.dir
+  if(dir === "up")    movePlayer(0, -1)
+  if(dir === "down")  movePlayer(0,  1)
+  if(dir === "left")  movePlayer(-1, 0)
+  if(dir === "right") movePlayer(1,  0)
+}
 
-// Keyboard events (Level 2 + Level 3)
-document.addEventListener("keydown", e => {
+function handleKeyDown(e){
   const l2 = document.getElementById("level2").classList.contains("active")
   const l3 = document.getElementById("level3").classList.contains("active")
+  
   if(l2){
     if(e.key === "ArrowUp")    { e.preventDefault(); movePlayer(0, -1) }
     if(e.key === "ArrowDown")  { e.preventDefault(); movePlayer(0,  1) }
     if(e.key === "ArrowLeft")  { e.preventDefault(); movePlayer(-1, 0) }
     if(e.key === "ArrowRight") { e.preventDefault(); movePlayer(1,  0) }
   }
+  
   if(l3){
     if(e.key === " " || e.key === "ArrowUp"){ e.preventDefault(); l3Jump() }
   }
-})
+}
 
 /* ══════════════════════════════════════
    LEVEL 3 - RUNNER
@@ -380,17 +365,9 @@ function startLevel3(){
 
   showScreen("level3")
 
-  // Tap / click to jump
-  const l3screen = document.getElementById("level3")
-  l3screen.addEventListener("click", l3JumpHandler)
-
   if(l3Frame) cancelAnimationFrame(l3Frame)
   l3Loop()
 
-}
-
-function l3JumpHandler(){
-  l3Jump()
 }
 
 function l3Jump(){
@@ -511,9 +488,6 @@ function l3GameOver(){
   document.getElementById("l3RetryBtn").addEventListener("click", () => {
     vibe(VIBRATE.MEDIUM)
     overlay.remove()
-    // Remove old click listener before restarting
-    const l3screen = document.getElementById("level3")
-    l3screen.removeEventListener("click", l3JumpHandler)
     startLevel3()
   })
 
@@ -746,3 +720,31 @@ function checkWin(){
   }
 
 }
+
+/* ══════════════════════════════════════
+   EVENT LISTENERS (zentral)
+══════════════════════════════════════ */
+
+// INTRO
+document.getElementById("startBtn").addEventListener("click", () => {
+  vibe(VIBRATE.MEDIUM)
+  startLevel1()
+})
+
+// LEVEL 1 - Click Dog
+document.getElementById("clickDog").addEventListener("click", handleClickDog)
+
+// LEVEL 2 - D-Pad buttons
+document.querySelectorAll(".dpad-btn").forEach(btn => {
+  btn.addEventListener("click", handleDpadClick)
+})
+
+// LEVEL 2 & 3 - Keyboard
+document.addEventListener("keydown", handleKeyDown)
+
+// LEVEL 3 - Jump
+document.getElementById("level3").addEventListener("click", () => {
+  if(document.getElementById("level3").classList.contains("active")){
+    l3Jump()
+  }
+})

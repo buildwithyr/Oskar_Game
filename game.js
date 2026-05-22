@@ -20,16 +20,17 @@ const LEVEL1_SNACK_CLICK_DELAY = 250
 // Level 2 - Maze
 const MAZE_SIZE = 15
 
-// Level 3 - Runner
+// Level 3 - Runner (ANGEPASST - Mobile freundlicher)
 const L3_GROUND = 0
 const L3_JUMP_VEL = -18
 const L3_GRAVITY = 1.0
-const L3_WIN_DIST = 200
+const L3_WIN_DIST = 150              // ← War 200, jetzt kürzer
 const L3_SPEED_START = 3.5
-const L3_SPEED_MAX = 9
-const L3_SPEED_INCREASE = 0.012
+const L3_SPEED_MAX = 7.5             // ← War 9, jetzt sanfter
+const L3_SPEED_INCREASE = 0.008      // ← War 0.012, jetzt langsamere Steigerung
 const L3_SPEED_FRAME_RATE = 0.05
 const L3_COLLISION_MARGIN = 18
+const L3_OBSTACLE_SPACING = 400      // ← Mehr Abstand zwischen Hindernissen
 
 // Level 4 - Match3
 const EMOJIS = ["🐶","🦴","🌴","🥏","🍖","☀️","🌊"]
@@ -428,9 +429,9 @@ function l3Loop(){
   l3ObstacleX -= l3Speed
   obstacle.style.left = l3ObstacleX + "px"
 
-  // Reset obstacle when off screen
+  // Reset obstacle when off screen (mit mehr Abstand)
   if(l3ObstacleX < -80){
-    l3ObstacleX = window.innerWidth + Math.random() * 300 + 200
+    l3ObstacleX = window.innerWidth + Math.random() * 200 + L3_OBSTACLE_SPACING
     obstacle.style.left = l3ObstacleX + "px"
   }
 

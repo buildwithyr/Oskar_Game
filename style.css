@@ -8,7 +8,7 @@
   --sky: #72c7ff;
   --ocean: #2196f3;
   --sunset1: #ff9966;
-  --sunset2: #ff5e62;   
+  --sunset2: #ff5e62;
   --white: #ffffff;
   --shadow: rgba(0,0,0,0.18);
 }
@@ -100,7 +100,7 @@ body{
   padding:0 44px;
   border-radius:999px;
   font-size:22px;
-  font-family:'Bubblegum Sans One', cursive;
+  font-family:'Bubblegum Sans', cursive;
   cursor:pointer;
   box-shadow: 0 8px 32px rgba(0,0,0,0.22);
   transition: transform 0.12s, box-shadow 0.12s;
@@ -127,7 +127,7 @@ body{
 }
 
 .hud-title{
-  font-family:'Bubblegum Sans One', cursive;
+  font-family:'Bubblegum Sans', cursive;
   font-size:26px;
   line-height:1;
 }
@@ -157,7 +157,7 @@ body{
 }
 
 .goal-text{
-  font-family:'Bubblegum Sans One', cursive;
+  font-family:'Bubblegum Sans', cursive;
   font-size:28px;
   text-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
@@ -292,11 +292,11 @@ body{
 .dpad-down{  grid-area:down;  }
 
 /* ══════════════════════════════════════
-   LEVEL 3 - RUNNER (CARTOON REDESIGN!)
+   LEVEL 3 - RUNNER
 ══════════════════════════════════════ */
 
 #level3{
-  background: linear-gradient(180deg, 
+  background: linear-gradient(180deg,
     #87CEEB 0%,
     #B0E0E6 30%,
     #FFB6C1 50%,
@@ -305,41 +305,41 @@ body{
     #F0E68C 100%
   );
   overflow:hidden;
-  position: relative;
+  position:relative;
 }
 
 /* ── SUN ─────────────────────────── */
-.sun {
-  position: absolute;
-  top: 10%;
-  right: 15%;
-  width: 120px;
-  height: 120px;
+.sun{
+  position:absolute;
+  top:10%;
+  right:15%;
+  width:120px;
+  height:120px;
   background: radial-gradient(circle, #FFD700, #FFA500);
-  border-radius: 50%;
-  box-shadow: 0 0 60px rgba(255, 215, 0, 0.8), 
-              inset -10px -10px 30px rgba(255, 165, 0, 0.5);
+  border-radius:50%;
+  box-shadow: 0 0 60px rgba(255,215,0,0.8),
+              inset -10px -10px 30px rgba(255,165,0,0.5);
   animation: sunGlow 3s ease-in-out infinite;
-  z-index: 1;
+  z-index:1;
+  pointer-events:none;   /* ← FIX: kein Touch-Blocking */
 }
 
-@keyframes sunGlow {
-  0% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)); }
-  50% { filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8)); }
-  100% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)); }
+@keyframes sunGlow{
+  0%,100%{ filter: drop-shadow(0 0 20px rgba(255,215,0,0.6)); }
+  50%{     filter: drop-shadow(0 0 40px rgba(255,215,0,0.8)); }
 }
 
-.sun::before {
-  content: '';
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 8px;
-  height: 30px;
-  background: #FFD700;
-  border-radius: 4px;
-  box-shadow: 
+.sun::before{
+  content:'';
+  position:absolute;
+  top:-30px;
+  left:50%;
+  transform:translateX(-50%);
+  width:8px;
+  height:30px;
+  background:#FFD700;
+  border-radius:4px;
+  box-shadow:
     50px 0 0 -5px #FFD700,
     -50px 0 0 -5px #FFD700,
     0 50px 0 -5px #FFD700,
@@ -350,114 +350,111 @@ body{
 }
 
 /* ── CARTOON CLOUDS ─────────────────────────── */
-.cartoon-cloud {
-  position: absolute;
-  background: white;
-  border-radius: 50px;
-  opacity: 0.85;
-  z-index: 2;
+.cartoon-cloud{
+  position:absolute;
+  background:white;
+  border-radius:50px;
+  opacity:0.85;
+  z-index:2;
+  pointer-events:none;   /* ← FIX */
 }
 
-.cloud-1 {
-  width: 180px;
-  height: 60px;
-  top: 8%;
-  left: 10%;
+.cloud-1{
+  width:180px; height:60px;
+  top:8%; left:10%;
   animation: floatCloud 8s ease-in-out infinite;
 }
-
-.cloud-2 {
-  width: 150px;
-  height: 50px;
-  top: 20%;
-  right: 15%;
+.cloud-2{
+  width:150px; height:50px;
+  top:20%; right:15%;
   animation: floatCloud 10s ease-in-out infinite 2s;
 }
-
-.cloud-3 {
-  width: 200px;
-  height: 65px;
-  top: 35%;
-  left: 5%;
+.cloud-3{
+  width:200px; height:65px;
+  top:35%; left:5%;
   animation: floatCloud 12s ease-in-out infinite 4s;
 }
 
-@keyframes floatCloud {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(30px); }
+@keyframes floatCloud{
+  0%,100%{ transform:translateX(0); }
+  50%{     transform:translateX(30px); }
 }
 
 /* ── BIRDS ─────────────────────────── */
-.bird {
-  position: absolute;
-  font-size: 40px;
-  z-index: 3;
+.bird{
+  position:absolute;
+  font-size:40px;
+  z-index:3;
   animation: flyBy 15s linear infinite;
+  pointer-events:none;   /* ← FIX */
 }
 
-.bird-1 { top: 15%; animation-delay: 0s; }
-.bird-2 { top: 25%; animation-delay: 5s; }
-.bird-3 { top: 35%; animation-delay: 10s; }
+.bird-1{ top:15%; animation-delay:0s; }
+.bird-2{ top:25%; animation-delay:5s; }
+.bird-3{ top:35%; animation-delay:10s; }
 
-@keyframes flyBy {
-  0% { left: -50px; }
-  100% { left: 110vw; }
+@keyframes flyBy{
+  0%{   left:-50px; }
+  100%{ left:110vw; }
 }
 
 /* ── BEACH ELEMENTS ─────────────────────────── */
-.beach-element {
-  position: absolute;
-  font-size: 50px;
-  z-index: 4;
+.beach-element{
+  position:absolute;
+  font-size:50px;
+  z-index:4;
+  pointer-events:none;   /* ← FIX */
 }
 
-.umbrella-1 { bottom: 30%; left: 5%; animation: sway 3s ease-in-out infinite; }
-.umbrella-2 { bottom: 35%; right: 10%; animation: sway 3.5s ease-in-out infinite 1s; }
-.towel-1 { bottom: 25%; left: 20%; }
+.umbrella-1{ bottom:30%; left:5%;  animation: sway 3s   ease-in-out infinite; }
+.umbrella-2{ bottom:35%; right:10%; animation: sway 3.5s ease-in-out infinite 1s; }
+.towel-1{    bottom:25%; left:20%; }
 
-@keyframes sway {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(2deg); }
+@keyframes sway{
+  0%,100%{ transform:rotate(0deg); }
+  50%{     transform:rotate(2deg); }
 }
 
 /* ── SHELLS & FOOTPRINTS ─────────────────────────── */
-.shell {
-  position: absolute;
-  bottom: 26%;
-  font-size: 24px;
-  opacity: 0.6;
-  z-index: 1;
+.shell{
+  position:absolute;
+  bottom:26%;
+  font-size:24px;
+  opacity:0.6;
+  z-index:1;
+  pointer-events:none;   /* ← FIX */
 }
 
-.shell-1 { left: 8%; }
-.shell-2 { left: 25%; }
-.shell-3 { right: 15%; }
+.shell-1{ left:8%;  }
+.shell-2{ left:25%; }
+.shell-3{ right:15%; }
 
-.footprint {
-  position: absolute;
-  bottom: 27%;
-  font-size: 20px;
-  opacity: 0.4;
-  z-index: 1;
+.footprint{
+  position:absolute;
+  bottom:27%;
+  font-size:20px;
+  opacity:0.4;
+  z-index:1;
+  pointer-events:none;   /* ← FIX */
 }
 
-.print-1 { left: 15%; }
-.print-2 { left: 35%; }
-.print-3 { right: 25%; }
+.print-1{ left:15%; }
+.print-2{ left:35%; }
+.print-3{ right:25%; }
 
-/* Die world scrollt – enthält nur Deko (Wolken, Palmen, Personen) */
+/* ── Scrolling world ─────────────────────────── */
 .world{
   position:absolute;
-  width:200%;      /* doppelt breit für Loop */
+  width:200%;
   height:100%;
   left:0;
   top:0;
   will-change:transform;
   pointer-events:none;
-  z-index: 0;
+  z-index:0;
 }
 
-/* Wolken */
+/* Wolken (in world) */
 .cloud{
   position:absolute;
   background:white;
@@ -485,7 +482,7 @@ body{
 .cloud3::before{ width:70px;  height:70px;  left:20px;  top:-25px; }
 .cloud3::after{  width:60px;  height:60px;  right:15px; top:-18px; }
 
-/* Palmen (statisch in HTML, scrollen mit world) */
+/* Palmen */
 .palm{
   position:absolute;
   bottom:28%;
@@ -493,7 +490,6 @@ body{
   z-index:2;
   line-height:1;
 }
-
 .palm1{ left:28%; }
 .palm2{ left:72%; }
 
@@ -505,7 +501,6 @@ body{
   z-index:3;
   pointer-events:none;
 }
-
 .person1{ left:14%; }
 .person2{ left:55%; }
 
@@ -513,7 +508,7 @@ body{
 .runner{
   will-change:transform;
   position:absolute;
-  bottom:28%;          /* sitzt auf dem Sand */
+  bottom:28%;
   left:110px;
   width:120px;
   z-index:20;
@@ -525,7 +520,7 @@ body{
 .obstacle{
   will-change:transform;
   position:absolute;
-  bottom:28%;          /* gleiche Basislinie wie runner */
+  bottom:28%;
   z-index:25;
   display:flex;
   align-items:flex-end;
@@ -544,6 +539,7 @@ body{
   right:160px;
   font-size:64px;
   z-index:30;
+  pointer-events:none;
   animation: frisbeeFloat 1.3s ease-in-out infinite alternate;
 }
 
@@ -558,7 +554,7 @@ body{
   top:40%;
   left:50%;
   transform:translate(-50%, 0);
-  font-family:'Bubblegum Sans One', cursive;
+  font-family:'Bubblegum Sans', cursive;
   font-size:34px;
   opacity:0;
   transition: opacity 0.3s, transform 0.3s;
@@ -577,6 +573,7 @@ body{
   flex-direction:column;
   align-items:flex-end;
   gap:4px;
+  pointer-events:none;
 }
 
 .speed-label{
@@ -677,6 +674,7 @@ body{
   font-size:34px;
   margin-bottom:8px;
   color:#ff5e62;
+  /* kein globaler h1-Override mehr! */
 }
 
 .popup-btn{
@@ -785,25 +783,4 @@ body{
   background:rgba(0,0,0,0.55);
   backdrop-filter:blur(6px);
   z-index:500;
-}
-
-h1{
-  font-size:64px;
-  line-height:0.95;
-  font-weight:700;
-  letter-spacing:-2px;
-  text-shadow: 0 4px 12px rgba(0,0,0,0.18);
-  margin-bottom:18px;
-}
-
-.subtitle{
-  font-size:22px;
-  font-weight:500;
-  opacity:0.92;
-  margin-bottom:50px;
-}
-
-button{
-  font-family:'Bubblegum Sans', sans-serif;
-  font-weight:600;
 }

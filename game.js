@@ -12,7 +12,7 @@ const ASSETS = {
   OSKAR_TONGUE_LEFT: "assets/OskarZungelinks.png",
   OSKAR_TONGUE_RIGHT: "assets/OskarZungerechts.png",
   OSKAR_SWIMSUIT: "assets/OskarBadehose.png",
-  OSKAR_JUMP: "assets/Oskar springt.png",
+  OSKAR_JUMP: "assets/Oskar_springt.png",
   OSKAR_CHAIR: "assets/OskarLiegestuhl.png",
   POOP: "assets/Kothaufen.png"
 }

@@ -146,7 +146,7 @@ body{
 
 /* ══════════════════════════════════════
    LEVEL 1
-══════════════════════════════════════ */
+══════════════════════════���═══════════ */
 
 #level1{
   background: linear-gradient(160deg, #ff9966, #ff5e62 70%);
@@ -292,7 +292,7 @@ body{
 .dpad-down{  grid-area:down;  }
 
 /* ══════════════════════════════════════
-   LEVEL 3 - RUNNER
+   LEVEL 3 - RUNNER (FIXED)
 ══════════════════════════════════════ */
 
 #level3{
@@ -306,6 +306,9 @@ body{
   );
   overflow:hidden;
   position:relative;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
 }
 
 /* ── SUN ─────────────────────────── */
@@ -321,7 +324,7 @@ body{
               inset -10px -10px 30px rgba(255,165,0,0.5);
   animation: sunGlow 3s ease-in-out infinite;
   z-index:1;
-  pointer-events:none;   /* ← FIX: kein Touch-Blocking */
+  pointer-events:none;
 }
 
 @keyframes sunGlow{
@@ -356,7 +359,7 @@ body{
   border-radius:50px;
   opacity:0.85;
   z-index:2;
-  pointer-events:none;   /* ← FIX */
+  pointer-events:none;
 }
 
 .cloud-1{
@@ -386,7 +389,7 @@ body{
   font-size:40px;
   z-index:3;
   animation: flyBy 15s linear infinite;
-  pointer-events:none;   /* ← FIX */
+  pointer-events:none;
 }
 
 .bird-1{ top:15%; animation-delay:0s; }
@@ -403,7 +406,7 @@ body{
   position:absolute;
   font-size:50px;
   z-index:4;
-  pointer-events:none;   /* ← FIX */
+  pointer-events:none;
 }
 
 .umbrella-1{ bottom:30%; left:5%;  animation: sway 3s   ease-in-out infinite; }
@@ -422,7 +425,7 @@ body{
   font-size:24px;
   opacity:0.6;
   z-index:1;
-  pointer-events:none;   /* ← FIX */
+  pointer-events:none;
 }
 
 .shell-1{ left:8%;  }
@@ -435,7 +438,7 @@ body{
   font-size:20px;
   opacity:0.4;
   z-index:1;
-  pointer-events:none;   /* ← FIX */
+  pointer-events:none;
 }
 
 .print-1{ left:15%; }
@@ -514,6 +517,7 @@ body{
   z-index:20;
   transition: transform 0.6s cubic-bezier(0.33,1,0.68,1);
   transform-origin:bottom center;
+  pointer-events:none;
 }
 
 /* ── Obstacle ───────────────────────── */
@@ -524,6 +528,7 @@ body{
   z-index:25;
   display:flex;
   align-items:flex-end;
+  pointer-events:none;
 }
 
 .obstacle img{
@@ -611,6 +616,7 @@ body{
   pointer-events:none;
   white-space:nowrap;
   text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index:40;
 }
 
 /* ── Radio ──────────────────────────── */
@@ -674,7 +680,6 @@ body{
   font-size:34px;
   margin-bottom:8px;
   color:#ff5e62;
-  /* kein globaler h1-Override mehr! */
 }
 
 .popup-btn{

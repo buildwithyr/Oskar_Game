@@ -4,7 +4,7 @@
 
 // 🔧 DEBUG: Starte direkt bei Level 3 zum Testen!
 // Ersetze "startLevel3" mit "startLevel1" um normal zu spielen
-const DEBUG_START_LEVEL = startLevel3
+const DEBUG_START_LEVEL = "startLevel1"
 
 // Asset paths
 const ASSETS = {
@@ -733,7 +733,10 @@ function checkWin(){
 // INTRO - oder DEBUG_START_LEVEL zum direkt testen
 document.getElementById("startBtn").addEventListener("click", () => {
   vibe(VIBRATE.MEDIUM)
-  DEBUG_START_LEVEL()
+  if(DEBUG_START_LEVEL === "startLevel3") startLevel3()
+  else if(DEBUG_START_LEVEL === "startLevel2") startLevel2()
+  else if(DEBUG_START_LEVEL === "startLevel4") startLevel4()
+  else startLevel1()
 })
 
 // LEVEL 1 - Click Dog
@@ -754,7 +757,4 @@ document.getElementById("level3").addEventListener("click", () => {
   }
 })
 
-// 🎮 START GAME (mit Debug-Level)
-window.addEventListener("load", () => {
-  DEBUG_START_LEVEL()
-})
+// 🎮 Auto-Start entfernt - Spiel startet über den Button

@@ -2,6 +2,10 @@
    CONSTANTS & CONFIG
 ══════════════════════════════════════ */
 
+// 🔧 DEBUG: Starte direkt bei Level 3 zum Testen!
+// Ersetze "startLevel3" mit "startLevel1" um normal zu spielen
+const DEBUG_START_LEVEL = startLevel3
+
 // Asset paths
 const ASSETS = {
   OSKAR_DEFAULT: "assets/OskarCartoon.png",
@@ -726,10 +730,10 @@ function checkWin(){
    EVENT LISTENERS (zentral)
 ══════════════════════════════════════ */
 
-// INTRO
+// INTRO - oder DEBUG_START_LEVEL zum direkt testen
 document.getElementById("startBtn").addEventListener("click", () => {
   vibe(VIBRATE.MEDIUM)
-  startLevel1()
+  DEBUG_START_LEVEL()
 })
 
 // LEVEL 1 - Click Dog
@@ -748,4 +752,9 @@ document.getElementById("level3").addEventListener("click", () => {
   if(document.getElementById("level3").classList.contains("active")){
     l3Jump()
   }
+})
+
+// 🎮 START GAME (mit Debug-Level)
+window.addEventListener("load", () => {
+  DEBUG_START_LEVEL()
 })

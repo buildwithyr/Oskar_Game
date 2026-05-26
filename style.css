@@ -885,3 +885,16 @@ html, body{
   height:20px;
 }
 
+
+@media (max-width:768px){
+
+  .level-title,
+  .level-sub,
+  .logo-text,
+  .logo-sub{
+    font-family: Arial, sans-serif;
+  }
+
+}
+
+

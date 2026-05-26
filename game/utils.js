@@ -1,7 +1,4 @@
-/* ══════════════════════════════════════
-   UTILITIES
-══════════════════════════════════════ */
-
+```js
 function vibe(pattern){
   if(navigator.vibrate) navigator.vibrate(pattern)
 }
@@ -11,16 +8,7 @@ function showScreen(id){
   document.getElementById(id).classList.add("active")
 }
 
-function showLevelComplete({ title, text, button, next, stars = 3 })
-
-
-
-
-/* ══════════════════════════════════════
-   LEVEL COMPLETE POPUP
-══════════════════════════════════════ */
-
-
+function showLevelComplete({ title, text, button, next, stars = 3 }){
 
   // Remove old popup if exists
   const old = document.getElementById("levelCompletePopup")
@@ -52,4 +40,4 @@ function showLevelComplete({ title, text, button, next, stars = 3 })
   })
 
 }
-
+```

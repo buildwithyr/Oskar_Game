@@ -895,6 +895,24 @@ html, body{
     font-family: Arial, sans-serif;
   }
 
-}
+  .startBtn{
+    width:85%;
+    max-width:320px;
+    padding:16px 20px;
+  }
 
+  .logo-oskar{
+    width:120px;
+  }
+
+  .logo-text{
+    font-size:52px;
+    line-height:0.95;
+  }
+
+  .logo-wrap{
+    margin-bottom:10px;
+  }
+
+}
 

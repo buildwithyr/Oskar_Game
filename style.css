@@ -858,7 +858,6 @@ html, body{
   margin-top:6px;
 }
 
-
 .insta-link{
   margin-top:24px;
   color:white;
@@ -866,9 +865,20 @@ html, body{
   opacity:0.75;
   font-size:15px;
   transition:0.2s;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
 }
 
 .insta-link:hover{
   opacity:1;
   transform:scale(1.05);
 }
+
+.insta-logo{
+  width:20px;
+  height:20px;
+}
+

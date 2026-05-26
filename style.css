@@ -818,3 +818,13 @@ html, body{
   text-shadow: 0 2px 8px rgba(0,0,0,0.2);
   z-index:50;
 }
+
+
+.menu-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  margin-top:30px;
+  align-items:center;
+}
+

@@ -66,7 +66,7 @@ README.md
 
 * HTML5
 * CSS3
-* Vanilla JavaScript
+* JavaScript
 * GitHub Pages
 
 ---

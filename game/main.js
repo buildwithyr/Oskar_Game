@@ -25,13 +25,11 @@ preloadImages.forEach(src => {
    EVENT LISTENERS (zentral)
 ══════════════════════════════════════ */
 
-// INTRO - oder DEBUG_START_LEVEL zum direkt testen
+
+// START BUTTON
 document.getElementById("startBtn").addEventListener("click", () => {
   vibe(VIBRATE.MEDIUM)
-  if(DEBUG_START_LEVEL === "startLevel3") startLevel3()
-  else if(DEBUG_START_LEVEL === "startLevel2") startLevel2()
-  else if(DEBUG_START_LEVEL === "startLevel4") startLevel4()
-  else startLevel1()
+  showScreen("levelSelect")
 })
 
 // LEVEL 1 - Click Dog

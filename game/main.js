@@ -26,11 +26,27 @@ preloadImages.forEach(src => {
 ══════════════════════════════════════ */
 
 
-// START BUTTON
-document.getElementById("startBtn").addEventListener("click", () => {
-  vibe(VIBRATE.MEDIUM)
-  showScreen("levelSelect")
+// LEVEL SELECT
+document.getElementById("levelBtn1").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  startLevel1()
 })
+
+document.getElementById("levelBtn2").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  startLevel2()
+})
+
+document.getElementById("levelBtn3").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  startLevel3()
+})
+
+document.getElementById("levelBtn4").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  startLevel4()
+})
+
 
 // LEVEL 1 - Click Dog
 document.getElementById("clickDog").addEventListener("click", handleClickDog)

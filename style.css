@@ -857,3 +857,18 @@ html, body{
   opacity:0.8;
   margin-top:6px;
 }
+
+
+.insta-link{
+  margin-top:24px;
+  color:white;
+  text-decoration:none;
+  opacity:0.75;
+  font-size:15px;
+  transition:0.2s;
+}
+
+.insta-link:hover{
+  opacity:1;
+  transform:scale(1.05);
+}

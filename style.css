@@ -845,3 +845,15 @@ html, body{
     transform:translateY(-12px);
   }
 }
+
+.level-title{
+  font-size:26px;
+  font-weight:bold;
+  line-height:1;
+}
+
+.level-sub{
+  font-size:16px;
+  opacity:0.8;
+  margin-top:6px;
+}

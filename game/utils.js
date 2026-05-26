@@ -1,4 +1,4 @@
-```js
+
 function vibe(pattern){
   if(navigator.vibrate) navigator.vibrate(pattern)
 }
@@ -40,4 +40,3 @@ function showLevelComplete({ title, text, button, next, stars = 3 }){
   })
 
 }
-```

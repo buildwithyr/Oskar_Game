@@ -87,7 +87,7 @@ preloadImages.forEach(src => {
    LEVEL COMPLETE POPUP
 ══════════════════════════════════════ */
 
-function showLevelComplete({ title, text, button, next, stars = 3 }){
+
 
   // Remove old popup if exists
   const old = document.getElementById("levelCompletePopup")

@@ -5,6 +5,7 @@
 let snacks = 0
 let tongueLeft = true
 
+
 function startLevel1(){
   snacks = 0
   updateSnackUI()
@@ -41,7 +42,8 @@ function handleClickDog(){
 
   const dog = document.getElementById("clickDog")
 
-  dog.src = ASSETS.OSKAR_TONGUE_RIGHT
+  dog.src = tongueLeft ? ASSETS.OSKAR_TONGUE_LEFT : ASSETS.OSKAR_TONGUE_RIGHT
+  tongueLeft = !tongueLeft
 
   setTimeout(() => {
     dog.src = ASSETS.OSKAR_DEFAULT

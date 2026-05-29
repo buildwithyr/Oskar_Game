@@ -2,10 +2,6 @@
    CONSTANTS & CONFIG
 ══════════════════════════════════════ */
 
-// 🔧 DEBUG: Starte direkt bei Level 3 zum Testen!
-// Ersetze "startLevel3" mit "startLevel1" um normal zu spielen
-const DEBUG_START_LEVEL = "startLevel1"
-
 // Asset paths
 const ASSETS = {
   OSKAR_DEFAULT: "assets/OskarCartoon.png",

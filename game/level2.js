@@ -5,6 +5,8 @@
 let mazeData = []
 let playerX = 1
 let playerY = 1
+let prevPlayerX = 1
+let prevPlayerY = 1
 
 function generateMaze(){
   mazeData = Array.from({ length: MAZE_SIZE }, () =>
@@ -55,11 +57,13 @@ function startLevel2(){
   generateMaze()
   playerX = 1
   playerY = 1
+  prevPlayerX = 1
+  prevPlayerY = 1
   showScreen("level2")
-  drawMaze()
+  buildMaze()
 }
 
-function drawMaze(){
+function buildMaze(){
   const grid = document.getElementById("maze")
   grid.innerHTML = ""
   for(let y = 0; y < MAZE_SIZE; y++){
@@ -80,6 +84,33 @@ function drawMaze(){
       grid.appendChild(cell)
     }
   }
+}
+
+function updateMazeCell(x, y){
+  const grid = document.getElementById("maze")
+  const idx  = y * MAZE_SIZE + x
+  const cell = grid.children[idx]
+  if(!cell) return
+  const val = mazeData[y][x]
+  if(x === playerX && y === playerY){
+    cell.className = "cell floor player"
+    cell.innerHTML = `<img src="${ASSETS.OSKAR_DEFAULT}" class="maze-oskar">`
+  } else if(val === 3){
+    cell.className = "cell floor"
+    cell.innerHTML = `<img src="${ASSETS.OSKAR_CHAIR}" class="maze-goal">`
+  } else if(val === 1){
+    cell.className = "cell wall"
+  } else {
+    cell.className = "cell floor"
+    cell.innerHTML = ""
+  }
+}
+
+function drawMaze(){
+  updateMazeCell(prevPlayerX, prevPlayerY)
+  updateMazeCell(playerX, playerY)
+  prevPlayerX = playerX
+  prevPlayerY = playerY
 }
 
 function movePlayer(dx, dy){

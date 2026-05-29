@@ -722,7 +722,6 @@ html, body{
   left:110px;
   width:120px;
   z-index:30;
-  transition: transform 0.6s cubic-bezier(0.33,1,0.68,1);
   transform-origin:bottom center;
   pointer-events:none;
 }
@@ -892,13 +891,6 @@ html, body{
 
 @media (max-width:768px){
 
-  .level-title,
-  .level-sub,
-  .logo-text,
-  .logo-sub{
-    font-family: Arial, sans-serif;
-  }
-
   .startBtn{
     width:85%;
     max-width:320px;
@@ -918,32 +910,11 @@ html, body{
     margin-bottom:10px;
   }
 
-}
   .screen{
     justify-content:flex-start;
     padding-top:40px;
   }
 
-}
-
-.level-btn{
-  width:100px;
-  height:100px;
-  border-radius:100px;
-}
-
-
-.level-title{
-  font-size:22px;
-}
-
-.level-sub{
-  font-size:14px;
-}
-
-.insta-link{
-  font-family:Arial,sans-serif;
-  font-size:14px;
 }
 
 

@@ -58,7 +58,8 @@ README.md
 * Keyboard Support
 * Modularer Aufbau
 * GitHub Pages Deployment
-* Cartoon Stil
+* Modernes UI-Design
+* Zurück-Button in jedem Level
 
 ---
 
@@ -67,6 +68,7 @@ README.md
 * HTML5
 * CSS3
 * JavaScript
+* Google Fonts (Bubblegum Sans, Nunito)
 * GitHub Pages
 
 ---
@@ -83,9 +85,56 @@ Das Spiel dient als kreatives Lernprojekt rund um:
 
 ---
 
-# Screenshots
+# Changelog
 
-(coming soon 😄)
+## Version 4 – UI/UX Modernisierung (2026-05-30)
+
+Komplette visuelle Überarbeitung des Projekts. Spiellogik und -inhalte unverändert.
+
+**Hauptmenü (Intro-Screen):**
+- Neuer App-Header mit Oskar-Logo und Titel (Lernwelten-Stil)
+- Greeting-Card mit persönlicher Begrüßung
+- Levelauswahl als 2×2 Karten-Grid statt vertikaler Buttons
+- Jede Level-Karte zeigt: großes Emoji-Icon, farbiges Level-Badge, Levelname
+- Sanfte Einblend-Animationen mit versetztem Timing (Stagger-Effekt)
+- Warmer Creme/Pfirsich-Hintergrund (#FFF8F0 → #FFE8D0)
+- Instagram-Link als dezenter Footer
+
+**Navigation:**
+- Zurück-zum-Menü-Button auf allen Level-Screens
+
+**HUD (alle Levels):**
+- Glasmorphism-Stil: weißer Hintergrund, backdrop-filter blur, weicher Schatten
+- Verbesserte Typografie (Nunito + Bubblegum Sans)
+- Farbakzente für Score-Anzeige
+
+**Popup / Level Complete:**
+- Stärkerer Glasmorphism-Effekt mit backdrop-filter
+- Neues Orange-Gradient für Buttons (statt Rot)
+- Verbesserte Schatten und Animation
+
+**Radio (Level 3):**
+- Glasmorphism-Stil passend zum HUD
+
+**Typografie:**
+- Neue Google Font "Nunito" als Hauptschrift (modern, kinderfreundlich)
+- Bubblegum Sans für Überschriften und spielerische Elemente
+
+**CSS-Architektur:**
+- Bereinigung von doppelten Regeln
+- Konsistente Abstände und Border-Radius-Werte
+- Verbesserte Responsive-Breakpoints (480px, 360px)
+
+## Version 3 – Bugfixes & Feinschliff
+
+- Asset-Dateiname korrigiert (OskarInstagram.PNG → .png)
+- Diverse Style-Anpassungen
+
+## Version 2 – Erste Veröffentlichung
+
+- Grundlegendes Spieldesign mit 4 Levels
+- Mobile D-Pad für Level 2
+- Basis-Responsive-Layout
 
 ---
 

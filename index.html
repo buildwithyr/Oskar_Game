@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="de">
-  
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-
   <title>Oskar Beach Stories</title>
 
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=4">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -21,64 +20,69 @@
 
 <div class="screen active" id="intro">
 
-  <div class="logo-wrap">
-
-   <!-- <span class="logo-emoji">🐶</span> -->
-    <img src="assets/OskarInstagram.png" class="logo-oskar">
-
-    <div class="logo-text">
-      Oskar<br>
-      Beach Stories
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <img src="assets/OskarInstagram.png" class="header-oskar" alt="Oskar">
+      <span class="header-title">Oskar Beach Stories</span>
     </div>
+  </header>
+
+  <!-- Hero / Greeting -->
+  <section class="hero-section">
+    <div class="greeting-card">
+      <p class="greeting-hello">Hallo, <strong>Oskar</strong>!</p>
+      <p class="greeting-sub">Wohin möchtest du heute? 😄🌴</p>
+    </div>
+  </section>
+
+  <!-- Level cards grid -->
+  <div class="menu-cards">
+
+    <button class="level-card card-1" id="levelBtn1">
+      <div class="card-icon">🍖</div>
+      <div class="card-badge badge-1">Level 1</div>
+      <div class="card-name">Snack Hunt</div>
+    </button>
+
+    <button class="level-card card-2" id="levelBtn2">
+      <div class="card-icon">🌴</div>
+      <div class="card-badge badge-2">Level 2</div>
+      <div class="card-name">Maze Escape</div>
+    </button>
+
+    <button class="level-card card-3" id="levelBtn3">
+      <div class="card-icon">🥏</div>
+      <div class="card-badge badge-3">Level 3</div>
+      <div class="card-name">Beach Run</div>
+    </button>
+
+    <button class="level-card card-4" id="levelBtn4">
+      <div class="card-icon">🍭</div>
+      <div class="card-badge badge-4">Level 4</div>
+      <div class="card-name">Candy Match</div>
+    </button>
 
   </div>
 
-  <div class="logo-sub">
-    Oskar am Strand 😄🌴
-  </div>
-
-<div class="menu-buttons">
-
-  <button class="startBtn" id="levelBtn1">
-    <div class="level-title">LEVEL 1</div>
-    <div class="level-sub">Snack Hunt</div>
-  </button>
-
-  <button class="startBtn" id="levelBtn2">
-    <div class="level-title">LEVEL 2</div>
-    <div class="level-sub">Maze Escape</div>
-  </button>
-
-  <button class="startBtn" id="levelBtn3">
-    <div class="level-title">LEVEL 3</div>
-    <div class="level-sub">Beach Run</div>
-  </button>
-
-  <button class="startBtn" id="levelBtn4">
-    <div class="level-title">LEVEL 4</div>
-    <div class="level-sub">Candy Match</div>
-  </button>
+  <!-- Instagram Footer -->
+  <a
+    href="https://instagram.com/oskar.the.jackrussel"
+    target="_blank"
+    class="insta-link">
+    <img src="assets/Instagram_icon.png" class="insta-logo" alt="Instagram">
+    Follow Oskar on Instagram 📸
+  </a>
 
 </div>
 
-<a 
-  href="https://instagram.com/oskar.the.jackrussel"
-  target="_blank"
-  class="insta-link">
 
-   <img src="assets/Instagram_icon.png" class="insta-logo">
-
-  Follow Oskar on Instagram 📸
-
-</a>
- 
-</div>
-
-  
 
 <!-- ═════════════ LEVEL 1 ═════════════ -->
 
 <div class="screen" id="level1">
+
+  <button class="back-btn" onclick="showScreen('intro')">← Menü</button>
 
   <div class="hud">
 
@@ -114,6 +118,8 @@
 <!-- ═════════════ LEVEL 2 ═════════════ -->
 
 <div class="screen" id="level2">
+
+  <button class="back-btn" onclick="showScreen('intro')">← Menü</button>
 
   <div class="hud">
 
@@ -171,9 +177,11 @@
 
 <div class="screen" id="level3">
 
+  <button class="back-btn back-btn-fixed" onclick="showScreen('intro')">← Menü</button>
+
   <!-- CARTOON BACKGROUND ELEMENTS -->
   <div class="sun"></div>
-  
+
   <div class="cartoon-cloud cloud-1"></div>
   <div class="cartoon-cloud cloud-2"></div>
   <div class="cartoon-cloud cloud-3"></div>
@@ -283,6 +291,8 @@
 
 <div class="screen" id="level4">
 
+  <button class="back-btn" onclick="showScreen('intro')">← Menü</button>
+
   <div class="hud">
 
     <div class="hud-title">
@@ -311,19 +321,16 @@
 </div>
 
 
-<script src="game/config.js?v=2"></script>
+<script src="game/config.js?v=4"></script>
 
-<script src="game/utils.js?v=3"></script>
+<script src="game/utils.js?v=4"></script>
 
-<script src="game/level1.js?v=3"></script>
-<script src="game/level2.js?v=2"></script>
-<script src="game/level3.js?v=2"></script>
-<script src="game/level4.js?v=2"></script>
+<script src="game/level1.js?v=4"></script>
+<script src="game/level2.js?v=4"></script>
+<script src="game/level3.js?v=4"></script>
+<script src="game/level4.js?v=4"></script>
 
-<script src="game/main.js?v=2"></script>
-
-
-
+<script src="game/main.js?v=4"></script>
 
 
 </body>

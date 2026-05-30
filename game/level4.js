@@ -2,16 +2,17 @@
    LEVEL 4 - MATCH 3
 ══════════════════════════════════════ */
 
-let matchBoard   = []
-let matchScore   = 0
-let matchSel     = null   // { row, col }
-let matchBusy    = false
+let matchBoard      = []
+let matchNextEmojis = []   // preview: one emoji per column
+let matchScore      = 0
+let matchBusy       = false
+let dragStart       = null // { row, col, x, y }
 
 function startLevel4(){
 
   matchScore = 0
-  matchSel   = null
   matchBusy  = false
+  dragStart  = null
 
   document.getElementById("matchScore").textContent = "Punkte: 0"
 
@@ -32,11 +33,16 @@ function initMatchBoard(){
     }
   }
 
+  // Pre-generate next emojis for preview row
+  matchNextEmojis = []
+  for(let c = 0; c < BOARD_COLS; c++){
+    matchNextEmojis[c] = EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
+  }
+
 }
 
 function randomEmoji(row, col){
 
-  // Avoid creating an instant match during board setup
   let emoji
   do {
     emoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
@@ -53,6 +59,15 @@ function renderMatchBoard(){
   const board = document.getElementById("matchBoard")
   board.innerHTML = ""
 
+  // ── Preview row ──────────────────────
+  for(let c = 0; c < BOARD_COLS; c++){
+    const cell = document.createElement("div")
+    cell.className = "match-cell match-preview"
+    cell.textContent = matchNextEmojis[c]
+    board.appendChild(cell)
+  }
+
+  // ── Game board ───────────────────────
   for(let r = 0; r < BOARD_ROWS; r++){
     for(let c = 0; c < BOARD_COLS; c++){
 
@@ -62,60 +77,70 @@ function renderMatchBoard(){
       cell.dataset.row = r
       cell.dataset.col = c
 
-      if(matchSel && matchSel.row === r && matchSel.col === c){
-        cell.classList.add("selected")
-      }
+      cell.addEventListener("pointerdown", e => onMatchPointerDown(e, r, c))
 
-      cell.addEventListener("click", () => onMatchCellClick(r, c))
       board.appendChild(cell)
-
     }
   }
 
+  // Pointer-up / cancel on the whole board so drag works even if finger slides off cell
+  board.onpointerup    = onMatchPointerUp
+  board.onpointercancel = () => { dragStart = null }
+
 }
 
-function onMatchCellClick(row, col){
+/* ── Drag handling ─────────────────── */
 
+function onMatchPointerDown(e, row, col){
   if(matchBusy) return
+  e.preventDefault()
+  dragStart = { row, col, x: e.clientX, y: e.clientY }
+}
 
-  if(!matchSel){
-    matchSel = { row, col }
-    renderMatchBoard()
-    return
+function onMatchPointerUp(e){
+  if(!dragStart || matchBusy){ dragStart = null; return }
+
+  const dx = e.clientX - dragStart.x
+  const dy = e.clientY - dragStart.y
+  const threshold = 18
+
+  let targetRow = dragStart.row
+  let targetCol = dragStart.col
+
+  if(Math.abs(dx) >= Math.abs(dy)){
+    if(dx > threshold)       targetCol++
+    else if(dx < -threshold) targetCol--
+    else { dragStart = null; return }
+  } else {
+    if(dy > threshold)       targetRow++
+    else if(dy < -threshold) targetRow--
+    else { dragStart = null; return }
   }
 
-  const dr = Math.abs(matchSel.row - row)
-  const dc = Math.abs(matchSel.col - col)
+  const from = { ...dragStart }
+  dragStart = null
 
-  // Must be adjacent
-  if(dr + dc !== 1){
-    matchSel = { row, col }
-    renderMatchBoard()
-    return
-  }
+  if(targetRow < 0 || targetRow >= BOARD_ROWS ||
+     targetCol < 0 || targetCol >= BOARD_COLS) return
 
-  // Swap
-  swapCells(matchSel.row, matchSel.col, row, col)
+  swapCells(from.row, from.col, targetRow, targetCol)
   const matches = findMatches()
 
   if(matches.length === 0){
-    // Swap back — invalid move
-    swapCells(matchSel.row, matchSel.col, row, col)
-    matchSel = null
+    swapCells(from.row, from.col, targetRow, targetCol)
     renderMatchBoard()
     return
   }
 
-  matchSel  = null
   matchBusy = true
   renderMatchBoard()
-
   setTimeout(() => processMatches(), DELAYS.POPUP)
-
 }
 
+/* ── Board logic ───────────────────── */
+
 function swapCells(r1, c1, r2, c2){
-  const tmp        = matchBoard[r1][c1]
+  const tmp          = matchBoard[r1][c1]
   matchBoard[r1][c1] = matchBoard[r2][c2]
   matchBoard[r2][c2] = tmp
 }
@@ -124,7 +149,6 @@ function findMatches(){
 
   const matched = new Set()
 
-  // Horizontal
   for(let r = 0; r < BOARD_ROWS; r++){
     for(let c = 0; c < BOARD_COLS - 2; c++){
       const e = matchBoard[r][c]
@@ -136,7 +160,6 @@ function findMatches(){
     }
   }
 
-  // Vertical
   for(let r = 0; r < BOARD_ROWS - 2; r++){
     for(let c = 0; c < BOARD_COLS; c++){
       const e = matchBoard[r][c]
@@ -168,9 +191,9 @@ function processMatches(){
 
   vibe([VIBRATE.SMALL, 20, VIBRATE.SMALL])
 
-  // Pop animation
   matches.forEach(({ r, c }) => {
-    const idx  = r * BOARD_COLS + c
+    // +1 offset because row 0 in DOM is the preview row
+    const idx  = (r + 1) * BOARD_COLS + c
     const cell = document.getElementById("matchBoard").children[idx]
     if(cell) cell.classList.add("pop")
   })
@@ -180,12 +203,11 @@ function processMatches(){
 
   setTimeout(() => {
 
-    // Remove matched cells (set null)
     matches.forEach(({ r, c }) => {
       matchBoard[r][c] = null
     })
 
-    // Drop down
+    // Drop and fill — use preview emoji for the topmost new cell per column
     for(let c = 0; c < BOARD_COLS; c++){
       let emptyRow = BOARD_ROWS - 1
       for(let r = BOARD_ROWS - 1; r >= 0; r--){
@@ -195,9 +217,16 @@ function processMatches(){
           emptyRow--
         }
       }
-      // Fill top with new emojis
+      // Fill empty rows from top: first use preview, rest random
+      let usedPreview = false
       for(let r = emptyRow; r >= 0; r--){
-        matchBoard[r][c] = EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
+        if(!usedPreview){
+          matchBoard[r][c] = matchNextEmojis[c]
+          matchNextEmojis[c] = EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
+          usedPreview = true
+        } else {
+          matchBoard[r][c] = EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
+        }
       }
     }
 
@@ -225,4 +254,3 @@ function checkWin(){
   }
 
 }
-

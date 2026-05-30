@@ -318,7 +318,7 @@ html, body{
 ══════════════════════════════════════ */
 
 #level1{
-  background: linear-gradient(160deg, #ffecd2, #fcb69f);
+  background: linear-gradient(160deg, #FFD4A0, #F5A865);
   justify-content: center;
 }
 
@@ -371,7 +371,7 @@ html, body{
 ══════════════════════════════════════ */
 
 #level2{
-  background: linear-gradient(160deg, #43cea2, #185a9d);
+  background: linear-gradient(160deg, #F5C88A, #E8955A);
 }
 
 .maze-wrap{
@@ -468,7 +468,7 @@ html, body{
 ══════════════════════════════════════ */
 
 #level4{
-  background: linear-gradient(160deg, #a18cd1, #fbc2eb);
+  background: linear-gradient(160deg, #EFBE80, #D98B4A);
   justify-content: flex-start;
 }
 

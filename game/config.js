@@ -40,6 +40,10 @@ const MATCH_WIN_SCORE = 300
 const MATCH_POP_DELAY = 280
 const MATCH_POINT_PER_MATCH = 10
 
+// Level 5 - Memory  (constants live in level5.js)
+// Level 6 - Buchstabe  (pool in level6.js)
+// Level 7 - Finde Buchstaben  (rounds in level7.js)
+
 // Vibration patterns
 const VIBRATE = {
   SMALL: 30,

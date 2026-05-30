@@ -211,7 +211,7 @@ html, body{
 .menu-cards{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 14px;
   padding: 24px 20px 8px;
   width: 100%;
   max-width: 700px;
@@ -279,6 +279,27 @@ html, body{
 .badge-2{ background: linear-gradient(135deg, #43CEA2, #185A9D); }
 .badge-3{ background: linear-gradient(135deg, #45B7D1, #2980B9); }
 .badge-4{ background: linear-gradient(135deg, #A18CD1, #c77dc5); }
+.badge-5{ background: linear-gradient(135deg, #F7B731, #E67E22); }
+.badge-6{ background: linear-gradient(135deg, #55EFC4, #00B894); }
+.badge-7{ background: linear-gradient(135deg, #FD79A8, #E84393); }
+
+/* Level 7 card spans full width */
+.card-7{
+  grid-column: 1 / -1;
+  flex-direction: row;
+  padding: 20px 24px;
+  gap: 16px;
+  justify-content: flex-start;
+}
+
+.card-7 .card-icon{
+  font-size: 42px;
+}
+
+.card-7 .card-name{
+  font-size: 16px;
+  text-align: left;
+}
 
 .card-name{
   font-size: 15px;
@@ -1083,4 +1104,281 @@ html, body{
     padding: 12px 10px;
   }
 
+}
+
+/* ══════════════════════════════════════
+   LEVEL 5 - MEMORY
+══════════════════════════════════════ */
+
+#level5{
+  background: linear-gradient(160deg, #FFD4A0, #F5A865);
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.mem-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: min(92vw, 360px);
+  margin-top: 90px;
+  margin-bottom: 20px;
+  padding: 0 4px;
+}
+
+.mem-card{
+  aspect-ratio: 1;
+  perspective: 800px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mem-inner{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 18px;
+}
+
+.mem-card.mem-flipped .mem-inner{
+  transform: rotateY(180deg);
+}
+
+.mem-front,
+.mem-back{
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(28px, 10vw, 52px);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+.mem-front{
+  background: linear-gradient(135deg, #FF8C42, #FF6022);
+  color: rgba(255,255,255,0.6);
+  font-size: clamp(22px, 8vw, 40px);
+}
+
+.mem-back{
+  background: #fff;
+  transform: rotateY(180deg);
+}
+
+.mem-card.mem-matched .mem-back{
+  background: linear-gradient(135deg, #A8EDBC, #6FCF97);
+  animation: matchPop 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes matchPop{
+  0%{  transform: rotateY(180deg) scale(1); }
+  50%{ transform: rotateY(180deg) scale(1.12); }
+  100%{transform: rotateY(180deg) scale(1); }
+}
+
+/* ══════════════════════════════════════
+   LEVEL 6 - FEHLENDER BUCHSTABE
+══════════════════════════════════════ */
+
+#level6{
+  background: linear-gradient(160deg, #F5C88A, #E8955A);
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.l6-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 480px;
+  padding: 90px 20px 24px;
+}
+
+.oskar-prompt{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  align-self: flex-start;
+  padding: 0 4px;
+}
+
+.prompt-oskar{
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+
+.prompt-bubble{
+  background: #fff;
+  border-radius: 16px 16px 16px 4px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #444;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+
+.l6-word{
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: clamp(38px, 12vw, 64px);
+  color: #fff;
+  text-shadow: 0 4px 16px rgba(0,0,0,0.20);
+  letter-spacing: 8px;
+  text-align: center;
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 20px 28px;
+  width: 100%;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.l6-feedback{
+  font-size: 20px;
+  font-weight: 800;
+  min-height: 32px;
+  text-align: center;
+  transition: opacity 0.2s;
+}
+
+.l6-correct{ color: #27AE60; }
+.l6-wrong{   color: #E74C3C; }
+
+.l6-answers{
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  width: 100%;
+}
+
+.l6-btn{
+  flex: 1;
+  max-width: 120px;
+  aspect-ratio: 1;
+  background: #fff;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: clamp(26px, 8vw, 42px);
+  color: #2C2C2C;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  transition: transform 0.15s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.l6-btn:active{
+  transform: scale(0.92);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* ══════════════════════════════════════
+   LEVEL 7 - FINDE DEN BUCHSTABEN
+══════════════════════════════════════ */
+
+#level7{
+  background: linear-gradient(160deg, #EFBE80, #D98B4A);
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.l7-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 500px;
+  padding: 90px 16px 20px;
+}
+
+.l7-prompt{
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: clamp(20px, 6vw, 32px);
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.20);
+  text-align: center;
+  background: rgba(255,255,255,0.18);
+  border-radius: 16px;
+  padding: 14px 24px;
+  width: 100%;
+}
+
+.l7-feedback{
+  font-size: 18px;
+  font-weight: 800;
+  min-height: 28px;
+  text-align: center;
+}
+
+.l7-fb-correct{ color: #27AE60; }
+.l7-fb-wrong{   color: #E74C3C; }
+
+.l7-grid{
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.l7-cell{
+  aspect-ratio: 1;
+  background: rgba(255,255,255,0.88);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: clamp(22px, 7vw, 40px);
+  color: #2C2C2C;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+  transition: transform 0.12s, background 0.15s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.l7-cell:active{
+  transform: scale(0.90);
+}
+
+.l7-cell.l7-found{
+  background: linear-gradient(135deg, #A8EDBC, #6FCF97);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(111,207,151,0.4);
+  animation: l7FoundPop 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  pointer-events: none;
+}
+
+@keyframes l7FoundPop{
+  from{ transform: scale(0.8); }
+  to{   transform: scale(1);   }
+}
+
+.l7-cell.l7-wrong{
+  background: linear-gradient(135deg, #FFB3B3, #FF6B6B);
+  color: #fff;
+  animation: l7Shake 0.4s ease;
+}
+
+@keyframes l7Shake{
+  0%,100%{ transform: translateX(0); }
+  20%{     transform: translateX(-6px); }
+  40%{     transform: translateX(6px); }
+  60%{     transform: translateX(-4px); }
+  80%{     transform: translateX(4px); }
 }

@@ -4,11 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
   <title>Oskar Beach Stories</title>
-
-  <link rel="stylesheet" href="style.css?v=4">
-
+  <link rel="stylesheet" href="style.css?v=5">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -20,7 +17,6 @@
 
 <div class="screen active" id="intro">
 
-  <!-- App Header -->
   <header class="app-header">
     <div class="header-inner">
       <img src="assets/OskarInstagram.png" class="header-oskar" alt="Oskar">
@@ -28,7 +24,6 @@
     </div>
   </header>
 
-  <!-- Hero / Greeting -->
   <section class="hero-section">
     <div class="greeting-card">
       <p class="greeting-hello">Hallo, <strong>Oskar</strong>!</p>
@@ -36,7 +31,6 @@
     </div>
   </section>
 
-  <!-- Level cards grid -->
   <div class="menu-cards">
 
     <button class="level-card card-1" id="levelBtn1">
@@ -63,13 +57,27 @@
       <div class="card-name">Candy Match</div>
     </button>
 
+    <button class="level-card card-5" id="levelBtn5">
+      <div class="card-icon">🧠</div>
+      <div class="card-badge badge-5">Level 5</div>
+      <div class="card-name">Oskar Memory</div>
+    </button>
+
+    <button class="level-card card-6" id="levelBtn6">
+      <div class="card-icon">📝</div>
+      <div class="card-badge badge-6">Level 6</div>
+      <div class="card-name">Fehlender Buchstabe</div>
+    </button>
+
+    <button class="level-card card-7" id="levelBtn7">
+      <div class="card-icon">🔍</div>
+      <div class="card-badge badge-7">Level 7</div>
+      <div class="card-name">Finde den Buchstaben</div>
+    </button>
+
   </div>
 
-  <!-- Instagram Footer -->
-  <a
-    href="https://instagram.com/oskar.the.jackrussel"
-    target="_blank"
-    class="insta-link">
+  <a href="https://instagram.com/oskar.the.jackrussel" target="_blank" class="insta-link">
     <img src="assets/Instagram_icon.png" class="insta-logo" alt="Instagram">
     Follow Oskar on Instagram 📸
   </a>
@@ -77,41 +85,23 @@
 </div>
 
 
-
 <!-- ═════════════ LEVEL 1 ═════════════ -->
 
 <div class="screen" id="level1">
 
-  <button class="back-btn" onclick="showScreen('intro')">← Menü</button>
+  <button class="back-btn" onclick="showScreen('intro')">🏠 Menü</button>
 
   <div class="hud">
-
-    <div class="hud-title">
-      Level 1 🍖
-    </div>
-
-    <div class="hud-sub">
-      Oskar hat Hunger!
-    </div>
-
-    <div class="hud-score" id="snackCounter">
-      Snacks: 0 / 5
-    </div>
-
+    <div class="hud-title">Level 1 🍖</div>
+    <div class="hud-sub">Oskar hat Hunger!</div>
+    <div class="hud-score" id="snackCounter">Snacks: 0 / 5</div>
   </div>
 
-  <div class="goal-text">
-    Gib Oskar 5 Snacks 🍖
-  </div>
+  <div class="goal-text">Gib Oskar 5 Snacks 🍖</div>
 
-  <img
-  src="assets/OskarCartoon.png"
-  class="oskar-click"
-  id="clickDog">
+  <img src="assets/OskarCartoon.png" class="oskar-click" id="clickDog">
 
-  <div
-  class="snack-bar-wrap"
-  id="snackBar"></div>
+  <div class="snack-bar-wrap" id="snackBar"></div>
 
 </div>
 
@@ -119,56 +109,22 @@
 
 <div class="screen" id="level2">
 
-  <button class="back-btn" onclick="showScreen('intro')">← Menü</button>
+  <button class="back-btn" onclick="showScreen('intro')">🏠 Menü</button>
 
   <div class="hud">
-
-    <div class="hud-title">
-      Level 2 🌴
-    </div>
-
-    <div class="hud-sub">
-      Finde den Weg zum Strand!
-    </div>
-
+    <div class="hud-title">Level 2 🌴</div>
+    <div class="hud-sub">Finde den Weg zum Strand!</div>
   </div>
 
   <div class="maze-wrap">
-
-    <div
-    class="maze-grid"
-    id="maze"></div>
-
+    <div class="maze-grid" id="maze"></div>
   </div>
 
-  <!-- MOBILE D-PAD -->
-
   <div class="dpad" id="dpad">
-
-    <div
-    class="dpad-btn dpad-up"
-    data-dir="up">
-      ▲
-    </div>
-
-    <div
-    class="dpad-btn dpad-left"
-    data-dir="left">
-      ◀
-    </div>
-
-    <div
-    class="dpad-btn dpad-right"
-    data-dir="right">
-      ▶
-    </div>
-
-    <div
-    class="dpad-btn dpad-down"
-    data-dir="down">
-      ▼
-    </div>
-
+    <div class="dpad-btn dpad-up"    data-dir="up">▲</div>
+    <div class="dpad-btn dpad-left"  data-dir="left">◀</div>
+    <div class="dpad-btn dpad-right" data-dir="right">▶</div>
+    <div class="dpad-btn dpad-down"  data-dir="down">▼</div>
   </div>
 
 </div>
@@ -177,161 +133,141 @@
 
 <div class="screen" id="level3">
 
-  <button class="back-btn back-btn-fixed" onclick="showScreen('intro')">← Menü</button>
+  <button class="back-btn back-btn-fixed" onclick="showScreen('intro')">🏠 Menü</button>
 
-  <!-- CARTOON BACKGROUND ELEMENTS -->
   <div class="sun"></div>
-
   <div class="cartoon-cloud cloud-1"></div>
   <div class="cartoon-cloud cloud-2"></div>
   <div class="cartoon-cloud cloud-3"></div>
 
-
-  <!-- SCROLLING WORLD -->
   <div class="world" id="world">
-
     <div class="sky-bg"></div>
-
     <div class="cloud cloud1"></div>
     <div class="cloud cloud2"></div>
     <div class="cloud cloud3"></div>
-
     <div class="wave"></div>
-
     <div class="palm palm1">🌴</div>
-
-    <img
-    src="assets/Frau am Liegestuhl.png"
-    class="beach-person person1">
-
-    <img
-    src="assets/Frau am Liegestuhl 2.png"
-    class="beach-person person2">
-
+    <img src="assets/Frau am Liegestuhl.png"   class="beach-person person1">
+    <img src="assets/Frau am Liegestuhl 2.png" class="beach-person person2">
     <div class="sand"></div>
-
   </div>
 
-  <!-- HUD -->
   <div class="hud">
-
-    <div class="hud-title">
-      Level 3 🥏
-    </div>
-
-    <div class="hud-sub">
-      Spring über die Hindernisse!
-    </div>
-
-    <div class="hud-score" id="distanceText">
-      Meter: 0
-    </div>
-
+    <div class="hud-title">Level 3 🥏</div>
+    <div class="hud-sub">Spring über die Hindernisse!</div>
+    <div class="hud-score" id="distanceText">Meter: 0</div>
   </div>
 
-  <!-- GAME ELEMENTS -->
-  <img
-  src="assets/OskarBadehose.png"
-  class="runner"
-  id="runner">
-
-  <div class="frisbee" id="frisbee">
-    🥏
-  </div>
-
-  <div
-  class="obstacle"
-  id="obstacle"></div>
-
-  <div
-  class="event-toast"
-  id="eventToast"></div>
+  <img src="assets/OskarBadehose.png" class="runner" id="runner">
+  <div class="frisbee" id="frisbee">🥏</div>
+  <div class="obstacle" id="obstacle"></div>
+  <div class="event-toast" id="eventToast"></div>
 
   <div class="speed-bar-wrap">
-
-    <div class="speed-label">
-      Tempo 🔥
-    </div>
-
+    <div class="speed-label">Tempo 🔥</div>
     <div class="speed-bar-bg">
-
-      <div
-      class="speed-bar-fill"
-      id="speedBar"></div>
-
+      <div class="speed-bar-fill" id="speedBar"></div>
     </div>
-
   </div>
 
-  <div
-  class="jump-hint"
-  id="jumpHint">
-
-    Tippen oder Leertaste zum Springen ↑
-
-  </div>
+  <div class="jump-hint" id="jumpHint">Tippen oder Leertaste zum Springen ↑</div>
 
   <div class="radio">
-
-    <div class="radio-title">
-      Oskar FM 🎵
-    </div>
-
-    <div class="radio-song">
-      Summer Vibes
-      <span class="radio-note">♪</span>
-    </div>
-
+    <div class="radio-title">Oskar FM 🎵</div>
+    <div class="radio-song">Summer Vibes <span class="radio-note">♪</span></div>
   </div>
 
 </div>
-
 
 <!-- ═════════════ LEVEL 4 ═════════════ -->
 
 <div class="screen" id="level4">
 
-  <button class="back-btn" onclick="showScreen('intro')">← Menü</button>
+  <button class="back-btn" onclick="showScreen('intro')">🏠 Menü</button>
 
   <div class="hud">
-
-    <div class="hud-title">
-      Level 4 🍭
-    </div>
-
-    <div class="hud-sub">
-      Match 3 Zeit!
-    </div>
-
-    <div
-    class="hud-score"
-    id="matchScore">
-      Punkte: 0
-    </div>
-
+    <div class="hud-title">Level 4 🍭</div>
+    <div class="hud-sub">Match 3 Zeit!</div>
+    <div class="hud-score" id="matchScore">Punkte: 0</div>
   </div>
 
   <div class="match3-wrap">
+    <div id="matchBoard"></div>
+  </div>
 
-    <div
-    id="matchBoard"></div>
+</div>
 
+<!-- ═════════════ LEVEL 5 - MEMORY ═════════════ -->
+
+<div class="screen" id="level5">
+
+  <button class="back-btn" onclick="showScreen('intro')">🏠 Menü</button>
+
+  <div class="hud">
+    <div class="hud-title">Level 5 🧠</div>
+    <div class="hud-sub">Oskar Memory</div>
+    <div class="hud-score" id="memPairsText">0 von 6 Paaren gefunden</div>
+  </div>
+
+  <div class="mem-grid" id="memGrid"></div>
+
+</div>
+
+<!-- ═════════════ LEVEL 6 - BUCHSTABE ═════════════ -->
+
+<div class="screen" id="level6">
+
+  <button class="back-btn" onclick="showScreen('intro')">🏠 Menü</button>
+
+  <div class="hud">
+    <div class="hud-title">Level 6 📝</div>
+    <div class="hud-sub">Welcher Buchstabe fehlt?</div>
+    <div class="hud-score" id="l6Progress">Frage 1 von 8</div>
+  </div>
+
+  <div class="l6-container">
+    <div class="oskar-prompt">
+      <img src="assets/OskarCartoon.png" class="prompt-oskar" alt="Oskar">
+      <div class="prompt-bubble">Welcher Buchstabe fehlt?</div>
+    </div>
+    <div class="l6-word" id="l6Word"></div>
+    <div class="l6-feedback" id="l6Feedback"></div>
+    <div class="l6-answers" id="l6Answers"></div>
+  </div>
+
+</div>
+
+<!-- ═════════════ LEVEL 7 - BUCHSTABE FINDEN ═════════════ -->
+
+<div class="screen" id="level7">
+
+  <button class="back-btn" onclick="showScreen('intro')">🏠 Menü</button>
+
+  <div class="hud">
+    <div class="hud-title">Level 7 🔍</div>
+    <div class="hud-sub" id="l7Sub">Runde 1 von 5</div>
+    <div class="hud-score" id="l7Progress">0 gefunden</div>
+  </div>
+
+  <div class="l7-container">
+    <div class="l7-prompt" id="l7Prompt">Finde den Buchstaben M</div>
+    <div class="l7-feedback" id="l7Feedback"></div>
+    <div class="l7-grid" id="l7Grid"></div>
   </div>
 
 </div>
 
 
-<script src="game/config.js?v=4"></script>
-
-<script src="game/utils.js?v=4"></script>
-
-<script src="game/level1.js?v=4"></script>
-<script src="game/level2.js?v=4"></script>
-<script src="game/level3.js?v=4"></script>
-<script src="game/level4.js?v=4"></script>
-
-<script src="game/main.js?v=4"></script>
-
+<script src="game/config.js?v=5"></script>
+<script src="game/utils.js?v=5"></script>
+<script src="game/level1.js?v=5"></script>
+<script src="game/level2.js?v=5"></script>
+<script src="game/level3.js?v=5"></script>
+<script src="game/level4.js?v=5"></script>
+<script src="game/level5.js?v=5"></script>
+<script src="game/level6.js?v=5"></script>
+<script src="game/level7.js?v=5"></script>
+<script src="game/main.js?v=5"></script>
 
 </body>
 </html>

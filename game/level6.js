@@ -90,7 +90,7 @@ function onL6Answer(chosen, q){
     )
 
     setTimeout(() => {
-      // ── Phase 2: Show complete word (1200ms) ─────────────────────
+      // ── Phase 2: Show complete word (2000ms) ─────────────────────
       const fullWord = q.display.replace(/_/g, q.answer).replace(/ /g, "")
       wordEl.innerHTML = `<span class="l6-word-complete">${fullWord}</span>`
       wordEl.className = "l6-word l6-word-full"
@@ -108,7 +108,7 @@ function onL6Answer(chosen, q){
             renderL6Question()
           }
         }, 700)
-      }, 1200)
+      }, 2000)
     }, 500)
 
   } else {

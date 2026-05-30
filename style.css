@@ -527,6 +527,8 @@ html, body{
   cursor: pointer;
   transition: transform 0.15s, background 0.15s;
   user-select: none;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .match-cell:active{
@@ -1254,6 +1256,40 @@ html, body{
 
 .l6-correct{ color: #27AE60; }
 .l6-wrong{   color: #E74C3C; }
+
+/* Lücke im Wort */
+.l6-gap{
+  color: rgba(255,255,255,0.5);
+  letter-spacing: inherit;
+}
+
+/* Phase 1: Buchstabe fliegt in die Lücke */
+.l6-letter-in{
+  display: inline-block;
+  color: #27AE60;
+  animation: l6LetterIn 0.45s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+@keyframes l6LetterIn{
+  from{ transform: translateY(-28px) scale(0.4); opacity: 0; }
+  to{   transform: translateY(0)      scale(1);   opacity: 1; }
+}
+
+/* Phase 2: Vollständiges Wort */
+.l6-word-full{
+  letter-spacing: 6px !important;
+}
+
+.l6-word-complete{
+  display: inline-block;
+  color: #fff;
+  animation: l6WordReveal 0.45s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+@keyframes l6WordReveal{
+  from{ transform: scale(0.75); opacity: 0; }
+  to{   transform: scale(1);    opacity: 1; }
+}
 
 .l6-answers{
   display: flex;

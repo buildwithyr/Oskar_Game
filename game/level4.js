@@ -3,13 +3,12 @@
 ══════════════════════════════════════ */
 
 let matchBoard      = []
-let matchNextEmojis = []   // preview: one emoji per column
+let matchNextEmojis = []
 let matchScore      = 0
 let matchBusy       = false
 let dragStart       = null // { row, col, x, y }
 
 function startLevel4(){
-
   matchScore = 0
   matchBusy  = false
   dragStart  = null
@@ -19,30 +18,23 @@ function startLevel4(){
   showScreen("level4")
   initMatchBoard()
   renderMatchBoard()
-
 }
 
 function initMatchBoard(){
-
   matchBoard = []
-
   for(let r = 0; r < BOARD_ROWS; r++){
     matchBoard[r] = []
     for(let c = 0; c < BOARD_COLS; c++){
       matchBoard[r][c] = randomEmoji(r, c)
     }
   }
-
-  // Pre-generate next emojis for preview row
   matchNextEmojis = []
   for(let c = 0; c < BOARD_COLS; c++){
     matchNextEmojis[c] = EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
   }
-
 }
 
 function randomEmoji(row, col){
-
   let emoji
   do {
     emoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
@@ -51,11 +43,9 @@ function randomEmoji(row, col){
     (row >= 2 && matchBoard[row-1]?.[col] === emoji && matchBoard[row-2]?.[col] === emoji)
   )
   return emoji
-
 }
 
 function renderMatchBoard(){
-
   const board = document.getElementById("matchBoard")
   board.innerHTML = ""
 
@@ -70,49 +60,73 @@ function renderMatchBoard(){
   // ── Game board ───────────────────────
   for(let r = 0; r < BOARD_ROWS; r++){
     for(let c = 0; c < BOARD_COLS; c++){
-
       const cell = document.createElement("div")
       cell.className = "match-cell"
       cell.textContent = matchBoard[r][c]
       cell.dataset.row = r
       cell.dataset.col = c
 
-      cell.addEventListener("pointerdown", e => onMatchPointerDown(e, r, c))
+      // Touch (iOS / Android)
+      cell.addEventListener("touchstart", e => {
+        e.preventDefault()
+        if(matchBusy) return
+        const t = e.changedTouches[0]
+        dragStart = { row: r, col: c, x: t.clientX, y: t.clientY }
+      }, { passive: false })
+
+      // Mouse (desktop)
+      cell.addEventListener("mousedown", e => {
+        if(matchBusy) return
+        dragStart = { row: r, col: c, x: e.clientX, y: e.clientY }
+      })
 
       board.appendChild(cell)
     }
   }
 
-  // Pointer-up / cancel on the whole board so drag works even if finger slides off cell
-  board.onpointerup    = onMatchPointerUp
-  board.onpointercancel = () => { dragStart = null }
+  // End-events on document so drag always completes regardless of finger position
+  board._touchEnd = e => {
+    e.preventDefault()
+    if(!dragStart || matchBusy){ dragStart = null; return }
+    const t = e.changedTouches[0]
+    processSwipe(t.clientX, t.clientY)
+  }
+  board._mouseUp = e => {
+    if(!dragStart || matchBusy){ dragStart = null; return }
+    processSwipe(e.clientX, e.clientY)
+  }
+  board._touchCancel = () => { dragStart = null }
 
+  // Remove any old listeners before adding new ones
+  document.removeEventListener("touchend",    board._prevTouchEnd   || (() => {}))
+  document.removeEventListener("mouseup",     board._prevMouseUp    || (() => {}))
+  document.removeEventListener("touchcancel", board._prevTouchCancel|| (() => {}))
+
+  document.addEventListener("touchend",    board._touchEnd,    { passive: false })
+  document.addEventListener("mouseup",     board._mouseUp)
+  document.addEventListener("touchcancel", board._touchCancel)
+
+  board._prevTouchEnd    = board._touchEnd
+  board._prevMouseUp     = board._mouseUp
+  board._prevTouchCancel = board._touchCancel
 }
 
-/* ── Drag handling ─────────────────── */
+/* ── Swap logic ────────────────────── */
 
-function onMatchPointerDown(e, row, col){
-  if(matchBusy) return
-  e.preventDefault()
-  dragStart = { row, col, x: e.clientX, y: e.clientY }
-}
-
-function onMatchPointerUp(e){
-  if(!dragStart || matchBusy){ dragStart = null; return }
-
-  const dx = e.clientX - dragStart.x
-  const dy = e.clientY - dragStart.y
+function processSwipe(clientX, clientY){
+  const dx = clientX - dragStart.x
+  const dy = clientY - dragStart.y
   const threshold = 18
 
   let targetRow = dragStart.row
   let targetCol = dragStart.col
 
   if(Math.abs(dx) >= Math.abs(dy)){
-    if(dx > threshold)       targetCol++
+    if(dx >  threshold) targetCol++
     else if(dx < -threshold) targetCol--
     else { dragStart = null; return }
   } else {
-    if(dy > threshold)       targetRow++
+    if(dy >  threshold) targetRow++
     else if(dy < -threshold) targetRow--
     else { dragStart = null; return }
   }
@@ -146,7 +160,6 @@ function swapCells(r1, c1, r2, c2){
 }
 
 function findMatches(){
-
   const matched = new Set()
 
   for(let r = 0; r < BOARD_ROWS; r++){
@@ -175,11 +188,9 @@ function findMatches(){
     const [r, c] = k.split(",").map(Number)
     return { r, c }
   })
-
 }
 
 function processMatches(){
-
   const matches = findMatches()
 
   if(matches.length === 0){
@@ -192,8 +203,7 @@ function processMatches(){
   vibe([VIBRATE.SMALL, 20, VIBRATE.SMALL])
 
   matches.forEach(({ r, c }) => {
-    // +1 offset because row 0 in DOM is the preview row
-    const idx  = (r + 1) * BOARD_COLS + c
+    const idx  = (r + 1) * BOARD_COLS + c   // +1 for preview row
     const cell = document.getElementById("matchBoard").children[idx]
     if(cell) cell.classList.add("pop")
   })
@@ -202,12 +212,8 @@ function processMatches(){
   document.getElementById("matchScore").textContent = `Punkte: ${matchScore}`
 
   setTimeout(() => {
+    matches.forEach(({ r, c }) => { matchBoard[r][c] = null })
 
-    matches.forEach(({ r, c }) => {
-      matchBoard[r][c] = null
-    })
-
-    // Drop and fill — use preview emoji for the topmost new cell per column
     for(let c = 0; c < BOARD_COLS; c++){
       let emptyRow = BOARD_ROWS - 1
       for(let r = BOARD_ROWS - 1; r >= 0; r--){
@@ -217,7 +223,6 @@ function processMatches(){
           emptyRow--
         }
       }
-      // Fill empty rows from top: first use preview, rest random
       let usedPreview = false
       for(let r = emptyRow; r >= 0; r--){
         if(!usedPreview){
@@ -232,25 +237,18 @@ function processMatches(){
 
     renderMatchBoard()
     setTimeout(() => processMatches(), MATCH_POP_DELAY)
-
   }, MATCH_POP_DELAY)
-
 }
 
 function checkWin(){
-
   if(matchScore >= MATCH_WIN_SCORE){
     setTimeout(() => {
       showLevelComplete({
         title: "🏆 Oskar gewinnt!",
         text:  "Du hast alle Levels geschafft! Guter Hund! 🐶🎉",
         button:"🔄 Nochmal spielen",
-        next:  () => {
-          vibe(VIBRATE.MEDIUM)
-          showScreen("intro")
-        }
+        next:  () => { vibe(VIBRATE.MEDIUM); showScreen("intro") }
       })
     }, DELAYS.LEVEL_COMPLETE)
   }
-
 }

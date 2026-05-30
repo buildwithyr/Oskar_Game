@@ -99,6 +99,20 @@ Das Spiel dient als kreatives Lernprojekt rund um:
 
 # Changelog
 
+## Version 6 – Bugfixes & Level-6-Animation (2026-05-30)
+
+**Level 4 – Match-3 Bugfix (iOS Touch):**
+- Ursache: `pointerdown`/`pointerup` auf iOS Safari unzuverlässig
+- Fix: Native `touchstart`/`touchend` + `mousedown`/`mouseup`, End-Event auf `document`
+- `touch-action: none` auf `.match-cell` verhindert Browser-Interferenz
+- Dateien: `game/level4.js`, `style.css`
+
+**Level 6 – Buchstaben-Fly-In-Animation:**
+- Phase 1: Buchstabe fliegt animiert in die Lücke
+- Phase 2: Vollständiges Wort erscheint groß (1,2s sichtbar)
+- Phase 3: "Super gemacht!" → nächste Frage
+- Dateien: `game/level6.js`, `style.css`
+
 ## Version 5 – Drei neue Level (2026-05-30)
 
 Drei neue Spielmodi hinzugefügt. Bestehende Level unverändert.

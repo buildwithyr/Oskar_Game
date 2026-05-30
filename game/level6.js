@@ -34,11 +34,8 @@ let l6Busy      = false
 function startLevel6(){
   l6Index = 0
   l6Busy  = false
-
-  // Pick L6_TOTAL random questions without repeats
   const shuffled = [...L6_POOL].sort(() => Math.random() - 0.5)
   l6Questions = shuffled.slice(0, L6_TOTAL)
-
   showScreen("level6")
   renderL6Question()
 }
@@ -48,11 +45,15 @@ function renderL6Question(){
 
   document.getElementById("l6Progress").textContent =
     `Frage ${l6Index + 1} von ${L6_TOTAL}`
-  document.getElementById("l6Word").textContent = q.display
-  document.getElementById("l6Feedback").textContent = ""
-  document.getElementById("l6Feedback").className = "l6-feedback"
 
-  // Build shuffled options
+  // Show word with underscore as gap indicator
+  const wordEl = document.getElementById("l6Word")
+  wordEl.innerHTML = q.display.replace("_", '<span class="l6-gap">_</span>')
+  wordEl.className = "l6-word"
+
+  document.getElementById("l6Feedback").textContent = ""
+  document.getElementById("l6Feedback").className   = "l6-feedback"
+
   const options = [q.answer, ...q.wrong].sort(() => Math.random() - 0.5)
   const answersEl = document.getElementById("l6Answers")
   answersEl.innerHTML = ""
@@ -61,33 +62,54 @@ function renderL6Question(){
     const btn = document.createElement("button")
     btn.className = "l6-btn"
     btn.textContent = opt
-    btn.addEventListener("click", () => onL6Answer(opt, q.answer))
+    btn.addEventListener("click", () => onL6Answer(opt, q))
     answersEl.appendChild(btn)
   })
 
   l6Busy = false
 }
 
-function onL6Answer(chosen, correct){
+function onL6Answer(chosen, q){
   if(l6Busy) return
   l6Busy = true
-
   vibe(VIBRATE.SMALL)
-  const feedback = document.getElementById("l6Feedback")
 
-  if(chosen === correct){
-    feedback.textContent = "⭐ Super gemacht!"
-    feedback.className   = "l6-feedback l6-correct"
+  // Disable buttons immediately
+  document.querySelectorAll(".l6-btn").forEach(b => b.disabled = true)
+
+  const wordEl    = document.getElementById("l6Word")
+  const feedback  = document.getElementById("l6Feedback")
+
+  if(chosen === q.answer){
     vibe(VIBRATE.MEDIUM)
 
+    // ── Phase 1: Animate letter into the gap (400ms) ─────────────────
+    wordEl.innerHTML = q.display.replace(
+      "_",
+      `<span class="l6-letter-in">${chosen}</span>`
+    )
+
     setTimeout(() => {
-      l6Index++
-      if(l6Index >= L6_TOTAL){
-        l6Win()
-      } else {
-        renderL6Question()
-      }
-    }, 900)
+      // ── Phase 2: Show complete word (1200ms) ─────────────────────
+      const fullWord = q.display.replace(/_/g, q.answer).replace(/ /g, "")
+      wordEl.innerHTML = `<span class="l6-word-complete">${fullWord}</span>`
+      wordEl.className = "l6-word l6-word-full"
+
+      setTimeout(() => {
+        // ── Phase 3: Show success feedback (700ms) ───────────────────
+        feedback.textContent = "⭐ Super gemacht!"
+        feedback.className   = "l6-feedback l6-correct"
+
+        setTimeout(() => {
+          l6Index++
+          if(l6Index >= L6_TOTAL){
+            l6Win()
+          } else {
+            renderL6Question()
+          }
+        }, 700)
+      }, 1200)
+    }, 500)
 
   } else {
     feedback.textContent = "❌ Versuch es noch einmal!"
@@ -96,6 +118,7 @@ function onL6Answer(chosen, correct){
     setTimeout(() => {
       feedback.textContent = ""
       feedback.className   = "l6-feedback"
+      document.querySelectorAll(".l6-btn").forEach(b => b.disabled = false)
       l6Busy = false
     }, 900)
   }

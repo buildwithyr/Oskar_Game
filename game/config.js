@@ -2,10 +2,6 @@
    CONSTANTS & CONFIG
 ══════════════════════════════════════ */
 
-// 🔧 DEBUG: Starte direkt bei Level 3 zum Testen!
-// Ersetze "startLevel3" mit "startLevel1" um normal zu spielen
-const DEBUG_START_LEVEL = "startLevel1"
-
 // Asset paths
 const ASSETS = {
   OSKAR_DEFAULT: "assets/OskarCartoon.png",
@@ -24,17 +20,17 @@ const LEVEL1_SNACK_CLICK_DELAY = 250
 // Level 2 - Maze
 const MAZE_SIZE = 15
 
-// Level 3 - Runner (ANGEPASST - Mobile freundlicher)
+// Level 3 - Runner
 const L3_GROUND = 0
 const L3_JUMP_VEL = -18
 const L3_GRAVITY = 1.0
-const L3_WIN_DIST = 150              // ← War 200, jetzt kürzer
+const L3_WIN_DIST = 150
 const L3_SPEED_START = 3.5
-const L3_SPEED_MAX = 7.5             // ← War 9, jetzt sanfter
-const L3_SPEED_INCREASE = 0.008      // ← War 0.012, jetzt langsamere Steigerung
+const L3_SPEED_MAX = 7.5
+const L3_SPEED_INCREASE = 0.008
 const L3_SPEED_FRAME_RATE = 0.05
 const L3_COLLISION_MARGIN = 18
-const L3_OBSTACLE_SPACING = 400      // ← Mehr Abstand zwischen Hindernissen
+const L3_OBSTACLE_SPACING = 400
 
 // Level 4 - Match3
 const EMOJIS = ["🐶","🦴","🌴","🥏","🍖","☀️","🌊"]
@@ -57,6 +53,3 @@ const DELAYS = {
   POPUP: 200,
   LEVEL3_RETRY: 300
 }
-
-
-// 🎮 Auto-Start entfernt - Spiel startet über den Button

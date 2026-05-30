@@ -47,27 +47,25 @@ html, body{
   right: 16px;
   z-index: 80;
   background: rgba(255,255,255,0.92);
-  color: #555;
   border: none;
-  border-radius: 999px;
-  padding: 8px 18px;
-  font-family: 'Nunito', Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 700;
+  border-radius: 14px;
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+  line-height: 1;
   cursor: pointer;
   box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  transition: transform 0.15s, box-shadow 0.15s;
   backdrop-filter: blur(6px);
-}
-
-.back-btn:hover{
-  background: #fff;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .back-btn:active{
-  transform: scale(0.95);
+  transform: scale(0.88);
 }
 
 .back-btn-fixed{
@@ -401,14 +399,14 @@ html, body{
   justify-content: center;
   flex: 1;
   width: 100%;
-  padding: 70px 8px 170px;
+  padding: 72px 4px 220px;
 }
 
 .maze-grid{
   display: grid;
   grid-template-columns: repeat(15, 1fr);
   gap: 2px;
-  width: min(90vw, 90vh - 160px);
+  width: min(calc(100vw - 12px), calc(100svh - 300px));
   aspect-ratio: 1;
 }
 
@@ -449,34 +447,38 @@ html, body{
 
 .dpad{
   position: absolute;
-  bottom: 20px;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  width: 160px;
-  height: 160px;
+  width: 216px;
+  height: 216px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 4px;
+  grid-template-columns: repeat(3, 66px);
+  grid-template-rows: repeat(3, 66px);
+  gap: 6px;
   z-index: 60;
 }
 
 .dpad-btn{
-  background: rgba(255,255,255,0.25);
-  border-radius: 12px;
+  width: 66px;
+  height: 66px;
+  background: rgba(255,255,255,0.30);
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 26px;
   cursor: pointer;
   user-select: none;
-  transition: background 0.1s, transform 0.1s;
+  transition: background 0.08s, transform 0.08s;
   color: #fff;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .dpad-btn:active{
-  background: rgba(255,255,255,0.5);
-  transform: scale(0.92);
+  background: rgba(255,255,255,0.55);
+  transform: scale(0.88);
 }
 
 .dpad-up    { grid-column: 2; grid-row: 1; }
@@ -1343,14 +1345,15 @@ html, body{
 }
 
 .l7-prompt{
-  font-family: 'Bubblegum Sans', cursive;
-  font-size: clamp(20px, 6vw, 32px);
+  font-family: 'Nunito', Arial, sans-serif;
+  font-size: clamp(18px, 5.5vw, 28px);
+  font-weight: 800;
   color: #fff;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.20);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.18);
   text-align: center;
   background: rgba(255,255,255,0.18);
   border-radius: 16px;
-  padding: 14px 24px;
+  padding: 14px 20px;
   width: 100%;
 }
 
@@ -1372,13 +1375,14 @@ html, body{
 
 .l7-cell{
   aspect-ratio: 1;
-  background: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.92);
   border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Bubblegum Sans', cursive;
-  font-size: clamp(22px, 7vw, 40px);
+  font-family: 'Nunito', Arial, sans-serif;
+  font-size: clamp(26px, 8vw, 44px);
+  font-weight: 900;
   color: #2C2C2C;
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(0,0,0,0.10);

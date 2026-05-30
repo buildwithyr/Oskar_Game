@@ -99,6 +99,25 @@ Das Spiel dient als kreatives Lernprojekt rund um:
 
 # Changelog
 
+## Version 7 – Mobile-Optimierung (2026-05-30)
+
+**Back-Button (alle Level):**
+- Von Pill-Button "🏠 Menü" auf kompaktes 44×44px Icon-Button reduziert
+- Überdeckt keine Spielinhalte mehr
+
+**Level 7 – Buchstaben-Schrift:**
+- `'Bubblegum Sans', cursive` → `'Nunito', Arial, sans-serif` (font-weight: 900)
+- Auf iOS fiel `cursive` auf System-Schreibschrift zurück — jetzt immer klare Blockschrift
+- Buchstabengröße: `clamp(26px, 8vw, 44px)` (war `clamp(22px, 7vw, 40px)`)
+- Aufgabenstellung (Prompt): ebenfalls auf Nunito Bold umgestellt
+
+**Level 2 – Maze größer / D-Pad gleichmäßig:**
+- Maze-Formel: `min(calc(100vw - 12px), calc(100svh - 300px))` — nutzt mehr Bildschirmbreite
+- D-Pad: 160×160px → 216×216px, explizite Zellgröße 66×66px (kein Grid-Stretch-Artefakt)
+- Alle 4 Pfeile gleich groß durch feste `width/height` statt `1fr`
+- Font-size Pfeile: 22px → 26px, `border-radius: 16px`, stärkerer Schatten
+- Touch-Feedback: schnellere Transition 0.1s → 0.08s
+
 ## Version 6 – Bugfixes & Level-6-Animation (2026-05-30)
 
 **Level 4 – Match-3 Bugfix (iOS Touch):**

@@ -27,6 +27,18 @@ Springe über Hindernisse und renne am Strand entlang.
 
 Klassisches Match-3 Minispiel.
 
+## Level 5 - Oskar Memory 🧠
+
+Klassisches Memory-Spiel mit Oskar-Motiven. 6 Paare aufdecken.
+
+## Level 6 - Fehlender Buchstabe 📝
+
+Lernspiel: Den fehlenden Buchstaben in einem Wort erkennen. 8 Fragen.
+
+## Level 7 - Finde den Buchstaben 🔍
+
+Buchstabensuche: Den gesuchten Buchstaben in einem Raster finden. 5 Runden.
+
 ---
 
 # Projektstruktur
@@ -58,7 +70,8 @@ README.md
 * Keyboard Support
 * Modularer Aufbau
 * GitHub Pages Deployment
-* Cartoon Stil
+* Modernes UI-Design
+* Zurück-Button in jedem Level
 
 ---
 
@@ -67,6 +80,7 @@ README.md
 * HTML5
 * CSS3
 * JavaScript
+* Google Fonts (Bubblegum Sans, Nunito)
 * GitHub Pages
 
 ---
@@ -83,9 +97,83 @@ Das Spiel dient als kreatives Lernprojekt rund um:
 
 ---
 
-# Screenshots
+# Changelog
 
-(coming soon 😄)
+## Version 5 – Drei neue Level (2026-05-30)
+
+Drei neue Spielmodi hinzugefügt. Bestehende Level unverändert.
+
+**Level 5 – Oskar Memory:**
+- 6 Paare (12 Karten) mit Oskar-Motiven: 🐶🦴⚽🐱🐾🍖
+- 3×4-Karten-Grid, für Touch optimiert
+- Flip-Animation (CSS 3D rotateY)
+- Grüne Erfolgs-Animation bei gefundenem Paar
+- Fortschrittsanzeige "X von 6 Paaren gefunden"
+
+**Level 6 – Fehlender Buchstabe:**
+- 20 Wörter im Pool, 8 zufällige Fragen pro Spiel
+- Wort mit Lücke in großer Schrift
+- 3 Antwort-Buttons (gemischte Reihenfolge)
+- Positives / korrigierendes Feedback, Wiederholung bei Fehler
+- Oskar-Maskottchen mit Sprechblase
+
+**Level 7 – Finde den Buchstaben:**
+- 5 Runden mit steigender Schwierigkeit (Gittergröße + mehr Buchstaben)
+- Grüne Hervorhebung bei richtigem Tippen, roter Shake bei falschem
+- Feedback "Toll gemacht!" / "Versuch es noch einmal!"
+
+**Navigation:**
+- Alle Level (1–7) haben einheitlichen "🏠 Menü"-Button oben rechts
+- Hauptmenü: 7-Karten-Layout (2-spaltig, Level 7 volle Breite)
+
+## Version 4 – UI/UX Modernisierung (2026-05-30)
+
+Komplette visuelle Überarbeitung des Projekts. Spiellogik und -inhalte unverändert.
+
+**Hauptmenü (Intro-Screen):**
+- Neuer App-Header mit Oskar-Logo und Titel (Lernwelten-Stil)
+- Greeting-Card mit persönlicher Begrüßung
+- Levelauswahl als 2×2 Karten-Grid statt vertikaler Buttons
+- Jede Level-Karte zeigt: großes Emoji-Icon, farbiges Level-Badge, Levelname
+- Sanfte Einblend-Animationen mit versetztem Timing (Stagger-Effekt)
+- Warmer Creme/Pfirsich-Hintergrund (#FFF8F0 → #FFE8D0)
+- Instagram-Link als dezenter Footer
+
+**Navigation:**
+- Zurück-zum-Menü-Button auf allen Level-Screens
+
+**HUD (alle Levels):**
+- Glasmorphism-Stil: weißer Hintergrund, backdrop-filter blur, weicher Schatten
+- Verbesserte Typografie (Nunito + Bubblegum Sans)
+- Farbakzente für Score-Anzeige
+
+**Popup / Level Complete:**
+- Stärkerer Glasmorphism-Effekt mit backdrop-filter
+- Neues Orange-Gradient für Buttons (statt Rot)
+- Verbesserte Schatten und Animation
+
+**Radio (Level 3):**
+- Glasmorphism-Stil passend zum HUD
+
+**Typografie:**
+- Neue Google Font "Nunito" als Hauptschrift (modern, kinderfreundlich)
+- Bubblegum Sans für Überschriften und spielerische Elemente
+
+**CSS-Architektur:**
+- Bereinigung von doppelten Regeln
+- Konsistente Abstände und Border-Radius-Werte
+- Verbesserte Responsive-Breakpoints (480px, 360px)
+
+## Version 3 – Bugfixes & Feinschliff
+
+- Asset-Dateiname korrigiert (OskarInstagram.PNG → .png)
+- Diverse Style-Anpassungen
+
+## Version 2 – Erste Veröffentlichung
+
+- Grundlegendes Spieldesign mit 4 Levels
+- Mobile D-Pad für Level 2
+- Basis-Responsive-Layout
 
 ---
 

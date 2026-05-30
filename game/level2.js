@@ -157,4 +157,3 @@ function handleKeyDown(e){
     if(e.key === " " || e.key === "ArrowUp"){ e.preventDefault(); l3Jump() }
   }
 }
-

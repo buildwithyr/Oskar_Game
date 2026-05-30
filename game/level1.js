@@ -8,6 +8,7 @@ let tongueLeft = true
 
 function startLevel1(){
   snacks = 0
+  tongueLeft = true
   updateSnackUI()
   showScreen("level1")
 }
@@ -65,4 +66,3 @@ function handleClickDog(){
   }
 
 }
-

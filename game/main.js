@@ -47,6 +47,21 @@ document.getElementById("levelBtn4").addEventListener("click", () => {
   startLevel4()
 })
 
+document.getElementById("levelBtn5").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  startLevel5()
+})
+
+document.getElementById("levelBtn6").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  startLevel6()
+})
+
+document.getElementById("levelBtn7").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  startLevel7()
+})
+
 
 // LEVEL 1 - Click Dog
 document.getElementById("clickDog").addEventListener("click", handleClickDog)

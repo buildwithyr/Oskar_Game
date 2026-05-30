@@ -77,21 +77,18 @@ function l3Loop(){
 
   const { runner, obstacle, distTxt, speedBar, world } = l3Els
 
-  // Distance & speed
   l3Distance += l3Speed * L3_SPEED_FRAME_RATE
   l3Speed = Math.min(L3_SPEED_START + l3Distance * L3_SPEED_INCREASE, L3_SPEED_MAX)
 
   distTxt.textContent = `Meter: ${Math.floor(l3Distance)}`
   speedBar.style.width = Math.min((l3Speed - L3_SPEED_START) / (L3_SPEED_MAX - L3_SPEED_START) * 100, 100) + "%"
 
-  // World scroll (clouds, palms)
   l3WorldX -= l3Speed * 0.6
   if(Math.abs(l3WorldX) >= world.offsetWidth / 2){
     l3WorldX = 0
   }
   world.style.transform = `translateX(${l3WorldX}px)`
 
-  // Jump physics
   if(l3IsJumping){
     l3JumpY   += l3JumpVel
     l3JumpVel += L3_GRAVITY
@@ -105,7 +102,6 @@ function l3Loop(){
 
   runner.style.transform = `translateY(${l3JumpY}px)`
 
-  // Obstacle movement
   l3ObstacleX -= l3Speed
   obstacle.style.left = l3ObstacleX + "px"
 
@@ -114,7 +110,6 @@ function l3Loop(){
     obstacle.style.left = l3ObstacleX + "px"
   }
 
-  // Collision detection
   const runnerRect  = runner.getBoundingClientRect()
   const obstRect    = obstacle.getBoundingClientRect()
 
@@ -132,7 +127,6 @@ function l3Loop(){
     return
   }
 
-  // Win condition
   if(l3Distance >= L3_WIN_DIST){
     l3Running = false
     cancelAnimationFrame(l3Frame)
@@ -172,4 +166,3 @@ function l3GameOver(){
   })
 
 }
-

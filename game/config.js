@@ -20,17 +20,17 @@ const LEVEL1_SNACK_CLICK_DELAY = 250
 // Level 2 - Maze
 const MAZE_SIZE = 15
 
-// Level 3 - Runner (ANGEPASST - Mobile freundlicher)
+// Level 3 - Runner
 const L3_GROUND = 0
 const L3_JUMP_VEL = -18
 const L3_GRAVITY = 1.0
-const L3_WIN_DIST = 150              // ← War 200, jetzt kürzer
+const L3_WIN_DIST = 150
 const L3_SPEED_START = 3.5
-const L3_SPEED_MAX = 7.5             // ← War 9, jetzt sanfter
-const L3_SPEED_INCREASE = 0.008      // ← War 0.012, jetzt langsamere Steigerung
+const L3_SPEED_MAX = 7.5
+const L3_SPEED_INCREASE = 0.008
 const L3_SPEED_FRAME_RATE = 0.05
 const L3_COLLISION_MARGIN = 18
-const L3_OBSTACLE_SPACING = 400      // ← Mehr Abstand zwischen Hindernissen
+const L3_OBSTACLE_SPACING = 400
 
 // Level 4 - Match3
 const EMOJIS = ["🐶","🦴","🌴","🥏","🍖","☀️","🌊"]
@@ -39,6 +39,10 @@ const BOARD_ROWS = 7
 const MATCH_WIN_SCORE = 300
 const MATCH_POP_DELAY = 280
 const MATCH_POINT_PER_MATCH = 10
+
+// Level 5 - Memory  (constants live in level5.js)
+// Level 6 - Buchstabe  (pool in level6.js)
+// Level 7 - Finde Buchstaben  (rounds in level7.js)
 
 // Vibration patterns
 const VIBRATE = {
@@ -53,6 +57,3 @@ const DELAYS = {
   POPUP: 200,
   LEVEL3_RETRY: 300
 }
-
-
-// 🎮 Auto-Start entfernt - Spiel startet über den Button

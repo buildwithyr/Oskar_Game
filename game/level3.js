@@ -13,6 +13,9 @@ let l3JumpVel    = 0
 let l3WorldX     = 0
 let l3HintShown  = true
 
+// Cached DOM refs (set once in startLevel3)
+let l3Els = null
+
 function startLevel3(){
 
   l3Distance  = 0
@@ -25,24 +28,27 @@ function startLevel3(){
   l3HintShown = true
   l3Running   = true
 
-  const runner   = document.getElementById("runner")
-  const obstacle = document.getElementById("obstacle")
-  const toast    = document.getElementById("eventToast")
-  const hint     = document.getElementById("jumpHint")
-  const distTxt  = document.getElementById("distanceText")
-  const speedBar = document.getElementById("speedBar")
+  l3Els = {
+    runner:   document.getElementById("runner"),
+    obstacle: document.getElementById("obstacle"),
+    toast:    document.getElementById("eventToast"),
+    hint:     document.getElementById("jumpHint"),
+    distTxt:  document.getElementById("distanceText"),
+    speedBar: document.getElementById("speedBar"),
+    world:    document.getElementById("world")
+  }
 
   // Obstacle = Kothaufen
-  obstacle.innerHTML = `<img src="${ASSETS.POOP}">`
-  obstacle.style.left = l3ObstacleX + "px"
+  l3Els.obstacle.innerHTML = `<img src="${ASSETS.POOP}">`
+  l3Els.obstacle.style.left = l3ObstacleX + "px"
 
-  runner.src = ASSETS.OSKAR_SWIMSUIT
-  runner.style.transform = "translateY(0px)"
+  l3Els.runner.src = ASSETS.OSKAR_SWIMSUIT
+  l3Els.runner.style.transform = "translateY(0px)"
 
-  toast.style.opacity = "0"
-  hint.style.opacity  = "1"
-  distTxt.textContent = "Meter: 0"
-  speedBar.style.width = "0%"
+  l3Els.toast.style.opacity = "0"
+  l3Els.hint.style.opacity  = "1"
+  l3Els.distTxt.textContent = "Meter: 0"
+  l3Els.speedBar.style.width = "0%"
 
   showScreen("level3")
 
@@ -57,12 +63,10 @@ function l3Jump(){
   l3JumpVel   = L3_JUMP_VEL
   vibe(VIBRATE.SMALL)
 
-  const runner = document.getElementById("runner")
-  runner.src = ASSETS.OSKAR_JUMP
+  l3Els.runner.src = ASSETS.OSKAR_JUMP
 
-  // Hide hint after first jump
   if(l3HintShown){
-    document.getElementById("jumpHint").style.opacity = "0"
+    l3Els.hint.style.opacity = "0"
     l3HintShown = false
   }
 }
@@ -71,27 +75,20 @@ function l3Loop(){
 
   if(!l3Running) return
 
-  const runner   = document.getElementById("runner")
-  const obstacle = document.getElementById("obstacle")
-  const distTxt  = document.getElementById("distanceText")
-  const speedBar = document.getElementById("speedBar")
+  const { runner, obstacle, distTxt, speedBar, world } = l3Els
 
-  // Distance & speed
   l3Distance += l3Speed * L3_SPEED_FRAME_RATE
   l3Speed = Math.min(L3_SPEED_START + l3Distance * L3_SPEED_INCREASE, L3_SPEED_MAX)
 
   distTxt.textContent = `Meter: ${Math.floor(l3Distance)}`
   speedBar.style.width = Math.min((l3Speed - L3_SPEED_START) / (L3_SPEED_MAX - L3_SPEED_START) * 100, 100) + "%"
 
-  // World scroll (clouds, palms)
   l3WorldX -= l3Speed * 0.6
-  const worldWidth = document.getElementById("world").offsetWidth
-  if(Math.abs(l3WorldX) >= worldWidth / 2){
+  if(Math.abs(l3WorldX) >= world.offsetWidth / 2){
     l3WorldX = 0
   }
-  document.getElementById("world").style.transform = `translateX(${l3WorldX}px)`
+  world.style.transform = `translateX(${l3WorldX}px)`
 
-  // Jump physics
   if(l3IsJumping){
     l3JumpY   += l3JumpVel
     l3JumpVel += L3_GRAVITY
@@ -105,17 +102,14 @@ function l3Loop(){
 
   runner.style.transform = `translateY(${l3JumpY}px)`
 
-  // Obstacle movement
   l3ObstacleX -= l3Speed
   obstacle.style.left = l3ObstacleX + "px"
 
-  // Reset obstacle when off screen (mit mehr Abstand)
   if(l3ObstacleX < -80){
     l3ObstacleX = window.innerWidth + Math.random() * 200 + L3_OBSTACLE_SPACING
     obstacle.style.left = l3ObstacleX + "px"
   }
 
-  // Collision detection
   const runnerRect  = runner.getBoundingClientRect()
   const obstRect    = obstacle.getBoundingClientRect()
 
@@ -133,7 +127,6 @@ function l3Loop(){
     return
   }
 
-  // Win condition
   if(l3Distance >= L3_WIN_DIST){
     l3Running = false
     cancelAnimationFrame(l3Frame)
@@ -173,4 +166,3 @@ function l3GameOver(){
   })
 
 }
-

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Oskar Beach Stories</title>
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=9">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -89,19 +89,15 @@
 
 <div class="screen" id="level1">
 
-  <button class="back-btn" onclick="showScreen('intro')">🏠</button>
+  <button class="back-btn" onclick="l1StopGame(); showScreen('intro')">🏠</button>
 
   <div class="hud">
     <div class="hud-title">Level 1 🍖</div>
-    <div class="hud-sub">Oskar hat Hunger!</div>
-    <div class="hud-score" id="snackCounter">Snacks: 0 / 5</div>
+    <div class="hud-sub">Fang die Leckerlis!</div>
+    <div class="hud-score" id="l1Counter">🍖 0 / 10</div>
   </div>
 
-  <div class="goal-text">Gib Oskar 5 Snacks 🍖</div>
-
-  <img src="assets/OskarCartoon.png" class="oskar-click" id="clickDog">
-
-  <div class="snack-bar-wrap" id="snackBar"></div>
+  <div class="l1-field" id="l1Field"></div>
 
 </div>
 
@@ -114,6 +110,7 @@
   <div class="hud">
     <div class="hud-title">Level 2 🌴</div>
     <div class="hud-sub">Finde den Weg zum Strand!</div>
+    <div class="hud-score" id="boneCounter">🦴 0 / 4</div>
   </div>
 
   <div class="maze-wrap">
@@ -258,16 +255,16 @@
 </div>
 
 
-<script src="game/config.js?v=8"></script>
-<script src="game/utils.js?v=8"></script>
-<script src="game/level1.js?v=8"></script>
-<script src="game/level2.js?v=8"></script>
-<script src="game/level3.js?v=8"></script>
-<script src="game/level4.js?v=8"></script>
-<script src="game/level5.js?v=8"></script>
-<script src="game/level6.js?v=8"></script>
-<script src="game/level7.js?v=8"></script>
-<script src="game/main.js?v=8"></script>
+<script src="game/config.js?v=9"></script>
+<script src="game/utils.js?v=9"></script>
+<script src="game/level1.js?v=9"></script>
+<script src="game/level2.js?v=9"></script>
+<script src="game/level3.js?v=9"></script>
+<script src="game/level4.js?v=9"></script>
+<script src="game/level5.js?v=9"></script>
+<script src="game/level6.js?v=9"></script>
+<script src="game/level7.js?v=9"></script>
+<script src="game/main.js?v=9"></script>
 
 </body>
 </html>

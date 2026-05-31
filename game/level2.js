@@ -8,6 +8,11 @@ let playerY = 1
 let prevPlayerX = 1
 let prevPlayerY = 1
 
+// Bone collectibles
+let bonePositions  = new Set()  // "x,y" strings
+let bonesTotal     = 0
+let bonesCollected = 0
+
 function generateMaze(){
   mazeData = Array.from({ length: MAZE_SIZE }, () =>
     Array(MAZE_SIZE).fill(1)
@@ -51,6 +56,24 @@ function generateMaze(){
     }
   }
   mazeData[goalY][goalX] = 3
+
+  // Place 4 bones on random floor cells (not start, not goal)
+  bonePositions = new Set()
+  const boneCount = 4
+  const floorCells = []
+  for(let y = 0; y < MAZE_SIZE; y++){
+    for(let x = 0; x < MAZE_SIZE; x++){
+      if(mazeData[y][x] === 0 && !(x === 1 && y === 1)){
+        floorCells.push({ x, y })
+      }
+    }
+  }
+  floorCells.sort(() => Math.random() - 0.5)
+  for(const cell of floorCells.slice(0, boneCount)){
+    bonePositions.add(`${cell.x},${cell.y}`)
+  }
+  bonesTotal     = bonePositions.size
+  bonesCollected = 0
 }
 
 function startLevel2(){
@@ -61,6 +84,12 @@ function startLevel2(){
   prevPlayerY = 1
   showScreen("level2")
   buildMaze()
+  updateBoneCounter()
+}
+
+function updateBoneCounter(){
+  const el = document.getElementById("boneCounter")
+  if(el) el.textContent = `🦴 ${bonesCollected} / ${bonesTotal}`
 }
 
 function buildMaze(){
@@ -75,9 +104,15 @@ function buildMaze(){
         cell.innerHTML = `<img src="${ASSETS.OSKAR_DEFAULT}" class="maze-oskar">`
       } else if(val === 3){
         cell.className = "cell floor"
-        cell.innerHTML = `<img src="${ASSETS.OSKAR_CHAIR}" class="maze-goal">`
+        const locked = bonesCollected < bonesTotal
+        cell.innerHTML = locked
+          ? `<span class="maze-goal-lock">🔒</span>`
+          : `<img src="${ASSETS.OSKAR_CHAIR}" class="maze-goal">`
       } else if(val === 1){
         cell.className = "cell wall"
+      } else if(bonePositions.has(`${x},${y}`)){
+        cell.className = "cell floor"
+        cell.innerHTML = `<span class="maze-bone">🦴</span>`
       } else {
         cell.className = "cell floor"
       }
@@ -97,9 +132,15 @@ function updateMazeCell(x, y){
     cell.innerHTML = `<img src="${ASSETS.OSKAR_DEFAULT}" class="maze-oskar">`
   } else if(val === 3){
     cell.className = "cell floor"
-    cell.innerHTML = `<img src="${ASSETS.OSKAR_CHAIR}" class="maze-goal">`
+    const locked = bonesCollected < bonesTotal
+    cell.innerHTML = locked
+      ? `<span class="maze-goal-lock">🔒</span>`
+      : `<img src="${ASSETS.OSKAR_CHAIR}" class="maze-goal">`
   } else if(val === 1){
     cell.className = "cell wall"
+  } else if(bonePositions.has(`${x},${y}`)){
+    cell.className = "cell floor"
+    cell.innerHTML = `<span class="maze-bone">🦴</span>`
   } else {
     cell.className = "cell floor"
     cell.innerHTML = ""
@@ -121,8 +162,29 @@ function movePlayer(dx, dy){
   playerX = nx
   playerY = ny
   vibe(VIBRATE.SMALL)
+
+  // Collect bone
+  const key = `${playerX},${playerY}`
+  if(bonePositions.has(key)){
+    bonePositions.delete(key)
+    bonesCollected++
+    vibe(VIBRATE.MEDIUM)
+    updateBoneCounter()
+    // If all bones collected, refresh goal cell to unlock it
+    if(bonesCollected >= bonesTotal){
+      showToast("🦴 Super! Alle Leckerlis gefunden! Jetzt zum Ziel! 🎯")
+      // Redraw goal cell
+      for(let y = 0; y < MAZE_SIZE; y++){
+        for(let x = 0; x < MAZE_SIZE; x++){
+          if(mazeData[y][x] === 3) updateMazeCell(x, y)
+        }
+      }
+    }
+  }
+
   drawMaze()
-  if(mazeData[playerY][playerX] === 3){
+
+  if(mazeData[playerY][playerX] === 3 && bonesCollected >= bonesTotal){
     setTimeout(() => {
       showLevelComplete({
         title: "🌴 Strand gefunden!",
@@ -145,14 +207,14 @@ function handleDpadClick(e){
 function handleKeyDown(e){
   const l2 = document.getElementById("level2").classList.contains("active")
   const l3 = document.getElementById("level3").classList.contains("active")
-  
+
   if(l2){
     if(e.key === "ArrowUp")    { e.preventDefault(); movePlayer(0, -1) }
     if(e.key === "ArrowDown")  { e.preventDefault(); movePlayer(0,  1) }
     if(e.key === "ArrowLeft")  { e.preventDefault(); movePlayer(-1, 0) }
     if(e.key === "ArrowRight") { e.preventDefault(); movePlayer(1,  0) }
   }
-  
+
   if(l3){
     if(e.key === " " || e.key === "ArrowUp"){ e.preventDefault(); l3Jump() }
   }

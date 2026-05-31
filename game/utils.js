@@ -40,3 +40,14 @@ function showLevelComplete({ title, text, button, next, stars = 3 }){
   })
 
 }
+
+function showToast(msg, duration = 2200){
+  const old = document.getElementById("gameToast")
+  if(old) old.remove()
+  const el = document.createElement("div")
+  el.id        = "gameToast"
+  el.className = "game-toast"
+  el.textContent = msg
+  document.body.appendChild(el)
+  setTimeout(() => el.remove(), duration)
+}

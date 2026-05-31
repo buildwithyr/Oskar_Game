@@ -63,8 +63,8 @@ document.getElementById("levelBtn7").addEventListener("click", () => {
 })
 
 
-// LEVEL 1 - Click Dog
-document.getElementById("clickDog").addEventListener("click", handleClickDog)
+// LEVEL 1 - Catch game input
+l1SetupInput()
 
 // LEVEL 2 - D-Pad buttons
 document.querySelectorAll(".dpad-btn").forEach(btn => {

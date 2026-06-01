@@ -353,7 +353,7 @@ html, body{
 .l1-oskar{
   position: absolute;
   bottom: 20px;
-  width: 90px;
+  width: 180px;
   filter: drop-shadow(0 6px 16px rgba(0,0,0,0.25));
   pointer-events: none;
 }

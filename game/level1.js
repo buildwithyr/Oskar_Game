@@ -5,7 +5,7 @@
 const L1_GOAL          = 10
 const L1_SPAWN_INTERVAL = 1200  // ms between new treats
 const L1_FALL_SPEED    = 3.5    // px per frame
-const L1_OSKAR_WIDTH   = 90     // px
+const L1_OSKAR_WIDTH   = 180    // px
 const L1_TREAT_SIZE    = 44     // px
 const L1_CATCH_MARGIN  = 50     // px extra catch radius
 

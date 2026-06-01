@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'oskar-v1';
+const CACHE_VERSION = 'oskar-v2';
 const CACHE_NAME = `oskar-beach-stories-${CACHE_VERSION}`;
 
 // All files to cache on install
@@ -13,11 +13,13 @@ const PRECACHE_URLS = [
   '/game/main.js',
   '/game/level1.js',
   '/game/level2.js',
+  '/game/level_crab.js',
   '/game/level3.js',
   '/game/level4.js',
   '/game/level5.js',
   '/game/level6.js',
   '/game/level7.js',
+  '/game/pwa.js',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
   '/icons/apple-touch-icon.png',
@@ -32,7 +34,8 @@ const PRECACHE_URLS = [
   '/assets/Frau am Liegestuhl.png',
   '/assets/Frau am Liegestuhl 2.png',
   '/assets/Kothaufen.png',
-  '/assets/Instagram_icon.png'
+  '/assets/Instagram_icon.png',
+  '/assets/krebs.png'
 ];
 
 // Install: precache all assets

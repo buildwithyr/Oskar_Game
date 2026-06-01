@@ -120,47 +120,6 @@ html, body{
   padding-bottom: 32px;
 }
 
-/* ── App Header ─────────────────────── */
-
-.app-header{
-  width: 100%;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  padding: 12px 24px;
-  flex-shrink: 0;
-}
-
-.header-inner{
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.header-oskar{
-  width: 44px;
-  height: 44px;
-  object-fit: contain;
-  border-radius: 50%;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
-  animation: floatOskar 3s ease-in-out infinite;
-}
-
-@keyframes floatOskar{
-  0%,100%{ transform: translateY(0px); }
-  50%{     transform: translateY(-5px); }
-}
-
-.header-title{
-  font-family: 'Bubblegum Sans', cursive;
-  font-size: 22px;
-  color: #2C2C2C;
-  letter-spacing: 0.3px;
-}
-
 /* ── Hero / Greeting ────────────────── */
 
 .hero-section{
@@ -1091,15 +1050,6 @@ html, body{
 
   .card-name{
     font-size: 13px;
-  }
-
-  .header-title{
-    font-size: 18px;
-  }
-
-  .header-oskar{
-    width: 36px;
-    height: 36px;
   }
 
   .greeting-card{

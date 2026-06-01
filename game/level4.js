@@ -6,12 +6,16 @@ let matchBoard      = []
 let matchNextEmojis = []
 let matchScore      = 0
 let matchBusy       = false
-let dragStart       = null // { row, col, x, y }
+let dragStart       = null
+let l4StartTime     = 0
 
 function startLevel4(){
-  matchScore = 0
-  matchBusy  = false
-  dragStart  = null
+  matchScore  = 0
+  matchBusy   = false
+  dragStart   = null
+  l4StartTime = Date.now()
+
+  incrementGameCount('level4')
 
   document.getElementById("matchScore").textContent = "Punkte: 0"
 
@@ -49,7 +53,6 @@ function renderMatchBoard(){
   const board = document.getElementById("matchBoard")
   board.innerHTML = ""
 
-  // ── Preview row ──────────────────────
   for(let c = 0; c < BOARD_COLS; c++){
     const cell = document.createElement("div")
     cell.className = "match-cell match-preview"
@@ -57,7 +60,6 @@ function renderMatchBoard(){
     board.appendChild(cell)
   }
 
-  // ── Game board ───────────────────────
   for(let r = 0; r < BOARD_ROWS; r++){
     for(let c = 0; c < BOARD_COLS; c++){
       const cell = document.createElement("div")
@@ -66,7 +68,6 @@ function renderMatchBoard(){
       cell.dataset.row = r
       cell.dataset.col = c
 
-      // Touch (iOS / Android)
       cell.addEventListener("touchstart", e => {
         e.preventDefault()
         if(matchBusy) return
@@ -74,7 +75,6 @@ function renderMatchBoard(){
         dragStart = { row: r, col: c, x: t.clientX, y: t.clientY }
       }, { passive: false })
 
-      // Mouse (desktop)
       cell.addEventListener("mousedown", e => {
         if(matchBusy) return
         dragStart = { row: r, col: c, x: e.clientX, y: e.clientY }
@@ -84,7 +84,6 @@ function renderMatchBoard(){
     }
   }
 
-  // End-events on document so drag always completes regardless of finger position
   board._touchEnd = e => {
     e.preventDefault()
     if(!dragStart || matchBusy){ dragStart = null; return }
@@ -97,7 +96,6 @@ function renderMatchBoard(){
   }
   board._touchCancel = () => { dragStart = null }
 
-  // Remove any old listeners before adding new ones
   document.removeEventListener("touchend",    board._prevTouchEnd   || (() => {}))
   document.removeEventListener("mouseup",     board._prevMouseUp    || (() => {}))
   document.removeEventListener("touchcancel", board._prevTouchCancel|| (() => {}))
@@ -110,8 +108,6 @@ function renderMatchBoard(){
   board._prevMouseUp     = board._mouseUp
   board._prevTouchCancel = board._touchCancel
 }
-
-/* ── Swap logic ────────────────────── */
 
 function processSwipe(clientX, clientY){
   const dx = clientX - dragStart.x
@@ -151,8 +147,6 @@ function processSwipe(clientX, clientY){
   setTimeout(() => processMatches(), DELAYS.POPUP)
 }
 
-/* ── Board logic ───────────────────── */
-
 function swapCells(r1, c1, r2, c2){
   const tmp          = matchBoard[r1][c1]
   matchBoard[r1][c1] = matchBoard[r2][c2]
@@ -166,9 +160,7 @@ function findMatches(){
     for(let c = 0; c < BOARD_COLS - 2; c++){
       const e = matchBoard[r][c]
       if(e === matchBoard[r][c+1] && e === matchBoard[r][c+2]){
-        matched.add(`${r},${c}`)
-        matched.add(`${r},${c+1}`)
-        matched.add(`${r},${c+2}`)
+        matched.add(`${r},${c}`); matched.add(`${r},${c+1}`); matched.add(`${r},${c+2}`)
       }
     }
   }
@@ -177,9 +169,7 @@ function findMatches(){
     for(let c = 0; c < BOARD_COLS; c++){
       const e = matchBoard[r][c]
       if(e === matchBoard[r+1][c] && e === matchBoard[r+2][c]){
-        matched.add(`${r},${c}`)
-        matched.add(`${r+1},${c}`)
-        matched.add(`${r+2},${c}`)
+        matched.add(`${r},${c}`); matched.add(`${r+1},${c}`); matched.add(`${r+2},${c}`)
       }
     }
   }
@@ -196,14 +186,14 @@ function processMatches(){
   if(matches.length === 0){
     matchBusy = false
     renderMatchBoard()
-    checkWin()
+    checkMatchWin()
     return
   }
 
   vibe([VIBRATE.SMALL, 20, VIBRATE.SMALL])
 
   matches.forEach(({ r, c }) => {
-    const idx  = (r + 1) * BOARD_COLS + c   // +1 for preview row
+    const idx  = (r + 1) * BOARD_COLS + c
     const cell = document.getElementById("matchBoard").children[idx]
     if(cell) cell.classList.add("pop")
   })
@@ -240,14 +230,16 @@ function processMatches(){
   }, MATCH_POP_DELAY)
 }
 
-function checkWin(){
+function checkMatchWin(){
   if(matchScore >= MATCH_WIN_SCORE){
+    const elapsed = Date.now() - l4StartTime
     setTimeout(() => {
+      onLevel4Win(matchScore, elapsed)
       showLevelComplete({
         title: "🏆 Oskar gewinnt!",
         text:  "Du hast alle Levels geschafft! Guter Hund! 🐶🎉",
         button:"🔄 Nochmal spielen",
-        next:  () => { vibe(VIBRATE.MEDIUM); showScreen("intro") }
+        next:  () => { vibe(VIBRATE.MEDIUM); showScreen("intro"); updateMenuDisplay() }
       })
     }, DELAYS.LEVEL_COMPLETE)
   }

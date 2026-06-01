@@ -8,33 +8,22 @@ let playerY = 1
 let prevPlayerX = 1
 let prevPlayerY = 1
 
-// Bone collectibles
-let bonePositions  = new Set()  // "x,y" strings
+let bonePositions  = new Set()
 let bonesTotal     = 0
 let bonesCollected = 0
+let l2StartTime    = 0
 
 function generateMaze(){
   mazeData = Array.from({ length: MAZE_SIZE }, () =>
     Array(MAZE_SIZE).fill(1)
   )
   function carve(x, y){
-    const dirs = [
-      [0, -2],
-      [2, 0],
-      [0, 2],
-      [-2, 0]
-    ]
+    const dirs = [[0,-2],[2,0],[0,2],[-2,0]]
     dirs.sort(() => Math.random() - 0.5)
     for(const [dx, dy] of dirs){
       const nx = x + dx
       const ny = y + dy
-      if(
-        nx > 0 &&
-        nx < MAZE_SIZE - 1 &&
-        ny > 0 &&
-        ny < MAZE_SIZE - 1 &&
-        mazeData[ny][nx] === 1
-      ){
+      if(nx > 0 && nx < MAZE_SIZE - 1 && ny > 0 && ny < MAZE_SIZE - 1 && mazeData[ny][nx] === 1){
         mazeData[ny][nx] = 0
         mazeData[y + dy / 2][x + dx / 2] = 0
         carve(nx, ny)
@@ -47,29 +36,20 @@ function generateMaze(){
   let goalY = MAZE_SIZE - 2
   while(mazeData[goalY][goalX] !== 0){
     goalX--
-    if(goalX <= 1){
-      goalX = MAZE_SIZE - 2
-      goalY--
-    }
-    if(goalY <= 1){
-      break
-    }
+    if(goalX <= 1){ goalX = MAZE_SIZE - 2; goalY-- }
+    if(goalY <= 1) break
   }
   mazeData[goalY][goalX] = 3
 
-  // Place 4 bones on random floor cells (not start, not goal)
   bonePositions = new Set()
-  const boneCount = 4
   const floorCells = []
   for(let y = 0; y < MAZE_SIZE; y++){
     for(let x = 0; x < MAZE_SIZE; x++){
-      if(mazeData[y][x] === 0 && !(x === 1 && y === 1)){
-        floorCells.push({ x, y })
-      }
+      if(mazeData[y][x] === 0 && !(x === 1 && y === 1)) floorCells.push({ x, y })
     }
   }
   floorCells.sort(() => Math.random() - 0.5)
-  for(const cell of floorCells.slice(0, boneCount)){
+  for(const cell of floorCells.slice(0, 4)){
     bonePositions.add(`${cell.x},${cell.y}`)
   }
   bonesTotal     = bonePositions.size
@@ -82,6 +62,8 @@ function startLevel2(){
   playerY = 1
   prevPlayerX = 1
   prevPlayerY = 1
+  l2StartTime = Date.now()
+  incrementGameCount('level2')
   showScreen("level2")
   buildMaze()
   updateBoneCounter()
@@ -163,17 +145,14 @@ function movePlayer(dx, dy){
   playerY = ny
   vibe(VIBRATE.SMALL)
 
-  // Collect bone
   const key = `${playerX},${playerY}`
   if(bonePositions.has(key)){
     bonePositions.delete(key)
     bonesCollected++
     vibe(VIBRATE.MEDIUM)
     updateBoneCounter()
-    // If all bones collected, refresh goal cell to unlock it
     if(bonesCollected >= bonesTotal){
       showToast("🦴 Super! Alle Leckerlis gefunden! Jetzt zum Ziel! 🎯")
-      // Redraw goal cell
       for(let y = 0; y < MAZE_SIZE; y++){
         for(let x = 0; x < MAZE_SIZE; x++){
           if(mazeData[y][x] === 3) updateMazeCell(x, y)
@@ -185,7 +164,9 @@ function movePlayer(dx, dy){
   drawMaze()
 
   if(mazeData[playerY][playerX] === 3 && bonesCollected >= bonesTotal){
+    const elapsed = Date.now() - l2StartTime
     setTimeout(() => {
+      onLevel2Win(elapsed)
       showLevelComplete({
         title: "🌴 Strand gefunden!",
         text:  "Oskar rennt jetzt am Strand 😄",

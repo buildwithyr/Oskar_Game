@@ -4,16 +4,20 @@
 
 const L5_EMOJIS = ["🐶","🦴","⚽","🐱","🐾","🍖"]
 
-let memCards   = []   // [{ emoji, flipped, matched }]
-let memFlipped = []   // indices of currently face-up unmatched cards
+let memCards   = []
+let memFlipped = []
 let memPairs   = 0
 let memBusy    = false
+let l5StartTime = 0
 
 function startLevel5(){
   memCards   = []
   memFlipped = []
   memPairs   = 0
   memBusy    = false
+  l5StartTime = Date.now()
+
+  incrementGameCount('level5')
 
   showScreen("level5")
   initMemory()
@@ -94,7 +98,9 @@ function onMemCardClick(i){
 }
 
 function memWin(){
+  const elapsed = Date.now() - l5StartTime
   setTimeout(() => {
+    onLevel5Win(elapsed)
     showLevelComplete({
       title: "🎉 Fantastisch!",
       text:  "Du hast alle Paare gefunden! Oskar ist stolz auf dich! 🐶",

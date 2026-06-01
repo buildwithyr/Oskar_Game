@@ -3,34 +3,37 @@
 ══════════════════════════════════════ */
 
 const L1_GOAL          = 10
-const L1_SPAWN_INTERVAL = 1200  // ms between new treats
-const L1_FALL_SPEED    = 3.5    // px per frame
-const L1_OSKAR_WIDTH   = 90     // px
-const L1_TREAT_SIZE    = 44     // px
-const L1_CATCH_MARGIN  = 50     // px extra catch radius
+const L1_SPAWN_INTERVAL = 1200
+const L1_FALL_SPEED    = 3.5
+const L1_OSKAR_WIDTH   = 90
+const L1_TREAT_SIZE    = 44
+const L1_CATCH_MARGIN  = 50
 
 let l1Running      = false
 let l1Caught       = 0
-let l1Treats       = []         // [{ el, x, y }]
-let l1OskarX       = 50         // percent (0-100)
+let l1Treats       = []
+let l1OskarX       = 50
 let l1FieldW       = 0
 let l1FieldH       = 0
 let l1RafId        = null
 let l1SpawnTimer   = null
 let l1TongueTimer  = null
+let l1StartTime    = 0
 
 function startLevel1(){
   l1Caught   = 0
   l1Treats   = []
   l1OskarX   = 50
   l1Running  = false
+  l1StartTime = Date.now()
+
+  incrementGameCount('level1')
 
   showScreen("level1")
 
   const field = document.getElementById("l1Field")
   field.innerHTML = ""
 
-  // Oskar element
   const oskar = document.createElement("img")
   oskar.id        = "l1Oskar"
   oskar.src       = ASSETS.OSKAR_DEFAULT
@@ -87,7 +90,7 @@ function l1Loop(){
 
   const oskar    = document.getElementById("l1Oskar")
   const oskarPx  = oskar ? parseFloat(oskar.style.left) + L1_OSKAR_WIDTH / 2 : l1FieldW / 2
-  const oskarY   = l1FieldH - 80   // oskar bottom position
+  const oskarY   = l1FieldH - 80
 
   const toRemove = []
 
@@ -95,7 +98,6 @@ function l1Loop(){
     treat.y += L1_FALL_SPEED
     treat.el.style.top = treat.y + "px"
 
-    // Check catch
     const dx = Math.abs(treat.x - oskarPx)
     const dy = Math.abs((treat.y + L1_TREAT_SIZE / 2) - oskarY)
     if(dx < L1_OSKAR_WIDTH / 2 + L1_CATCH_MARGIN && dy < 40){
@@ -130,7 +132,9 @@ function l1OnCatch(){
 
   if(l1Caught >= L1_GOAL){
     l1StopGame()
+    const elapsed = Date.now() - l1StartTime
     setTimeout(() => {
+      onLevel1Win(l1Caught, elapsed)
       showLevelComplete({
         title:  "🍖 Super! Oskar ist jetzt satt!",
         text:   "Jetzt ab ins Strand-Labyrinth 😄",

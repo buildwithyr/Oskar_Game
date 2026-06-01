@@ -18,13 +18,34 @@ preloadImages.forEach(src => {
 })
 
 
+/* ══════════════════════════════════════
+   INIT — Load save data on startup
+══════════════════════════════════════ */
 
+loadPlayerData()
+
+if (!playerData.name) {
+  // First run: ask for name
+  document.getElementById('intro').classList.remove('active')
+  showNameScreen()
+} else {
+  updateMenuDisplay()
+  checkAchievements()
+}
 
 
 /* ══════════════════════════════════════
    EVENT LISTENERS (zentral)
 ══════════════════════════════════════ */
 
+// Name submit
+document.getElementById('nameSubmitBtn').addEventListener('click', () => {
+  vibe(VIBRATE.SMALL)
+  submitPlayerName()
+})
+document.getElementById('nameInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); submitPlayerName() }
+})
 
 // LEVEL SELECT
 document.getElementById("levelBtn1").addEventListener("click", () => {
@@ -60,6 +81,19 @@ document.getElementById("levelBtn6").addEventListener("click", () => {
 document.getElementById("levelBtn7").addEventListener("click", () => {
   vibe(VIBRATE.SMALL)
   startLevel7()
+})
+
+// NAV: Stats & Achievements
+document.getElementById('statsBtn').addEventListener('click', () => {
+  vibe(VIBRATE.SMALL)
+  renderStatsScreen()
+  showScreen('screen-stats')
+})
+
+document.getElementById('achievementsBtn').addEventListener('click', () => {
+  vibe(VIBRATE.SMALL)
+  renderAchievementsScreen()
+  showScreen('screen-achievements')
 })
 
 

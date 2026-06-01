@@ -30,10 +30,15 @@ const L6_TOTAL = 8
 let l6Questions = []
 let l6Index     = 0
 let l6Busy      = false
+let l6StartTime = 0
 
 function startLevel6(){
-  l6Index = 0
-  l6Busy  = false
+  l6Index     = 0
+  l6Busy      = false
+  l6StartTime = Date.now()
+
+  incrementGameCount('level6')
+
   const shuffled = [...L6_POOL].sort(() => Math.random() - 0.5)
   l6Questions = shuffled.slice(0, L6_TOTAL)
   showScreen("level6")
@@ -46,7 +51,6 @@ function renderL6Question(){
   document.getElementById("l6Progress").textContent =
     `Frage ${l6Index + 1} von ${L6_TOTAL}`
 
-  // Show word with underscore as gap indicator
   const wordEl = document.getElementById("l6Word")
   wordEl.innerHTML = q.display.replace("_", '<span class="l6-gap">_</span>')
   wordEl.className = "l6-word"
@@ -74,7 +78,6 @@ function onL6Answer(chosen, q){
   l6Busy = true
   vibe(VIBRATE.SMALL)
 
-  // Disable buttons immediately
   document.querySelectorAll(".l6-btn").forEach(b => b.disabled = true)
 
   const wordEl    = document.getElementById("l6Word")
@@ -83,20 +86,17 @@ function onL6Answer(chosen, q){
   if(chosen === q.answer){
     vibe(VIBRATE.MEDIUM)
 
-    // ── Phase 1: Animate letter into the gap (400ms) ─────────────────
     wordEl.innerHTML = q.display.replace(
       "_",
       `<span class="l6-letter-in">${chosen}</span>`
     )
 
     setTimeout(() => {
-      // ── Phase 2: Show complete word (2000ms) ─────────────────────
       const fullWord = q.display.replace(/_/g, q.answer).replace(/ /g, "")
       wordEl.innerHTML = `<span class="l6-word-complete">${fullWord}</span>`
       wordEl.className = "l6-word l6-word-full"
 
       setTimeout(() => {
-        // ── Phase 3: Show success feedback (700ms) ───────────────────
         feedback.textContent = "⭐ Super gemacht!"
         feedback.className   = "l6-feedback l6-correct"
 
@@ -125,7 +125,9 @@ function onL6Answer(chosen, q){
 }
 
 function l6Win(){
+  const elapsed = Date.now() - l6StartTime
   setTimeout(() => {
+    onLevel6Win(L6_TOTAL, elapsed)
     showLevelComplete({
       title: "🏆 Oskar ist stolz!",
       text:  "Alle Fragen richtig beantwortet! Du bist super! 🐶📚",

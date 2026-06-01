@@ -5,13 +5,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Oskar Beach Stories</title>
-  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="style.css?v=10">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
+
+<!-- ═════════════ NAME INPUT ═════════════ -->
+
+<div class="screen" id="screen-name">
+  <div class="name-screen">
+    <div class="name-screen-oskar">
+      <img src="assets/OskarInstagram.png" alt="Oskar" class="name-oskar-img">
+    </div>
+    <h1 class="name-screen-title">Oskar Beach Stories</h1>
+    <div class="name-screen-card">
+      <div class="name-screen-woof">🐶 Wuff! Wie heißt du?</div>
+      <input type="text" id="nameInput" class="name-input" placeholder="Dein Name..." maxlength="20" autocomplete="off">
+      <button class="name-submit-btn" id="nameSubmitBtn">Los geht's! 🌴</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- ═════════════ INTRO ═════════════ -->
 
@@ -21,15 +38,45 @@
     <div class="header-inner">
       <img src="assets/OskarInstagram.png" class="header-oskar" alt="Oskar">
       <span class="header-title">Oskar Beach Stories</span>
+      <div class="header-actions">
+        <button class="header-action-btn" id="statsBtn" title="Statistiken">📊</button>
+        <button class="header-action-btn" id="achievementsBtn" title="Erfolge">🏅</button>
+      </div>
     </div>
   </header>
 
+  <!-- Profile bar -->
+  <div class="profile-bar">
+    <div class="profile-bar-bones">
+      🦴 <span class="menu-bones-count">0</span> Knochen
+    </div>
+    <div class="profile-bar-ach">
+      🏆 <span id="menuAchievementCount">0 / 8</span>
+    </div>
+  </div>
+  <div class="profile-progress-wrap">
+    <div class="profile-progress-bg">
+      <div class="profile-progress-fill" id="menuProgressBar"></div>
+    </div>
+  </div>
+
   <section class="hero-section">
     <div class="greeting-card">
-      <p class="greeting-hello">Hallo, <strong>Oskar</strong>!</p>
+      <p class="greeting-hello">Hallo, <strong id="greetingName">Oskar</strong>! 👋</p>
       <p class="greeting-sub">Wohin möchtest du heute? 😄🌴</p>
     </div>
   </section>
+
+  <!-- Daily Challenges -->
+  <div class="daily-section">
+    <div class="daily-header">
+      <span class="daily-header-icon">📅</span>
+      <span class="daily-header-title">Tägliche Aufgaben</span>
+    </div>
+    <div id="menuDailyChallenge" class="daily-challenges-list">
+      <!-- filled by JS -->
+    </div>
+  </div>
 
   <div class="menu-cards">
 
@@ -81,6 +128,96 @@
     <img src="assets/Instagram_icon.png" class="insta-logo" alt="Instagram">
     Follow Oskar on Instagram 📸
   </a>
+
+</div>
+
+
+<!-- ═════════════ STATISTIKEN ═════════════ -->
+
+<div class="screen" id="screen-stats">
+
+  <button class="back-btn" onclick="showScreen('intro')">🏠</button>
+
+  <div class="stats-screen">
+    <h1 class="stats-title">📊 Statistiken</h1>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-icon">🦴</div>
+        <div class="stat-card-val" id="statBones">0</div>
+        <div class="stat-card-label">Knochen</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🎮</div>
+        <div class="stat-card-val" id="statGamesPlayed">0</div>
+        <div class="stat-card-label">Spiele gespielt</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🏆</div>
+        <div class="stat-card-val" id="statGamesWon">0</div>
+        <div class="stat-card-label">Gewonnen</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">⏱️</div>
+        <div class="stat-card-val" id="statPlayTime">0 Min</div>
+        <div class="stat-card-label">Spielzeit</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">❤️</div>
+        <div class="stat-card-val" id="statFavorite">—</div>
+        <div class="stat-card-label">Lieblingsspiel</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🥏</div>
+        <div class="stat-card-val" id="statBestRun">0 m</div>
+        <div class="stat-card-label">Bester Beach Run</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🍖</div>
+        <div class="stat-card-val" id="statSnacks">0</div>
+        <div class="stat-card-label">Leckerlis gefangen</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🌴</div>
+        <div class="stat-card-val" id="statMazes">0</div>
+        <div class="stat-card-label">Labyrinthe gelöst</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🧠</div>
+        <div class="stat-card-val" id="statMemory">0</div>
+        <div class="stat-card-label">Memory-Paare</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🔤</div>
+        <div class="stat-card-val" id="statLetters">0</div>
+        <div class="stat-card-label">Buchstabenrätsel</div>
+      </div>
+    </div>
+
+    <div class="stats-section-title">🥇 Bestenliste</div>
+    <div class="highscores-list">
+      <div class="hs-row"><span class="hs-label">🥏 Bester Beach Run</span><span class="hs-val" id="hsBestRun">0 m</span></div>
+      <div class="hs-row"><span class="hs-label">🍭 Candy Match Rekord</span><span class="hs-val" id="hsMatchScore">0</span></div>
+      <div class="hs-row"><span class="hs-label">🧠 Memory-Siege</span><span class="hs-val" id="hsMemoryWins">0</span></div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ═════════════ ERFOLGE ═════════════ -->
+
+<div class="screen" id="screen-achievements">
+
+  <button class="back-btn" onclick="showScreen('intro')">🏠</button>
+
+  <div class="achievements-screen">
+    <h1 class="ach-screen-title">🏅 Erfolge</h1>
+    <div class="ach-screen-count" id="achScreenCount">0 von 8 freigeschaltet</div>
+    <div id="achievementsList" class="achievements-list">
+      <!-- filled by JS -->
+    </div>
+  </div>
 
 </div>
 
@@ -255,16 +392,18 @@
 </div>
 
 
-<script src="game/config.js?v=9"></script>
-<script src="game/utils.js?v=9"></script>
-<script src="game/level1.js?v=9"></script>
-<script src="game/level2.js?v=9"></script>
-<script src="game/level3.js?v=9"></script>
-<script src="game/level4.js?v=9"></script>
-<script src="game/level5.js?v=9"></script>
-<script src="game/level6.js?v=9"></script>
-<script src="game/level7.js?v=9"></script>
-<script src="game/main.js?v=9"></script>
+<script src="game/config.js?v=10"></script>
+<script src="game/save.js?v=10"></script>
+<script src="game/utils.js?v=10"></script>
+<script src="game/profile.js?v=10"></script>
+<script src="game/level1.js?v=10"></script>
+<script src="game/level2.js?v=10"></script>
+<script src="game/level3.js?v=10"></script>
+<script src="game/level4.js?v=10"></script>
+<script src="game/level5.js?v=10"></script>
+<script src="game/level6.js?v=10"></script>
+<script src="game/level7.js?v=10"></script>
+<script src="game/main.js?v=10"></script>
 
 </body>
 </html>

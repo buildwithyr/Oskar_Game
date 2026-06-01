@@ -12,28 +12,29 @@ const L7_ROUNDS_CFG = [
 
 let l7Round       = 0
 let l7Target      = ""
-let l7Grid        = []   // [{ letter, found, wrong }]
+let l7Grid        = []
 let l7TotalTarget = 0
 let l7FoundCount  = 0
 let l7Busy        = false
+let l7StartTime   = 0
 
 function startLevel7(){
-  l7Round = 0
+  l7Round     = 0
+  l7StartTime = Date.now()
+  incrementGameCount('level7')
   showScreen("level7")
   l7StartRound()
 }
 
 function l7StartRound(){
   const cfg = L7_ROUNDS_CFG[l7Round]
-  l7FoundCount = 0
+  l7FoundCount  = 0
   l7TotalTarget = cfg.targets
-  l7Busy = false
+  l7Busy        = false
 
-  // Pick a target letter NOT in the distractor pool or pick from pool
   const letters = cfg.pool.split("")
   l7Target = letters[Math.floor(Math.random() * letters.length)]
 
-  // Fill grid: place exactly cfg.targets copies of target, rest = distractors
   const total = cfg.rows * cfg.cols
   const cells = []
 
@@ -43,7 +44,6 @@ function l7StartRound(){
     if(d !== l7Target) cells.push(d)
   }
 
-  // Shuffle
   for(let i = cells.length - 1; i > 0; i--){
     const j = Math.floor(Math.random() * (i + 1))
     ;[cells[i], cells[j]] = [cells[j], cells[i]]
@@ -115,7 +115,6 @@ function onL7CellClick(i){
     }
 
   } else {
-    // Wrong tap — brief red flash
     cell.wrong = true
     renderL7Grid(cfg.cols)
     document.getElementById("l7Feedback").textContent = "❌ Versuch es noch einmal!"
@@ -130,7 +129,9 @@ function onL7CellClick(i){
 }
 
 function l7Win(){
+  const elapsed = Date.now() - l7StartTime
   setTimeout(() => {
+    onLevel7Win(L7_ROUNDS_CFG.length, elapsed)
     showLevelComplete({
       title: "🔍 Geschafft!",
       text:  "Oskar hat den Buchstaben gefunden! Du bist ein Spürhund! 🐶",

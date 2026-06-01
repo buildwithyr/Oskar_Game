@@ -12,12 +12,11 @@ let l3JumpY      = 0
 let l3JumpVel    = 0
 let l3WorldX     = 0
 let l3HintShown  = true
+let l3StartTime  = 0
 
-// Cached DOM refs (set once in startLevel3)
 let l3Els = null
 
 function startLevel3(){
-
   l3Distance  = 0
   l3Speed     = L3_SPEED_START
   l3ObstacleX = window.innerWidth + 200
@@ -27,6 +26,9 @@ function startLevel3(){
   l3WorldX    = 0
   l3HintShown = true
   l3Running   = true
+  l3StartTime = Date.now()
+
+  incrementGameCount('level3')
 
   l3Els = {
     runner:   document.getElementById("runner"),
@@ -38,7 +40,6 @@ function startLevel3(){
     world:    document.getElementById("world")
   }
 
-  // Obstacle = Kothaufen
   l3Els.obstacle.innerHTML = `<img src="${ASSETS.POOP}">`
   l3Els.obstacle.style.left = l3ObstacleX + "px"
 
@@ -54,7 +55,6 @@ function startLevel3(){
 
   if(l3Frame) cancelAnimationFrame(l3Frame)
   l3Loop()
-
 }
 
 function l3Jump(){
@@ -72,7 +72,6 @@ function l3Jump(){
 }
 
 function l3Loop(){
-
   if(!l3Running) return
 
   const { runner, obstacle, distTxt, speedBar, world } = l3Els
@@ -84,9 +83,7 @@ function l3Loop(){
   speedBar.style.width = Math.min((l3Speed - L3_SPEED_START) / (L3_SPEED_MAX - L3_SPEED_START) * 100, 100) + "%"
 
   l3WorldX -= l3Speed * 0.6
-  if(Math.abs(l3WorldX) >= world.offsetWidth / 2){
-    l3WorldX = 0
-  }
+  if(Math.abs(l3WorldX) >= world.offsetWidth / 2) l3WorldX = 0
   world.style.transform = `translateX(${l3WorldX}px)`
 
   if(l3IsJumping){
@@ -130,7 +127,9 @@ function l3Loop(){
   if(l3Distance >= L3_WIN_DIST){
     l3Running = false
     cancelAnimationFrame(l3Frame)
+    const elapsed = Date.now() - l3StartTime
     setTimeout(() => {
+      onLevel3Win(l3Distance, elapsed)
       showLevelComplete({
         title: "🥏 Frisbee gefangen!",
         text:  "Oskar ist der beste Strandhund! 🐶",
@@ -142,11 +141,9 @@ function l3Loop(){
   }
 
   l3Frame = requestAnimationFrame(l3Loop)
-
 }
 
 function l3GameOver(){
-
   const overlay = document.createElement("div")
   overlay.className = "l3-gameover"
   overlay.innerHTML = `
@@ -164,5 +161,4 @@ function l3GameOver(){
     overlay.remove()
     startLevel3()
   })
-
 }

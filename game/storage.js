@@ -20,7 +20,11 @@ const DEFAULT_PLAYER_DATA = {
     level5Completed: 0,
     level6Completed: 0,
     level7Completed: 0,
-    totalPlayTime: 0
+    totalPlayTime: 0,
+    crabsCaughtTotal: 0,
+    crabGamesPlayed: 0,
+    crabLevelWins: 0,
+    bestCrabRoundTime: 0
   },
   highscores: {
     level1: 0,

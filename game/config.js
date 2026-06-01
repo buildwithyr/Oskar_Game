@@ -10,7 +10,8 @@ const ASSETS = {
   OSKAR_SWIMSUIT: "assets/OskarBadehose.png",
   OSKAR_JUMP: "assets/Oskar_springt.png",
   OSKAR_CHAIR: "assets/OskarLiegestuhl.png",
-  POOP: "assets/Kothaufen.png"
+  POOP: "assets/Kothaufen.png",
+  KREBS: "assets/Krebs-02.png"
 }
 
 // Level 1 - Snacks

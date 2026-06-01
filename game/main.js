@@ -9,7 +9,8 @@ const preloadImages = [
   ASSETS.OSKAR_SWIMSUIT,
   ASSETS.OSKAR_JUMP,
   ASSETS.OSKAR_CHAIR,
-  ASSETS.POOP
+  ASSETS.POOP,
+  ASSETS.KREBS
 ]
 
 preloadImages.forEach(src => {
@@ -34,7 +35,7 @@ document.getElementById("levelBtn1").addEventListener("click", () => {
 
 document.getElementById("levelBtn2").addEventListener("click", () => {
   vibe(VIBRATE.SMALL)
-  startLevel2()
+  startCrabLevel()
 })
 
 document.getElementById("levelBtn3").addEventListener("click", () => {

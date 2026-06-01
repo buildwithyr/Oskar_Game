@@ -353,7 +353,7 @@ html, body{
 .l1-oskar{
   position: absolute;
   bottom: 20px;
-  width: 90px;
+  width: 180px;
   filter: drop-shadow(0 6px 16px rgba(0,0,0,0.25));
   pointer-events: none;
 }
@@ -1536,3 +1536,184 @@ html, body{
 body {
   padding-top: env(safe-area-inset-top);
 }
+
+/* ══════════════════════════════════════
+   LEVEL 2 – KREBSE FANGEN
+══════════════════════════════════════ */
+
+/* Startscreen */
+.crab-start-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+}
+
+.crab-start-card {
+  background: rgba(255,255,255,0.93);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 28px;
+  padding: 36px 28px 32px;
+  text-align: center;
+  max-width: 300px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+}
+
+.crab-start-img {
+  width: 150px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.18));
+}
+
+.crab-start-title {
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 30px;
+  color: #2C2C2C;
+  margin-bottom: 8px;
+}
+
+.crab-start-desc {
+  font-family: 'Nunito', sans-serif;
+  font-size: 17px;
+  color: #666;
+  margin-bottom: 28px;
+}
+
+.crab-start-btn {
+  background: linear-gradient(135deg, #FF4444, #cc1111);
+  color: #fff;
+  border: none;
+  border-radius: 28px;
+  padding: 16px 48px;
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 26px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(204,17,17,0.35);
+  transition: transform 0.1s, box-shadow 0.1s;
+  letter-spacing: 1px;
+}
+
+.crab-start-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(204,17,17,0.3);
+}
+
+/* Countdown */
+.crab-countdown {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 245, 230, 0.93);
+  z-index: 10;
+}
+
+.crab-countdown-num {
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: clamp(80px, 25vw, 130px);
+  color: #F4845F;
+  text-shadow: 0 4px 20px rgba(244,132,95,0.35);
+}
+
+.crab-cd-anim {
+  animation: crabCdPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes crabCdPop {
+  from { transform: scale(0.3); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* Game area */
+.crab-game-area {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* 3×3 Sandloch-Raster */
+.crab-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 3vw, 20px);
+  padding: clamp(12px, 4vw, 24px);
+  max-width: 380px;
+  margin: 0 auto;
+  flex: 1;
+  align-content: center;
+}
+
+/* Einzelnes Sandloch */
+.crab-hole {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 30%, #d4aa6e, #7a5210);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow:
+    inset 0 6px 16px rgba(0,0,0,0.55),
+    inset 0 -2px 4px rgba(255,220,130,0.2),
+    0 3px 8px rgba(0,0,0,0.2);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.1s;
+}
+
+.crab-hole:active {
+  transform: scale(0.95);
+}
+
+/* Krebs im Loch – startet unterhalb, kein Overflow */
+.crab-hole .crab-img {
+  position: absolute;
+  width: 88%;
+  left: 6%;
+  bottom: -8%;
+  transform: translateY(115%);
+  transition: transform 350ms cubic-bezier(0.34, 1.2, 0.64, 1);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Krebs schaut aus dem Loch heraus */
+.crab-hole.peeking .crab-img {
+  transform: translateY(12%);
+}
+
+/* Treffer-Feedback */
+.crab-hole.caught {
+  animation: crabCaught 0.35s ease;
+}
+
+@keyframes crabCaught {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* Nochmal-Button unter Gewinn-Popup */
+.crab-retry-btn {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  background: none;
+  border: 2px solid rgba(244,132,95,0.4);
+  border-radius: 20px;
+  padding: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  color: #F4845F;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.crab-retry-btn:active {
+  background: rgba(244,132,95,0.1);
+}
+
+/* Hilfstklasse */
+.hidden { display: none !important; }

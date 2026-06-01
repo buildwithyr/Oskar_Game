@@ -65,9 +65,9 @@
     </button>
 
     <button class="level-card card-2" id="levelBtn2">
-      <div class="card-icon">🌴</div>
+      <div class="card-icon">🦀</div>
       <div class="card-badge badge-2">Level 2</div>
-      <div class="card-name">Maze Escape</div>
+      <div class="card-name">Krebse fangen</div>
     </button>
 
     <button class="level-card card-3" id="levelBtn3">
@@ -147,6 +147,39 @@
     <div class="dpad-btn dpad-left"  data-dir="left">◀</div>
     <div class="dpad-btn dpad-right" data-dir="right">▶</div>
     <div class="dpad-btn dpad-down"  data-dir="down">▼</div>
+  </div>
+
+</div>
+
+<!-- ═════════════ LEVEL 2 NEU – KREBSE FANGEN ═════════════ -->
+
+<div class="screen" id="level2crab">
+
+  <button class="back-btn" onclick="crabStopGame(); showScreen('intro')">🏠</button>
+
+  <!-- START SCREEN -->
+  <div id="crabStartScreen" class="crab-start-screen">
+    <div class="crab-start-card">
+      <img src="assets/Krebs-02.png" class="crab-start-img" alt="Krebs">
+      <div class="crab-start-title">Krebse fangen</div>
+      <div class="crab-start-desc">Fange 10 Krebse!</div>
+      <button class="crab-start-btn" id="crabStartBtn" onclick="beginCrabCountdown()">START</button>
+    </div>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div id="crabCountdown" class="crab-countdown hidden">
+    <div id="crabCountdownNum" class="crab-countdown-num"></div>
+  </div>
+
+  <!-- GAME -->
+  <div id="crabGameArea" class="crab-game-area hidden">
+    <div class="hud">
+      <div class="hud-title">Level 2 🦀</div>
+      <div class="hud-sub">Tippe die Krebse!</div>
+      <div class="hud-score" id="crabCounter">Krebse: 0 / 10</div>
+    </div>
+    <div class="crab-grid" id="crabGrid"></div>
   </div>
 
 </div>
@@ -298,6 +331,7 @@
 <script src="game/storage.js?v=10"></script>
 <script src="game/level1.js?v=10"></script>
 <script src="game/level2.js?v=10"></script>
+<script src="game/level_crab.js?v=10"></script>
 <script src="game/level3.js?v=10"></script>
 <script src="game/level4.js?v=10"></script>
 <script src="game/level5.js?v=10"></script>

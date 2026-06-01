@@ -212,17 +212,17 @@ function crabWin() {
 
   // "Nochmal"-Link unter dem Popup ergänzen
   setTimeout(() => {
-    const popup = document.querySelector('.level-complete-popup')
-    if (!popup || popup.querySelector('.crab-retry-btn')) return
+    const box = document.querySelector('#levelCompletePopup .popup-box')
+    if (!box || box.querySelector('.crab-retry-btn')) return
     const retryBtn = document.createElement('button')
     retryBtn.className = 'crab-retry-btn'
     retryBtn.textContent = '🔄 Nochmal spielen'
     retryBtn.addEventListener('click', () => {
-      const overlay = document.querySelector('.level-complete-overlay')
-      if (overlay) overlay.remove()
+      const popup = document.getElementById('levelCompletePopup')
+      if (popup) popup.remove()
       startCrabLevel()
     })
-    popup.appendChild(retryBtn)
+    box.appendChild(retryBtn)
   }, 250)
 }
 

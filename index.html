@@ -3,9 +3,34 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Oskar Beach Stories</title>
-  <link rel="stylesheet" href="style.css?v=9">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Theme & Status Bar -->
+  <meta name="theme-color" content="#F4845F">
+  <meta name="background-color" content="#FFF5E6">
+
+  <!-- iOS PWA Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Oskar">
+
+  <!-- iOS Icons -->
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+
+  <!-- Prevent phone number detection -->
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css?v=10">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -255,16 +280,31 @@
 </div>
 
 
-<script src="game/config.js?v=9"></script>
-<script src="game/utils.js?v=9"></script>
-<script src="game/level1.js?v=9"></script>
-<script src="game/level2.js?v=9"></script>
-<script src="game/level3.js?v=9"></script>
-<script src="game/level4.js?v=9"></script>
-<script src="game/level5.js?v=9"></script>
-<script src="game/level6.js?v=9"></script>
-<script src="game/level7.js?v=9"></script>
-<script src="game/main.js?v=9"></script>
+<!-- PWA Install Prompt -->
+<div id="pwaInstallBanner" class="pwa-banner" style="display:none" role="dialog" aria-label="App installieren">
+  <div class="pwa-banner-content">
+    <span class="pwa-banner-icon">🐾</span>
+    <div class="pwa-banner-text">
+      <strong>Oskar Beach Stories</strong>
+      <span id="pwaInstallHint"></span>
+    </div>
+    <button id="pwaInstallBtn" class="pwa-install-btn" style="display:none">Installieren</button>
+    <button id="pwaDismissBtn" class="pwa-dismiss-btn" aria-label="Schließen">✕</button>
+  </div>
+</div>
+
+<script src="game/config.js?v=10"></script>
+<script src="game/utils.js?v=10"></script>
+<script src="game/storage.js?v=10"></script>
+<script src="game/level1.js?v=10"></script>
+<script src="game/level2.js?v=10"></script>
+<script src="game/level3.js?v=10"></script>
+<script src="game/level4.js?v=10"></script>
+<script src="game/level5.js?v=10"></script>
+<script src="game/level6.js?v=10"></script>
+<script src="game/level7.js?v=10"></script>
+<script src="game/main.js?v=10"></script>
+<script src="game/pwa.js?v=10"></script>
 
 </body>
 </html>

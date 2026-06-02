@@ -1,7 +1,7 @@
 {
-  "name": "Oskar Beach Stories",
+  "name": "Oskar",
   "short_name": "Oskar",
-  "description": "Oskar Beach Stories - eine Sammlung von Minispielen mit Oskar dem Jack Russell",
+  "description": "Oskar – eine Sammlung von Minispielen mit Oskar dem Jack Russell",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

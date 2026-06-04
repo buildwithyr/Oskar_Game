@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'oskar-v3';
+const CACHE_VERSION = 'oskar-v4';
 const CACHE_NAME = `oskar-beach-stories-${CACHE_VERSION}`;
 
 // All files to cache on install
@@ -12,8 +12,8 @@ const PRECACHE_URLS = [
   '/game/storage.js',
   '/game/main.js',
   '/game/level1.js',
-  '/game/level2.js',
-  '/game/level_crab.js',
+  '/game/level_bubble.js',
+  '/game/level_frogger.js',
   '/game/level3.js',
   '/game/level4.js',
   '/game/level5.js',

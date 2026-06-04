@@ -204,6 +204,10 @@ html, body{
 .level-card:nth-child(2){ animation-delay: 0.10s; }
 .level-card:nth-child(3){ animation-delay: 0.15s; }
 .level-card:nth-child(4){ animation-delay: 0.20s; }
+.level-card:nth-child(5){ animation-delay: 0.25s; }
+.level-card:nth-child(6){ animation-delay: 0.28s; }
+.level-card:nth-child(7){ animation-delay: 0.31s; }
+.level-card:nth-child(8){ animation-delay: 0.34s; }
 
 @keyframes cardIn{
   from{ opacity: 0; transform: translateY(20px) scale(0.95); }
@@ -248,9 +252,10 @@ html, body{
 .badge-5{ background: linear-gradient(135deg, #F7B731, #E67E22); }
 .badge-6{ background: linear-gradient(135deg, #55EFC4, #00B894); }
 .badge-7{ background: linear-gradient(135deg, #FD79A8, #E84393); }
+.badge-8{ background: linear-gradient(135deg, #06b6d4, #0284c7); }
 
-/* Level 7 card spans full width */
-.card-7{
+/* Level 8 card spans full width */
+.card-8{
   grid-column: 1 / -1;
   flex-direction: row;
   padding: 20px 24px;
@@ -258,11 +263,11 @@ html, body{
   justify-content: flex-start;
 }
 
-.card-7 .card-icon{
+.card-8 .card-icon{
   font-size: 42px;
 }
 
-.card-7 .card-name{
+.card-8 .card-name{
   font-size: 16px;
   text-align: left;
 }
@@ -1494,258 +1499,734 @@ html, body{
 /* Safe area is handled per-element via --safe-top / --safe-bottom variables */
 
 /* ══════════════════════════════════════
-   LEVEL 2 – KREBSE FANGEN
+   LEVEL 2 – BUBBLE POP
 ══════════════════════════════════════ */
 
-/* Startscreen */
-.crab-start-screen {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 20px;
+/* ── Screen Background ────────────────────────────── */
+#level2bubble {
+  background: linear-gradient(180deg, #87ceeb 0%, #0ea5e9 18%, #0369a1 40%, #1e3a5f 75%, #0c1a2e 100%);
+  overflow: hidden;
 }
 
-.crab-start-card {
-  background: rgba(255,255,255,0.93);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+/* ── Start Screen ─────────────────────────────────── */
+.bp-start-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 12%;
+  overflow: hidden;
+}
+
+.bp-start-bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bp-prev-bub {
+  position: absolute;
+  bottom: -100px;
+  left: var(--lft, 50%);
+  width: var(--sz, 80px);
+  height: var(--sz, 80px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.6) 0%, rgba(147,197,253,0.35) 35%, rgba(59,130,246,0.15) 100%);
+  border: 1.5px solid rgba(255,255,255,0.45);
+  display: flex; align-items: center; justify-content: center;
+  font-size: calc(var(--sz, 80px) * 0.38);
+  animation: bpPreviewRise 4s var(--del, 0s) ease-in-out infinite;
+  box-shadow: 0 4px 16px rgba(59,130,246,0.2);
+}
+
+@keyframes bpPreviewRise {
+  0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+  8%   { opacity: 1; transform: translateY(-20px) scale(1); }
+  90%  { opacity: 0.7; }
+  100% { transform: translateY(-110vh) scale(0.8); opacity: 0; }
+}
+
+.bp-start-card {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: 28px;
   padding: 36px 28px 32px;
   text-align: center;
-  max-width: 300px;
-  width: 100%;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+  max-width: 310px;
+  width: 90%;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  position: relative;
+  z-index: 2;
 }
 
-.crab-start-img {
-  width: 150px;
-  margin-bottom: 16px;
-  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.18));
-}
-
-.crab-start-title {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+.bp-start-title {
   font-size: 30px;
-  color: #2C2C2C;
-  margin-bottom: 8px;
+  font-weight: 900;
+  color: #1e3a5f;
+  margin-bottom: 10px;
 }
 
-.crab-start-desc {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-size: 17px;
-  color: #666;
+.bp-start-desc {
+  font-size: 16px;
+  color: #555;
   margin-bottom: 28px;
+  line-height: 1.5;
 }
 
-.crab-start-btn {
-  background: linear-gradient(135deg, #FF4444, #cc1111);
+.bp-start-btn {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
   color: #fff;
   border: none;
-  border-radius: 28px;
-  padding: 16px 48px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-size: 26px;
+  border-radius: 999px;
+  padding: 16px 52px;
+  font-size: 24px;
+  font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 4px 18px rgba(204,17,17,0.35);
-  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 0 6px 20px rgba(59,130,246,0.45);
+  transition: transform 0.12s, box-shadow 0.12s;
   letter-spacing: 1px;
 }
+.bp-start-btn:active { transform: scale(0.94); }
 
-.crab-start-btn:active {
-  transform: scale(0.95);
-  box-shadow: 0 2px 8px rgba(204,17,17,0.3);
-}
-
-/* Countdown */
-.crab-countdown {
+/* ── Countdown ────────────────────────────────────── */
+.bp-countdown {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 245, 230, 0.93);
-  z-index: 10;
+  background: rgba(10,24,50,0.88);
+  backdrop-filter: blur(8px);
+  z-index: 20;
 }
 
-.crab-countdown-num {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-size: clamp(80px, 25vw, 130px);
-  color: #F4845F;
-  text-shadow: 0 4px 20px rgba(244,132,95,0.35);
+.bp-countdown-num {
+  font-size: clamp(90px, 28vw, 140px);
+  font-weight: 900;
+  color: #60a5fa;
+  text-shadow: 0 0 40px rgba(96,165,250,0.6);
 }
 
-.crab-cd-anim {
-  animation: crabCdPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+.bp-cd-anim {
+  animation: bpCdPop 0.7s cubic-bezier(0.34,1.56,0.64,1) both;
 }
-
-@keyframes crabCdPop {
-  from { transform: scale(0.3); opacity: 0; }
+@keyframes bpCdPop {
+  from { transform: scale(0.2); opacity: 0; }
   to   { transform: scale(1);   opacity: 1; }
 }
 
-/* Game area */
-.crab-game-area {
+/* ── Game Area Layout ─────────────────────────────── */
+.bp-game-area {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
 }
 
-/* ── 3×3 Raster ───────────────────────────────────── */
-.crab-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(10px, 3vw, 18px);
-  padding: clamp(10px, 4vw, 20px);
-  padding-top: calc(var(--safe-top) + 86px);
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  flex: 1;
-  align-content: center;
-}
-
-/* ── Sandloch-Zelle ───────────────────────────────── */
-/*
-  Aufbau (zurück → vorne):
-    1. Dunkles Loch  (::before, z:1)
-    2. Krebs-Bild    (.crab-img, z:2) – schiebt sich von unten hoch
-    3. Sandhügel     (::after, z:3)   – verdeckt Unterleib des Krebses
-*/
-.crab-hole {
+/* Sky strip (Oskar + HUD) */
+.bp-sky-strip {
+  flex-shrink: 0;
+  height: 108px;
+  background: linear-gradient(180deg, #87ceeb 0%, #60b8e0 100%);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 10px;
   position: relative;
-  aspect-ratio: 1 / 1.1;    /* leicht höher als breit → Platz für Krebs */
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  overflow: visible;         /* Krebs darf über Container schauen */
 }
-
-/* Dunkles Loch-Inneres (hinter dem Hügel) */
-.crab-hole::before {
-  content: '';
+.bp-sky-strip::after {
+  content: '☀️';
   position: absolute;
-  bottom: 8%;
-  left: 10%;
-  width: 80%;
-  height: 50%;
-  background: radial-gradient(ellipse at 50% 40%,
-    #1a0800 0%, #3a1205 50%, #6b3010 100%);
-  border-radius: 50%;
-  box-shadow: inset 0 4px 12px rgba(0,0,0,0.8);
-  z-index: 1;
+  right: 54px;
+  top: 8px;
+  font-size: 34px;
+  filter: drop-shadow(0 2px 8px rgba(251,191,36,0.5));
 }
 
-/* Sandhügel – überlagert Unterleib des Krebses */
-.crab-hole::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: -6%;
-  width: 112%;
-  height: 44%;
-  background:
-    radial-gradient(ellipse at 50% 0%,
-      #f0d080 0%, #d4a040 35%, #b07820 70%, #8a5c10 100%);
-  border-radius: 50% 50% 20% 20% / 80% 80% 20% 20%;
-  box-shadow:
-    0 -4px 10px rgba(0,0,0,0.18),
-    inset 0 6px 16px rgba(255,210,100,0.3);
-  z-index: 3;
-  pointer-events: none;
+.bp-oskar-watch {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
+  flex-shrink: 0;
 }
 
-/* Tippen-Feedback auf dem gesamten Hügel */
-.crab-hole:active::after {
-  filter: brightness(0.88);
-}
-
-/* ── Krebs-Bild ───────────────────────────────────── */
-.crab-hole .crab-img {
-  position: absolute;
-  width: 82%;
-  left: 9%;
-  /* Startposition: komplett unter dem Hügel versteckt */
-  bottom: 28%;
-  transform: translateY(140%);
-  transition: transform 380ms cubic-bezier(0.34, 1.15, 0.64, 1);
-  z-index: 2;                /* zwischen Loch (1) und Hügel (3) */
-  pointer-events: none;
-  user-select: none;
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
-}
-
-/* Krebs schaut aus dem Hügel heraus – Kopf & Scheren sichtbar */
-.crab-hole.peeking .crab-img {
-  transform: translateY(-18%);
-}
-
-/* ── Treffer-Feedback ─────────────────────────────── */
-.crab-hole.caught .crab-img {
-  animation: crabCaught 0.35s ease forwards;
-}
-
-@keyframes crabCaught {
-  0%   { transform: translateY(-18%) scale(1); }
-  30%  { transform: translateY(-28%) scale(1.15); filter: brightness(1.3) drop-shadow(0 0 12px rgba(255,200,50,0.8)); }
-  100% { transform: translateY(140%) scale(0.8); }
-}
-
-/* ── Hintergrund des Spielfelds ───────────────────── */
-.crab-game-area {
+/* HUD chips */
+.bp-hud {
   display: flex;
-  flex-direction: column;
-  height: 100%;
-  background: linear-gradient(180deg, #87CEEB 0%, #f5deb3 70%, #deb887 100%);
+  align-items: center;
+  gap: 8px;
+  flex: 1;
 }
 
-/* Dekorativer Sand-Streifen am Boden */
-.crab-game-area .hud {
-  /* HUD bleibt wie global definiert */
+.bp-hud-box {
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  padding: 5px 12px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.bp-hud-lbl { font-size: 9px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.5px; }
+.bp-hud-val { font-size: 22px; font-weight: 900; color: #fbbf24; line-height: 1.1; }
+
+.bp-hud-progress {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  padding: 5px 10px;
+  white-space: nowrap;
 }
 
-/* ── Nochmal-Button ───────────────────────────────── */
-.crab-retry-btn {
-  display: block;
-  width: 100%;
-  margin-top: 12px;
-  background: none;
-  border: 2px solid rgba(244, 132, 95, 0.4);
-  border-radius: 20px;
-  padding: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  color: #F4845F;
-  cursor: pointer;
-  transition: background 0.2s;
+.bp-hud-lives {
+  display: flex;
+  gap: 3px;
+  font-size: 20px;
+  margin-left: auto;
 }
 
-.crab-retry-btn:active {
-  background: rgba(244, 132, 95, 0.1);
+/* Water surface */
+.bp-water-surface {
+  flex-shrink: 0;
+  height: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(14,165,233,0.6) 100%);
+  box-shadow: 0 3px 8px rgba(14,165,233,0.4);
 }
 
-/* ── Hilfklasse ───────────────────────────────────── */
-.hidden { display: none !important; }
-
-/* ── Level 2 Crab Screen – Strandhintergrund ─────── */
-#level2crab {
-  background: linear-gradient(180deg,
-    #87CEEB 0%,
-    #B8DFF0 45%,
-    #f5deb3 70%,
-    #deb887 100%);
+/* Ocean field (bubbles live here) */
+.bp-field {
+  flex: 1;
   position: relative;
   overflow: hidden;
 }
 
-/* Deko-Sonne oben rechts */
-#level2crab::before {
-  content: '☀️';
+/* Seabed */
+.bp-seabed {
+  flex-shrink: 0;
+  height: 64px;
+  background: linear-gradient(180deg, #4a3520 0%, #2d1f0e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 12px;
+  font-size: 24px;
+}
+
+/* ── Bubbles ──────────────────────────────────────── */
+.bp-bubble {
   position: absolute;
-  top: 12px;
-  right: 64px;
-  font-size: 36px;
-  opacity: 0.85;
+  bottom: -130px;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  animation: bpBubbleRise var(--float-ms, 4000ms) linear forwards;
+  will-change: transform;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.bp-bubble-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 28%,
+    rgba(255,255,255,0.65) 0%,
+    rgba(186,230,253,0.35) 28%,
+    rgba(56,189,248,0.18) 58%,
+    rgba(12,74,110,0.08) 100%
+  );
+  border: 1.5px solid rgba(255,255,255,0.5);
+  box-shadow:
+    inset -4px -4px 10px rgba(0,100,220,0.18),
+    inset 3px 3px 8px rgba(255,255,255,0.35),
+    0 4px 18px rgba(56,189,248,0.2);
+}
+
+.bp-bubble-shine {
+  position: absolute;
+  top: 12%; left: 16%;
+  width: 32%; height: 20%;
+  background: rgba(255,255,255,0.72);
+  border-radius: 50%;
+  filter: blur(4px);
+  transform: rotate(-28deg);
   pointer-events: none;
-  z-index: 0;
+}
+
+.bp-bubble-highlight {
+  position: absolute;
+  bottom: 14%; right: 16%;
+  width: 16%; height: 10%;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.bp-bubble-emoji {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
+}
+
+/* Poop bubble gets a slightly muddy tint */
+.bp-bubble-poop .bp-bubble-glass {
+  background: radial-gradient(
+    circle at 35% 28%,
+    rgba(255,255,255,0.5) 0%,
+    rgba(210,180,140,0.3) 30%,
+    rgba(139,90,43,0.15) 65%,
+    rgba(80,40,10,0.08) 100%
+  );
+  border-color: rgba(180,130,80,0.45);
+  animation: bpPoopPulse 1s ease-in-out infinite alternate;
+}
+@keyframes bpPoopPulse {
+  from { box-shadow: inset 0 0 8px rgba(139,90,43,0.2), 0 0 8px rgba(180,120,40,0.15); }
+  to   { box-shadow: inset 0 0 14px rgba(139,90,43,0.35), 0 0 18px rgba(220,150,40,0.3); }
+}
+
+/* Gem bubble: sparkle border */
+.bp-bubble-gem .bp-bubble-glass {
+  border-color: rgba(168,85,247,0.6);
+  box-shadow:
+    inset 0 0 12px rgba(168,85,247,0.25),
+    0 0 20px rgba(168,85,247,0.3);
+}
+
+/* Star bubble: golden glow */
+.bp-bubble-star .bp-bubble-glass {
+  border-color: rgba(251,191,36,0.65);
+  box-shadow:
+    inset 0 0 12px rgba(251,191,36,0.25),
+    0 0 22px rgba(251,191,36,0.35);
+}
+
+/* Rise animation with sine-wave wobble */
+@keyframes bpBubbleRise {
+  0%   { transform: translateY(0px)    translateX(0px)                             scale(0.3); opacity: 0; }
+  6%   { transform: translateY(-60px)  translateX(0px)                             scale(1.05); opacity: 1; }
+  22%  { transform: translateY(-22vh)  translateX(var(--wx, 22px))                 scale(1.02); }
+  44%  { transform: translateY(-46vh)  translateX(0px)                             scale(0.97); }
+  66%  { transform: translateY(-68vh)  translateX(calc(var(--wx, 22px) * -0.7))   scale(1.01); }
+  88%  { transform: translateY(-90vh)  translateX(0px)                             scale(0.95); opacity: 1; }
+  100% { transform: translateY(-112vh) translateX(0px)                             scale(0.88); opacity: 0; }
+}
+
+/* Pop animation (overrides rise on tap) */
+.bp-pop-anim {
+  animation: bpPop 0.3s ease-out forwards !important;
+  pointer-events: none;
+}
+@keyframes bpPop {
+  0%   { transform: scale(1);   opacity: 1; }
+  45%  { transform: scale(1.65); opacity: 0.9; }
+  100% { transform: scale(0.05); opacity: 0; }
+}
+
+/* ── Floating score text ──────────────────────────── */
+.bp-fx {
+  position: absolute;
+  font-size: 22px;
+  font-weight: 900;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: bpFxFloat 0.9s ease-out forwards;
+  z-index: 10;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  white-space: nowrap;
+}
+@keyframes bpFxFloat {
+  0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  40%  { opacity: 1; transform: translate(-50%, -90%) scale(1.15); }
+  100% { opacity: 0; transform: translate(-50%, -160%) scale(0.8); }
+}
+
+/* ── Particle burst ───────────────────────────────── */
+.bp-particle {
+  position: absolute;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--pc, #93c5fd);
+  pointer-events: none;
+  animation: bpParticle 0.55s ease-out forwards;
+  transform: translate(-50%, -50%);
+}
+@keyframes bpParticle {
+  0%   { transform: translate(-50%,-50%) translate(0,0)                             scale(1); opacity: 1; }
+  100% { transform: translate(-50%,-50%) translate(var(--vx,20px), var(--vy,20px)) scale(0); opacity: 0; }
+}
+
+/* ── Round Banner ─────────────────────────────────── */
+.bp-round-banner {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255,255,255,0.25);
+  border-radius: 20px;
+  padding: 14px 32px;
+  color: white;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  z-index: 15;
+  white-space: nowrap;
+}
+.bp-banner-in  { animation: bpBannerIn  0.4s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.bp-banner-out { animation: bpBannerOut 0.45s ease-in forwards; }
+@keyframes bpBannerIn  { from { opacity:0; transform:translate(-50%,-50%) scale(0.6); } to { opacity:1; transform:translate(-50%,-50%) scale(1); } }
+@keyframes bpBannerOut { from { opacity:1; transform:translate(-50%,-50%) scale(1); } to { opacity:0; transform:translate(-50%,-70%) scale(0.9); } }
+
+/* ── Combo Flash ──────────────────────────────────── */
+.bp-combo-flash {
+  position: absolute;
+  top: 28%; left: 50%;
+  transform: translateX(-50%);
+  font-size: 26px;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 0 20px rgba(251,191,36,0.8), 0 2px 6px rgba(0,0,0,0.4);
+  z-index: 15;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.bp-combo-in  { animation: bpComboIn  0.4s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.bp-combo-out { animation: bpComboOut 0.4s ease-in forwards; }
+@keyframes bpComboIn  { from { opacity:0; transform:translateX(-50%) scale(0.5) rotate(-6deg); } to { opacity:1; transform:translateX(-50%) scale(1) rotate(0deg); } }
+@keyframes bpComboOut { from { opacity:1; transform:translateX(-50%) scale(1); } to { opacity:0; transform:translateX(-50%) scale(0.8) translateY(-20px); } }
+
+/* ── Screen Shake ─────────────────────────────────── */
+.bp-shake { animation: bpShake 0.45s ease both; }
+@keyframes bpShake {
+  0%,100% { transform: translateX(0); }
+  15%  { transform: translateX(-8px) rotate(-1deg); }
+  30%  { transform: translateX(8px)  rotate(1deg); }
+  45%  { transform: translateX(-6px); }
+  60%  { transform: translateX(6px); }
+  75%  { transform: translateX(-3px); }
+  90%  { transform: translateX(3px); }
+}
+
+/* ── Shared helper ────────────────────────────────── */
+.hidden { display: none !important; }
+
+
+/* ══════════════════════════════════════
+   LEVEL 8 – FROGGER AM STRAND
+══════════════════════════════════════ */
+
+#level8 {
+  background: linear-gradient(180deg, #1a3a1a 0%, #e8c46a 100%);
+  overflow: hidden;
+}
+
+/* ── Start Screen ─────────────────────────────────── */
+.frog-start-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #0d2b0d 0%, #e8c46a 100%);
+  padding: 20px;
+}
+
+.frog-start-card {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 28px;
+  padding: 36px 28px 32px;
+  text-align: center;
+  max-width: 310px;
+  width: 90%;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+
+.frog-start-emoji { font-size: 64px; margin-bottom: 8px; line-height: 1; }
+.frog-start-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: #1a3a1a;
+  margin-bottom: 12px;
+}
+.frog-start-desc {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.frog-start-btn {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 16px 48px;
+  font-size: 22px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(22,163,74,0.45);
+  transition: transform 0.12s;
+  letter-spacing: 0.5px;
+}
+.frog-start-btn:active { transform: scale(0.94); }
+
+/* ── Game Area ────────────────────────────────────── */
+.frog-game-area {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HUD strip */
+.frog-hud {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 44px;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  z-index: 50;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.frog-hud-lives { display: flex; gap: 4px; font-size: 18px; }
+.frog-hud-score { color: white; font-size: 15px; font-weight: 700; }
+.frog-hud-timer {
+  color: #4ade80;
+  font-size: 18px;
+  font-weight: 900;
+  min-width: 30px;
+  text-align: right;
+  transition: color 0.3s;
+}
+.frog-timer-warn { color: #f87171; animation: timerPulse 0.5s ease-in-out infinite alternate; }
+@keyframes timerPulse { from { opacity: 1; } to { opacity: 0.4; } }
+
+/* Game field */
+.frog-field {
+  position: absolute;
+  top: 44px;
+  left: 0; right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+/* ── Lane styling ─────────────────────────────────── */
+.frog-row-type-goal {
+  border-bottom: 3px solid rgba(74,222,128,0.5);
+}
+.frog-row-type-water {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.frog-row-type-island {
+  border-top: 2px solid rgba(255,255,255,0.2);
+  border-bottom: 2px solid rgba(255,255,255,0.2);
+}
+.frog-row-type-road {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.frog-row-type-road::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, #fbbf24 0, #fbbf24 28px, transparent 28px, transparent 54px);
+  opacity: 0.5;
+  margin-top: -1px;
+}
+.frog-row-type-sidewalk {
+  border-bottom: 2px solid rgba(255,255,255,0.15);
+}
+.frog-row-type-start {
+  background: linear-gradient(180deg, #d4a017 0%, #e8c46a 60%, #f5d98c 100%) !important;
+}
+
+/* Direction arrows */
+.frog-dir-arrow {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.22);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  pointer-events: none;
+}
+
+/* Island label */
+.frog-island-label {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%,-50%);
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ── Goal Zone ────────────────────────────────────── */
+.frog-goal-label {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%,-50%);
+  color: rgba(74,222,128,0.4);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  pointer-events: none;
+}
+
+.frog-goal-slot {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  border: 2px solid rgba(74,222,128,0.45);
+  background: rgba(0,0,0,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.frog-goal-slot.frog-goal-filled {
+  background: rgba(74,222,128,0.25);
+  border-color: #4ade80;
+  box-shadow: 0 0 14px rgba(74,222,128,0.5);
+  animation: slotFill 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes slotFill {
+  0%   { transform: translateY(-50%) scale(0.5); }
+  100% { transform: translateY(-50%) scale(1); }
+}
+
+/* ── Obstacles ────────────────────────────────────── */
+.frog-log {
+  position: absolute;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #92400e 0%, #78350f 50%, #92400e 100%);
+  box-shadow: inset 0 3px 6px rgba(255,255,255,0.15), inset 0 -3px 6px rgba(0,0,0,0.3), 0 3px 8px rgba(0,0,0,0.35);
+  background-image:
+    linear-gradient(180deg, #92400e 0%, #78350f 50%, #92400e 100%),
+    repeating-linear-gradient(90deg, transparent 0, transparent 28px, rgba(0,0,0,0.08) 28px, rgba(0,0,0,0.08) 30px);
+  background-blend-mode: normal;
+}
+
+.frog-car {
+  position: absolute;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  filter: drop-shadow(2px 3px 6px rgba(0,0,0,0.5));
+}
+
+/* ── Oskar (player) ───────────────────────────────── */
+.frog-oskar {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  z-index: 30;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
+  transition: left 0.08s ease, top 0.08s ease;
+}
+
+.frog-dead-anim {
+  animation: frogDead 0.85s ease forwards;
+}
+@keyframes frogDead {
+  0%   { filter: drop-shadow(0 0 8px rgba(255,50,50,0.9)) brightness(1.2); transform: scale(1); }
+  25%  { filter: drop-shadow(0 0 16px rgba(255,50,50,1)) brightness(1.5); transform: scale(1.3) rotate(15deg); }
+  60%  { filter: drop-shadow(0 0 8px rgba(255,50,50,0.5)); transform: scale(0.7) rotate(-10deg); }
+  100% { opacity: 0; transform: scale(0.3) rotate(20deg); }
+}
+
+/* ── Shells on logs ───────────────────────────────── */
+.frog-shell {
+  position: absolute;
+  font-size: 20px;
+  z-index: 25;
+  pointer-events: none;
+  top: 0;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3));
+  animation: shellBob 2s ease-in-out infinite alternate;
+}
+@keyframes shellBob {
+  from { transform: translateY(0px); }
+  to   { transform: translateY(-3px); }
+}
+.frog-shell-pop {
+  animation: shellCollect 0.4s ease-out forwards !important;
+}
+@keyframes shellCollect {
+  0%   { transform: scale(1);   opacity: 1; }
+  50%  { transform: scale(1.5) translateY(-12px); opacity: 1; }
+  100% { transform: scale(0)   translateY(-24px); opacity: 0; }
+}
+
+/* ── D-Pad (Frogger) ──────────────────────────────── */
+.frog-dpad {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  z-index: 60;
+}
+
+.frog-dpad-row {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.frog-dpad-btn {
+  width: 62px; height: 62px;
+  background: rgba(255,255,255,0.14);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 2px solid rgba(255,255,255,0.28);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  color: rgba(255,255,255,0.9);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  transition: background 0.1s, transform 0.1s;
+}
+.frog-dpad-btn:active {
+  background: rgba(255,255,255,0.28);
+  transform: scale(0.9);
+}
+
+.frog-dpad-center {
+  width: 62px; height: 62px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.1);
 }

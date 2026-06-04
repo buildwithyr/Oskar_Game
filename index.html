@@ -30,7 +30,7 @@
   <meta name="format-detection" content="telephone=no">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="style.css?v=13">
 </head>
 
 <body>
@@ -55,9 +55,9 @@
     </button>
 
     <button class="level-card card-2" id="levelBtn2">
-      <div class="card-icon">🦀</div>
+      <div class="card-icon">🫧</div>
       <div class="card-badge badge-2">Level 2</div>
-      <div class="card-name">Krebse fangen</div>
+      <div class="card-name">Blasen platzen</div>
     </button>
 
     <button class="level-card card-3" id="levelBtn3">
@@ -87,7 +87,13 @@
     <button class="level-card card-7" id="levelBtn7">
       <div class="card-icon">🔍</div>
       <div class="card-badge badge-7">Level 7</div>
-      <div class="card-name">Finde den Buchstaben</div>
+      <div class="card-name">Buchstaben finden</div>
+    </button>
+
+    <button class="level-card card-8" id="levelBtn8">
+      <div class="card-icon">🐕</div>
+      <div class="card-badge badge-8">Level 8</div>
+      <div class="card-name">Strandpromenade</div>
     </button>
 
   </div>
@@ -116,62 +122,61 @@
 
 </div>
 
-<!-- ═════════════ LEVEL 2 ═════════════ -->
+<!-- ═════════════ LEVEL 2 – BUBBLE POP ═════════════ -->
 
-<div class="screen" id="level2">
+<div class="screen" id="level2bubble">
 
-  <button class="back-btn" onclick="showScreen('intro')">🏠</button>
-
-  <div class="hud">
-    <div class="hud-title">Level 2 🌴</div>
-    <div class="hud-sub">Finde den Weg zum Strand!</div>
-    <div class="hud-score" id="boneCounter">🦴 0 / 4</div>
-  </div>
-
-  <div class="maze-wrap">
-    <div class="maze-grid" id="maze"></div>
-  </div>
-
-  <div class="dpad" id="dpad">
-    <div class="dpad-btn dpad-up"    data-dir="up">▲</div>
-    <div class="dpad-btn dpad-left"  data-dir="left">◀</div>
-    <div class="dpad-btn dpad-right" data-dir="right">▶</div>
-    <div class="dpad-btn dpad-down"  data-dir="down">▼</div>
-  </div>
-
-</div>
-
-<!-- ═════════════ LEVEL 2 NEU – KREBSE FANGEN ═════════════ -->
-
-<div class="screen" id="level2crab">
-
-  <button class="back-btn" onclick="crabStopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn" onclick="bpStopGame(); showScreen('intro')">🏠</button>
 
   <!-- START SCREEN -->
-  <div id="crabStartScreen" class="crab-start-screen">
-    <div class="crab-start-card">
-      <img src="assets/krebs.png" class="crab-start-img" alt="Krebs">
-      <div class="crab-start-title">Krebse fangen</div>
-      <div class="crab-start-desc">Fange 10 Krebse!</div>
-      <button class="crab-start-btn" id="crabStartBtn" onclick="beginCrabCountdown()">START</button>
+  <div id="bpStartScreen" class="bp-start-screen">
+    <div class="bp-start-bubbles" aria-hidden="true">
+      <div class="bp-prev-bub" style="--sz:88px;--lft:12%;--del:0s">🦀</div>
+      <div class="bp-prev-bub" style="--sz:72px;--lft:58%;--del:0.6s">🐚</div>
+      <div class="bp-prev-bub" style="--sz:96px;--lft:32%;--del:1.3s">💎</div>
+      <div class="bp-prev-bub" style="--sz:80px;--lft:74%;--del:0.9s">💩</div>
+      <div class="bp-prev-bub" style="--sz:76px;--lft:46%;--del:1.9s">⭐</div>
+    </div>
+    <div class="bp-start-card">
+      <div class="bp-start-title">🫧 Blasen platzen!</div>
+      <div class="bp-start-desc">3 Runden · Platze die Blasen<br>Finger weg von <strong>💩</strong> Kothaufen!</div>
+      <button class="bp-start-btn" onclick="bpBeginCountdown()">START</button>
     </div>
   </div>
 
   <!-- COUNTDOWN -->
-  <div id="crabCountdown" class="crab-countdown hidden">
-    <div id="crabCountdownNum" class="crab-countdown-num"></div>
+  <div id="bpCountdown" class="bp-countdown hidden">
+    <div id="bpCountdownNum" class="bp-countdown-num"></div>
   </div>
 
-  <!-- GAME -->
-  <div id="crabGameArea" class="crab-game-area hidden">
-    <div class="hud">
-      <div class="hud-title">Level 2 🦀</div>
-      <div class="hud-sub">Tippe die Krebse!</div>
-      <div class="hud-score" id="crabCounter">Krebse: 0 / 10</div>
+  <!-- GAME AREA -->
+  <div id="bpGameArea" class="bp-game-area hidden">
+
+    <div class="bp-sky-strip">
+      <img src="assets/OskarCartoon.png" class="bp-oskar-watch" alt="Oskar">
+      <div class="bp-hud">
+        <div class="bp-hud-box">
+          <div class="bp-hud-lbl">Punkte</div>
+          <div class="bp-hud-val" id="bpScoreEl">0</div>
+        </div>
+        <div class="bp-hud-progress" id="bpProgressEl">R1/3 · 0/8</div>
+        <div class="bp-hud-lives" id="bpLivesEl"></div>
+      </div>
     </div>
-    <div class="crab-grid" id="crabGrid"></div>
-  </div>
 
+    <div class="bp-water-surface"></div>
+
+    <div class="bp-field" id="bpField">
+      <div id="bpRoundBanner" class="bp-round-banner hidden"></div>
+      <div id="bpComboFlash"  class="bp-combo-flash  hidden"></div>
+    </div>
+
+    <div class="bp-seabed">
+      <span>🪸</span><span>🐚</span><span>⭐</span>
+      <span>🪸</span><span>🦑</span><span>🐚</span>
+    </div>
+
+  </div>
 </div>
 
 <!-- ═════════════ LEVEL 3 ═════════════ -->
@@ -303,6 +308,51 @@
 </div>
 
 
+<!-- ═════════════ LEVEL 8 – FROGGER AM STRAND ═════════════ -->
+
+<div class="screen" id="level8">
+
+  <button class="back-btn" onclick="frogStop(); showScreen('intro')">🏠</button>
+
+  <!-- START SCREEN -->
+  <div id="frogStartScreen" class="frog-start-screen">
+    <div class="frog-start-card">
+      <div class="frog-start-emoji">🐕</div>
+      <div class="frog-start-title">Strandpromenade!</div>
+      <div class="frog-start-desc">
+        Überquere alle 5 Spuren 🏠<br>
+        Springe auf Baumstämme 🪵<br>
+        Weiche Autos aus 🚗
+      </div>
+      <button class="frog-start-btn" onclick="frogRunning=true; frogStartGame()">LAUF! 🐾</button>
+    </div>
+  </div>
+
+  <!-- GAME AREA -->
+  <div id="frogGameArea" class="frog-game-area hidden">
+
+    <div class="frog-hud" id="frogHud">
+      <div class="frog-hud-lives" id="frogLivesEl"></div>
+      <div class="frog-hud-score" id="frogScoreEl">0/5 🏠</div>
+      <div class="frog-hud-timer" id="frogTimerEl">60</div>
+    </div>
+
+    <div class="frog-field" id="frogField"></div>
+
+    <div class="frog-dpad" id="frogDpad">
+      <div class="frog-dpad-btn" data-fdir="up">▲</div>
+      <div class="frog-dpad-row">
+        <div class="frog-dpad-btn" data-fdir="left">◀</div>
+        <div class="frog-dpad-center"></div>
+        <div class="frog-dpad-btn" data-fdir="right">▶</div>
+      </div>
+      <div class="frog-dpad-btn" data-fdir="down">▼</div>
+    </div>
+
+  </div>
+</div>
+
+
 <!-- PWA Install Prompt -->
 <div id="pwaInstallBanner" class="pwa-banner" style="display:none" role="dialog" aria-label="App installieren">
   <div class="pwa-banner-content">
@@ -316,19 +366,19 @@
   </div>
 </div>
 
-<script src="game/config.js?v=10"></script>
-<script src="game/utils.js?v=10"></script>
-<script src="game/storage.js?v=10"></script>
-<script src="game/level1.js?v=10"></script>
-<script src="game/level2.js?v=10"></script>
-<script src="game/level_crab.js?v=10"></script>
-<script src="game/level3.js?v=10"></script>
-<script src="game/level4.js?v=10"></script>
-<script src="game/level5.js?v=10"></script>
-<script src="game/level6.js?v=10"></script>
-<script src="game/level7.js?v=10"></script>
-<script src="game/main.js?v=10"></script>
-<script src="game/pwa.js?v=10"></script>
+<script src="game/config.js?v=11"></script>
+<script src="game/utils.js?v=11"></script>
+<script src="game/storage.js?v=11"></script>
+<script src="game/level1.js?v=11"></script>
+<script src="game/level_bubble.js?v=11"></script>
+<script src="game/level3.js?v=11"></script>
+<script src="game/level4.js?v=11"></script>
+<script src="game/level5.js?v=11"></script>
+<script src="game/level6.js?v=11"></script>
+<script src="game/level7.js?v=11"></script>
+<script src="game/level_frogger.js?v=11"></script>
+<script src="game/main.js?v=11"></script>
+<script src="game/pwa.js?v=11"></script>
 
 </body>
 </html>

@@ -135,7 +135,7 @@ function l1OnCatch(){
         title:  "🍖 Super! Oskar ist jetzt satt!",
         text:   "Jetzt ab ins Strand-Labyrinth 😄",
         button: "🌴 Weiter",
-        next:   startLevel2
+        next:   startBubbleLevel
       })
     }, DELAYS.LEVEL_COMPLETE)
   }

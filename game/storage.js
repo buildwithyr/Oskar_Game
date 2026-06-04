@@ -4,7 +4,7 @@
 ══════════════════════════════════════ */
 
 const SAVE_KEY = 'oskar_player_data';
-const CURRENT_SAVE_VERSION = 1;
+const CURRENT_SAVE_VERSION = 2;
 
 const DEFAULT_PLAYER_DATA = {
   saveVersion: CURRENT_SAVE_VERSION,
@@ -20,11 +20,15 @@ const DEFAULT_PLAYER_DATA = {
     level5Completed: 0,
     level6Completed: 0,
     level7Completed: 0,
+    level8Completed: 0,
     totalPlayTime: 0,
-    crabsCaughtTotal: 0,
-    crabGamesPlayed: 0,
-    crabLevelWins: 0,
-    bestCrabRoundTime: 0
+    bubblePopsTotal: 0,
+    bubbleGamesPlayed: 0,
+    bubbleLevelWins: 0,
+    bestBubbleScore: 0,
+    froggerGamesPlayed: 0,
+    froggerLevelWins: 0,
+    bestFroggerTime: 0,
   },
   highscores: {
     level1: 0,
@@ -33,7 +37,8 @@ const DEFAULT_PLAYER_DATA = {
     level4: 0,
     level5: 0,
     level6: 0,
-    level7: 0
+    level7: 0,
+    level8: 0,
   },
   dailyChallenges: {}
 };
@@ -41,10 +46,9 @@ const DEFAULT_PLAYER_DATA = {
 function migrateSaveData(data) {
   if (!data || typeof data !== 'object') return { ...DEFAULT_PLAYER_DATA };
 
-  // Ensure saveVersion exists
   if (!data.saveVersion) data.saveVersion = 0;
 
-  // v0 -> v1: add missing top-level fields
+  // v0 → v1
   if (data.saveVersion < 1) {
     data.saveVersion = 1;
     if (typeof data.bones !== 'number') data.bones = 0;
@@ -54,7 +58,17 @@ function migrateSaveData(data) {
     if (!data.dailyChallenges || typeof data.dailyChallenges !== 'object') data.dailyChallenges = {};
   }
 
-  // Fill any missing fields with defaults (forward-compatible)
+  // v1 → v2: remove crab stats, add bubble + frogger + level8
+  if (data.saveVersion < 2) {
+    data.saveVersion = 2;
+    if (data.statistics) {
+      delete data.statistics.crabsCaughtTotal;
+      delete data.statistics.crabGamesPlayed;
+      delete data.statistics.crabLevelWins;
+      delete data.statistics.bestCrabRoundTime;
+    }
+  }
+
   const filled = { ...DEFAULT_PLAYER_DATA, ...data };
   filled.statistics = { ...DEFAULT_PLAYER_DATA.statistics, ...data.statistics };
   filled.highscores = { ...DEFAULT_PLAYER_DATA.highscores, ...data.highscores };

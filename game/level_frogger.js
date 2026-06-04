@@ -36,22 +36,23 @@ const FROG_GOALS_X = [39, 117, 195, 273, 351]
 // Obstacle config: { row, x, w, speed (px/frame), dir, type, emoji }
 function frogMakeObstacles() {
   return [
-    // Water row 1 →
-    { row: 1, x: 10,  w: 128, speed: 1.1, dir:  1, type: 'log',  emoji: '' },
-    { row: 1, x: 230, w: 105, speed: 1.1, dir:  1, type: 'log',  emoji: '' },
-    // Water row 2 ←
-    { row: 2, x: 50,  w: 148, speed: 1.5, dir: -1, type: 'log',  emoji: '' },
-    { row: 2, x: 280, w: 108, speed: 1.5, dir: -1, type: 'log',  emoji: '' },
-    // Water row 3 →  (slow, wide)
-    { row: 3, x: 20,  w: 158, speed: 0.85,dir:  1, type: 'log',  emoji: '' },
-    { row: 3, x: 250, w: 118, speed: 0.85,dir:  1, type: 'log',  emoji: '' },
-    // Road row 5 ←  (fast)
-    { row: 5, x: 80,  w: 68,  speed: 3.2, dir: -1, type: 'car',  emoji: '🚗' },
-    { row: 5, x: 260, w: 68,  speed: 3.2, dir: -1, type: 'car',  emoji: '🚗' },
-    // Road row 6 →  (medium)
-    { row: 6, x: 40,  w: 72,  speed: 2.4, dir:  1, type: 'car',  emoji: '🚕' },
-    { row: 6, x: 220, w: 64,  speed: 2.4, dir:  1, type: 'car',  emoji: '🚕' },
-    { row: 6, x: 340, w: 64,  speed: 2.4, dir:  1, type: 'car',  emoji: '🛵' },
+    // Water row 1 →: 3 wide logs, slow – große Lücken
+    { row: 1, x:   0, w: 145, speed: 0.70, dir:  1, type: 'log', emoji: '' },
+    { row: 1, x: 185, w: 130, speed: 0.70, dir:  1, type: 'log', emoji: '' },
+    { row: 1, x: 345, w: 140, speed: 0.70, dir:  1, type: 'log', emoji: '' },
+    // Water row 2 ←: 3 wide logs, slow
+    { row: 2, x:  15, w: 150, speed: 0.80, dir: -1, type: 'log', emoji: '' },
+    { row: 2, x: 210, w: 140, speed: 0.80, dir: -1, type: 'log', emoji: '' },
+    { row: 2, x: -165,w: 145, speed: 0.80, dir: -1, type: 'log', emoji: '' },
+    // Water row 3 →: 3 wide logs, very slow
+    { row: 3, x:  10, w: 160, speed: 0.55, dir:  1, type: 'log', emoji: '' },
+    { row: 3, x: 220, w: 150, speed: 0.55, dir:  1, type: 'log', emoji: '' },
+    { row: 3, x: -160,w: 155, speed: 0.55, dir:  1, type: 'log', emoji: '' },
+    // Road row 5 ←: 1 car only, slow – leicht auszuweichen
+    { row: 5, x: 130, w: 72,  speed: 1.5,  dir: -1, type: 'car', emoji: '🚗' },
+    // Road row 6 →: 2 cars, slow – großer Abstand
+    { row: 6, x:  40, w: 72,  speed: 1.2,  dir:  1, type: 'car', emoji: '🚕' },
+    { row: 6, x: 260, w: 72,  speed: 1.2,  dir:  1, type: 'car', emoji: '🚕' },
   ]
 }
 
@@ -211,23 +212,23 @@ function frogLoop() {
   const fieldEl = document.getElementById('frogField')
   const fieldW  = fieldEl ? fieldEl.offsetWidth : FROG_W
 
-  // Update obstacle positions
+  // Update obstacle positions + wrap; teleport Oskar with log if it wraps
   frogObstacles.forEach(obs => {
+    const prevX = obs.x
     obs.x += obs.speed * obs.dir
-    // Wrap around
-    if (obs.dir > 0 && obs.x > fieldW + 10)        obs.x = -obs.w - 10
-    if (obs.dir < 0 && obs.x < -obs.w - 10)        obs.x = fieldW + 10
+    let wrapped = false
+    if (obs.dir > 0 && obs.x > fieldW + 10)  { obs.x = -obs.w - 10; wrapped = true }
+    if (obs.dir < 0 && obs.x < -obs.w - 10)  { obs.x = fieldW + 10; wrapped = true }
     obs.el.style.left = obs.x + 'px'
+    // Keep Oskar on the log when it wraps to the other side
+    if (frogOnLog === obs && !frogDead && wrapped) {
+      frogX = obs.x + (frogX - prevX)
+    }
   })
 
-  // Drift with log
+  // Drift with log (no screen-edge death – log wrap teleport handles it)
   if (frogOnLog && !frogDead) {
     frogX += frogOnLog.speed * frogOnLog.dir
-    // Fell off screen edge while on log
-    if (frogX < -FROG_OSKAR_W / 2 || frogX > fieldW + FROG_OSKAR_W / 2) {
-      frogDie()
-      return
-    }
   }
 
   // Update shell positions (follow their log)

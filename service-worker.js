@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'oskar-v4';
+const CACHE_VERSION = 'oskar-v5';
 const CACHE_NAME = `oskar-beach-stories-${CACHE_VERSION}`;
 
 // All files to cache on install

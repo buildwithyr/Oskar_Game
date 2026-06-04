@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 3 Preview – Level Complete Screen</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #1a1a2e;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px;
+  gap: 40px;
+}
+h1 {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+.row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+.phone {
+  width: 320px;
+  height: 580px;
+  background: #fff;
+  border-radius: 40px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.55);
+  border: 3px solid rgba(255,255,255,0.12);
+  flex-shrink: 0;
+}
+.phone-label {
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ── BEFORE (old) ─────────────────────────── */
+.before-bg {
+  position: absolute;
+  inset: 0;
+  background: #FFF5E6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.old-popup {
+  background: #fff;
+  border-radius: 28px;
+  padding: 36px 28px;
+  text-align: center;
+  width: 100%;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+}
+.old-popup h1 { font-size: 22px; color: #2C2C2C; margin-bottom: 12px; }
+.old-popup .stars { font-size: 28px; margin-bottom: 14px; }
+.old-popup p { font-size: 14px; color: #666; margin-bottom: 20px; }
+.old-btn {
+  background: linear-gradient(135deg, #FF8C42, #FF6B1A);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 28px;
+  font-size: 18px;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* ── AFTER (new) ─────────────────────────── */
+.after-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(135,188,222,0.72) 0%, rgba(212,160,60,0.68) 100%);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* fake level behind popup */
+.after-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, #87BCDE 0%, #AADDE8 28%, #F7E8B0 52%, #F0CF78 70%, #D4A03C 100%);
+  z-index: -1;
+}
+
+.new-popup {
+  background: linear-gradient(160deg, rgba(255,255,255,0.97) 0%, rgba(255,245,220,0.97) 100%);
+  border-radius: 32px;
+  padding: 24px 22px 22px;
+  text-align: center;
+  width: 100%;
+  box-shadow: 0 28px 64px rgba(0,0,0,0.22), 0 0 0 1.5px rgba(255,255,255,0.85) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+.new-popup::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #F4845F, #FFD060, #54D9B8, #F4845F);
+  background-size: 200% 100%;
+  animation: shimmerBar 2.8s linear infinite;
+}
+
+@keyframes shimmerBar {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+.deco-row {
+  font-size: 18px;
+  letter-spacing: 4px;
+  margin-bottom: 8px;
+  animation: decoWave 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;
+}
+
+@keyframes decoWave {
+  from { transform: translateY(-8px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.new-title {
+  font-size: 22px;
+  font-weight: 900;
+  color: #2C2C2C;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.stars-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.star {
+  font-size: 34px;
+  animation: starPop 0.45s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.star:nth-child(2) { animation-delay: 0.15s; }
+.star:nth-child(3) { animation-delay: 0.30s; }
+
+@keyframes starPop {
+  from { transform: scale(0) rotate(-30deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0deg);   opacity: 1; }
+}
+
+.score-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.score-num {
+  font-size: 40px;
+  font-weight: 900;
+  color: #F4603A;
+  line-height: 1;
+  animation: scoreCount 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.35s both;
+}
+
+@keyframes scoreCount {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.record-badge {
+  background: linear-gradient(135deg, #FFD060, #E89020);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(232,144,32,0.4);
+  animation: badgePop 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.55s both;
+}
+
+@keyframes badgePop {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.popup-text {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.xp-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #F4845F, #F4603A);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 5px 16px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 14px rgba(244,96,58,0.38);
+  animation: xpBounce 0.45s cubic-bezier(0.34,1.56,0.64,1) 0.45s both;
+}
+
+@keyframes xpBounce {
+  from { transform: scale(0.5) translateY(8px); opacity: 0; }
+  to   { transform: scale(1)   translateY(0);   opacity: 1; }
+}
+
+.btn-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-next {
+  background: linear-gradient(135deg, #F4845F, #F4603A);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 28px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(244,96,58,0.38);
+  width: 100%;
+}
+
+.btn-retry {
+  background: rgba(244,132,95,0.10);
+  color: #F4603A;
+  border: 2px solid rgba(244,132,95,0.45);
+  border-radius: 999px;
+  padding: 11px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* ── Variant: basic (no score) ─────────── */
+.variant-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.45);
+  text-align: center;
+  margin-top: 4px;
+}
+</style>
+</head>
+<body>
+
+<h1>Phase 3 — Level Complete Screen</h1>
+
+<div class="row">
+
+  <!-- BEFORE -->
+  <div>
+    <div class="phone-label">Vorher (Phase 1/2)</div>
+    <div class="phone">
+      <div class="before-bg">
+        <div class="old-popup">
+          <h1>🍖 Super! Oskar ist jetzt satt!</h1>
+          <div class="stars">⭐⭐⭐</div>
+          <p>Jetzt ab ins Strand-Labyrinth 😄</p>
+          <button class="old-btn">🌴 Weiter</button>
+        </div>
+      </div>
+    </div>
+    <div class="variant-label">Vorher</div>
+  </div>
+
+  <!-- AFTER: with score + record + retry -->
+  <div>
+    <div class="phone-label">Neu — mit Score + Rekord + Retry</div>
+    <div class="phone">
+      <div class="after-bg">
+        <div class="new-popup">
+          <div class="deco-row">🎉 🏖️ 🐾 🌴 🎉</div>
+          <div class="new-title">🦀 Geschafft!</div>
+          <div class="stars-wrap">
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+          </div>
+          <div class="score-row">
+            <span class="score-num">10</span>
+            <span class="record-badge">🏆 Neuer Rekord!</span>
+          </div>
+          <p class="popup-text">10 Krebse gefangen! Oskar ist stolz! 🐶</p>
+          <div class="xp-badge">+15 XP ⭐</div>
+          <div class="btn-row">
+            <button class="btn-retry">🔄 Nochmal</button>
+            <button class="btn-next">🏠 Weiter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="variant-label">Mit Score + Rekord + Retry</div>
+  </div>
+
+  <!-- AFTER: basic (no score, just XP) -->
+  <div>
+    <div class="phone-label">Neu — Standard (kein Score)</div>
+    <div class="phone">
+      <div class="after-bg">
+        <div class="new-popup">
+          <div class="deco-row">🎉 🏖️ 🐾 🌴 🎉</div>
+          <div class="new-title">🏆 Oskar ist stolz!</div>
+          <div class="stars-wrap">
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+          </div>
+          <p class="popup-text">Alle Fragen richtig beantwortet!<br>Du bist super! 🐶📚</p>
+          <div class="xp-badge">+15 XP ⭐</div>
+          <div class="btn-row">
+            <button class="btn-next">🔄 Nochmal spielen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="variant-label">Standard (wie Level 6)</div>
+  </div>
+
+</div>
+
+<div style="color:rgba(255,255,255,0.4);font-size:12px;text-align:center;max-width:600px;line-height:1.6;">
+  <strong style="color:rgba(255,255,255,0.7);">Phase 3 Änderungen:</strong><br>
+  utils.js: showLevelComplete() — neue Params retry/score/levelKey/xp, neues HTML-Gerüst<br>
+  style.css: Popup-Overlay (warmes Coastal-Blur), Card (Glassmorphism, shimmer top-border),<br>
+  Deko-Zeile, Score-Nummer, Rekord-Badge (gold), XP-Badge (coral), Ghost-Retry-Button<br>
+  <br>
+  Keine Level-JS-Änderungen. Alle bestehenden showLevelComplete()-Aufrufe erhalten automatisch das neue Design + +15 XP.
+</div>
+
+</body>
+</html>

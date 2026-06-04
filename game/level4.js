@@ -244,10 +244,12 @@ function checkWin(){
   if(matchScore >= MATCH_WIN_SCORE){
     setTimeout(() => {
       showLevelComplete({
-        title: "🏆 Oskar gewinnt!",
-        text:  "Du hast alle Levels geschafft! Guter Hund! 🐶🎉",
-        button:"🔄 Nochmal spielen",
-        next:  () => { vibe(VIBRATE.MEDIUM); showScreen("intro") }
+        title:    "🏆 Oskar gewinnt!",
+        text:     "Du hast alle Levels geschafft! Guter Hund! 🐶🎉",
+        button:   "🔄 Nochmal spielen",
+        next:     () => { vibe(VIBRATE.MEDIUM); showScreen("intro") },
+        score:    matchScore,
+        levelKey: 'level4'
       })
     }, DELAYS.LEVEL_COMPLETE)
   }

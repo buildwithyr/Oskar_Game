@@ -197,7 +197,7 @@ html, body{
   min-height: 100vh;
   justify-content: flex-start;
   align-items: stretch;
-  padding-bottom: 40px;
+  padding-bottom: max(40px, calc(env(safe-area-inset-bottom, 0px) + 20px));
 }
 
 /* ── Intro Header ──────────────────── */
@@ -766,6 +766,7 @@ html, body{
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   padding: 20px;
+  padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
   box-sizing: border-box;
 }
 
@@ -1442,6 +1443,34 @@ html, body{
   .menu-cards{
     gap: 10px;
     padding: 12px 10px;
+  }
+
+  /* Popup — tighter on small phones */
+  .popup-title,
+  .popup-box h1{
+    font-size: 20px;
+  }
+
+  .popup-score-num{
+    font-size: 34px;
+  }
+
+  .star{
+    font-size: 30px;
+  }
+
+  .popup-deco-row{
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+
+  .popup-xp-badge{
+    font-size: 13px;
+    padding: 5px 14px;
+  }
+
+  .popup-box{
+    padding: 22px 18px 20px;
   }
 
 }

@@ -30,7 +30,7 @@
   <meta name="format-detection" content="telephone=no">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="style.css?v=11">
+  <link rel="stylesheet" href="style.css?v=12">
 </head>
 
 <body>
@@ -39,55 +39,87 @@
 
 <div class="screen active" id="intro">
 
+  <!-- Top Header: Logo + XP -->
+  <header class="intro-header">
+    <div class="intro-logo">
+      <div class="intro-logo-avatar">🐾</div>
+      <div>
+        <span class="intro-logo-title">Oskar</span>
+        <span class="intro-logo-sub">Beach Stories</span>
+      </div>
+    </div>
+    <div class="intro-xp-pill" id="introXpPill">⭐ 0 XP</div>
+  </header>
+
+  <!-- Greeting Card with Oskar Image -->
   <section class="hero-section">
     <div class="greeting-card">
-      <p class="greeting-hello">Hallo, <strong>Oskar</strong>!</p>
-      <p class="greeting-sub">Wohin möchtest du heute? 😄🌴</p>
+      <img src="assets/OskarCartoon.png" class="greeting-oskar-img" alt="Oskar">
+      <div class="greeting-text">
+        <p class="greeting-hello">Hallo! <strong>Los geht's!</strong></p>
+        <p class="greeting-sub">Wähle dein Abenteuer 🌴</p>
+      </div>
     </div>
   </section>
 
   <div class="menu-cards">
 
     <button class="level-card card-1" id="levelBtn1">
+      <div class="card-shine"></div>
       <div class="card-icon">🍖</div>
-      <div class="card-badge badge-1">Level 1</div>
       <div class="card-name">Snack Hunt</div>
+      <div class="card-progress-track"><div class="card-progress-fill" id="progress1"></div></div>
+      <div class="card-badge badge-1">Level 1</div>
     </button>
 
     <button class="level-card card-2" id="levelBtn2">
+      <div class="card-shine"></div>
       <div class="card-icon">🦀</div>
-      <div class="card-badge badge-2">Level 2</div>
       <div class="card-name">Krebse fangen</div>
+      <div class="card-progress-track"><div class="card-progress-fill" id="progress2"></div></div>
+      <div class="card-badge badge-2">Level 2</div>
     </button>
 
     <button class="level-card card-3" id="levelBtn3">
+      <div class="card-shine"></div>
       <div class="card-icon">🥏</div>
-      <div class="card-badge badge-3">Level 3</div>
       <div class="card-name">Beach Run</div>
+      <div class="card-progress-track"><div class="card-progress-fill" id="progress3"></div></div>
+      <div class="card-badge badge-3">Level 3</div>
     </button>
 
     <button class="level-card card-4" id="levelBtn4">
+      <div class="card-shine"></div>
       <div class="card-icon">🍭</div>
-      <div class="card-badge badge-4">Level 4</div>
       <div class="card-name">Candy Match</div>
+      <div class="card-progress-track"><div class="card-progress-fill" id="progress4"></div></div>
+      <div class="card-badge badge-4">Level 4</div>
     </button>
 
     <button class="level-card card-5" id="levelBtn5">
+      <div class="card-shine"></div>
       <div class="card-icon">🧠</div>
-      <div class="card-badge badge-5">Level 5</div>
       <div class="card-name">Oskar Memory</div>
+      <div class="card-progress-track"><div class="card-progress-fill" id="progress5"></div></div>
+      <div class="card-badge badge-5">Level 5</div>
     </button>
 
     <button class="level-card card-6" id="levelBtn6">
+      <div class="card-shine"></div>
       <div class="card-icon">📝</div>
-      <div class="card-badge badge-6">Level 6</div>
       <div class="card-name">Fehlender Buchstabe</div>
+      <div class="card-progress-track"><div class="card-progress-fill" id="progress6"></div></div>
+      <div class="card-badge badge-6">Level 6</div>
     </button>
 
     <button class="level-card card-7" id="levelBtn7">
+      <div class="card-shine"></div>
       <div class="card-icon">🔍</div>
-      <div class="card-badge badge-7">Level 7</div>
-      <div class="card-name">Finde den Buchstaben</div>
+      <div class="card-info">
+        <div class="card-name">Finde den Buchstaben</div>
+        <div class="card-progress-track"><div class="card-progress-fill" id="progress7"></div></div>
+        <div class="card-badge badge-7">Level 7</div>
+      </div>
     </button>
 
   </div>

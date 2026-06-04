@@ -109,15 +109,85 @@ html, body{
 }
 
 /* ══════════════════════════════════════
-   INTRO SCREEN
+   INTRO SCREEN — Warm Coastal Redesign
 ══════════════════════════════════════ */
 
 #intro{
-  background: linear-gradient(160deg, #FFF8F0 0%, #FFE8D0 60%, #FFD8B0 100%);
+  background:
+    radial-gradient(ellipse 160px 140px at calc(100% - 28px) 28px,
+      rgba(255,235,80,0.65) 0%, rgba(255,210,50,0.12) 55%, transparent 72%),
+    linear-gradient(180deg,
+      #87BCDE 0%,
+      #AADDE8 28%,
+      #F7E8B0 52%,
+      #F0CF78 70%,
+      #D4A03C 100%);
   min-height: 100vh;
   justify-content: flex-start;
   align-items: stretch;
-  padding-bottom: 32px;
+  padding-bottom: 40px;
+}
+
+/* ── Intro Header ──────────────────── */
+
+.intro-header{
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(env(safe-area-inset-top, 0px) + 16px) 20px 0;
+  width: 100%;
+  max-width: 700px;
+  align-self: center;
+  animation: slideDown 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+.intro-logo{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.intro-logo-avatar{
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #F4845F, #e05a35);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 3px 12px rgba(244,132,95,0.45);
+  flex-shrink: 0;
+}
+
+.intro-logo-title{
+  display: block;
+  font-size: 16px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.28);
+  line-height: 1.1;
+}
+
+.intro-logo-sub{
+  display: block;
+  font-size: 10px;
+  color: rgba(255,255,255,0.78);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.intro-xp-pill{
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 99px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #A06010;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  border: 1.5px solid rgba(255,255,255,0.9);
+  white-space: nowrap;
 }
 
 /* ── Hero / Greeting ────────────────── */
@@ -125,21 +195,26 @@ html, body{
 .hero-section{
   width: 100%;
   max-width: 700px;
-  margin: 28px auto 0;
+  margin: 12px auto 0;
   padding: 0 20px;
   align-self: center;
 }
 
 .greeting-card{
-  background: #fff;
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 20px;
-  padding: 18px 22px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  padding: 14px 18px;
+  box-shadow:
+    0 4px 24px rgba(150,80,0,0.14),
+    0 0 0 1.5px rgba(255,255,255,0.75);
   display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  flex-direction: row;
+  gap: 14px;
   animation: slideDown 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+  animation-delay: 0.05s;
 }
 
 @keyframes slideDown{
@@ -147,10 +222,25 @@ html, body{
   to{   opacity: 1; transform: translateY(0); }
 }
 
+.greeting-oskar-img{
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+  flex-shrink: 0;
+}
+
+.greeting-text{
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
 .greeting-hello{
-  font-size: 18px;
-  color: #2C2C2C;
+  font-size: 17px;
+  color: #2a1a0a;
   font-weight: 700;
+  line-height: 1.2;
 }
 
 .greeting-hello strong{
@@ -158,8 +248,8 @@ html, body{
 }
 
 .greeting-sub{
-  font-size: 14px;
-  color: #888;
+  font-size: 13px;
+  color: #806040;
   font-weight: 600;
 }
 
@@ -168,53 +258,79 @@ html, body{
 .menu-cards{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  padding: 24px 20px 8px;
+  gap: 12px;
+  padding: 16px 20px 8px;
   width: 100%;
   max-width: 700px;
   align-self: center;
 }
 
 .level-card{
-  background: #fff;
   border: none;
-  border-radius: 22px;
-  padding: 28px 16px 22px;
+  border-radius: 20px;
+  padding: 20px 14px 14px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  align-items: flex-start;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 6px 20px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.25);
   transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1),
               box-shadow 0.2s ease;
   animation: cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+  -webkit-tap-highlight-color: transparent;
+  text-align: left;
+}
+
+.card-1{ background: linear-gradient(140deg, #FF9E6C, #F4603A); }
+.card-2{ background: linear-gradient(140deg, #54D9B8, #0E9E7E); }
+.card-3{ background: linear-gradient(140deg, #5ABDE8, #1A72B8); }
+.card-4{ background: linear-gradient(140deg, #C49BE0, #8040C0); }
+.card-5{ background: linear-gradient(140deg, #F7D060, #E89020); }
+.card-6{ background: linear-gradient(140deg, #68EBC4, #10A880); }
+.card-7{ background: linear-gradient(140deg, #FF8FAB, #D6206B); }
+
+/* Shine circle: top-right decorative highlight */
+.card-shine{
+  position: absolute;
+  top: -28px; right: -28px;
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  pointer-events: none;
 }
 
 .level-card:nth-child(1){ animation-delay: 0.05s; }
 .level-card:nth-child(2){ animation-delay: 0.10s; }
-.level-card:nth-child(3){ animation-delay: 0.15s; }
-.level-card:nth-child(4){ animation-delay: 0.20s; }
+.level-card:nth-child(3){ animation-delay: 0.14s; }
+.level-card:nth-child(4){ animation-delay: 0.18s; }
+.level-card:nth-child(5){ animation-delay: 0.22s; }
+.level-card:nth-child(6){ animation-delay: 0.26s; }
+.level-card:nth-child(7){ animation-delay: 0.30s; }
 
 @keyframes cardIn{
   from{ opacity: 0; transform: translateY(20px) scale(0.95); }
-  to{   opacity: 1; transform: translateY(0)    scale(1); }
+  to{   opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .level-card:hover{
-  transform: translateY(-6px);
-  box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.22);
 }
 
 .level-card:active{
   transform: scale(0.96);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
 }
 
 .card-icon{
-  font-size: 52px;
+  font-size: 44px;
   line-height: 1;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.10));
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,0.20));
   transition: transform 0.3s ease;
 }
 
@@ -222,54 +338,82 @@ html, body{
   transform: scale(1.12) rotate(-4deg);
 }
 
-.card-badge{
-  font-size: 12px;
+.card-name{
+  font-size: 14px;
   font-weight: 800;
-  padding: 4px 12px;
-  border-radius: 999px;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.95);
+  line-height: 1.2;
+  margin-top: 2px;
 }
 
-.badge-1{ background: linear-gradient(135deg, #FF8C42, #FF6B1A); }
-.badge-2{ background: linear-gradient(135deg, #43CEA2, #185A9D); }
-.badge-3{ background: linear-gradient(135deg, #45B7D1, #2980B9); }
-.badge-4{ background: linear-gradient(135deg, #A18CD1, #c77dc5); }
-.badge-5{ background: linear-gradient(135deg, #F7B731, #E67E22); }
-.badge-6{ background: linear-gradient(135deg, #55EFC4, #00B894); }
-.badge-7{ background: linear-gradient(135deg, #FD79A8, #E84393); }
+/* Progress bar */
+.card-progress-track{
+  width: 100%;
+  height: 4px;
+  background: rgba(0,0,0,0.18);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+}
 
-/* Level 7 card spans full width */
+.card-progress-fill{
+  height: 100%;
+  width: 0%;
+  background: rgba(255,255,255,0.78);
+  border-radius: 2px;
+  transition: width 0.8s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* Level badge */
+.card-badge{
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 999px;
+  color: rgba(255,255,255,0.92);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(0,0,0,0.22);
+  border: 1px solid rgba(255,255,255,0.28);
+  margin-top: 2px;
+}
+
+/* badge-N classes kept as hooks; colour handled by card gradient */
+.badge-1,.badge-2,.badge-3,.badge-4,.badge-5,.badge-6,.badge-7{}
+
+/* Level 7 — full-width row layout */
 .card-7{
   grid-column: 1 / -1;
   flex-direction: row;
-  padding: 20px 24px;
+  align-items: center;
+  padding: 16px 20px;
   gap: 16px;
-  justify-content: flex-start;
 }
 
 .card-7 .card-icon{
-  font-size: 42px;
+  font-size: 40px;
+  flex-shrink: 0;
+}
+
+/* Wrapper for name + progress + badge in card-7 */
+.card-info{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
 }
 
 .card-7 .card-name{
-  font-size: 16px;
-  text-align: left;
-}
-
-.card-name{
   font-size: 15px;
-  font-weight: 700;
-  color: #444;
-  text-align: center;
 }
 
 /* ── Instagram Link ─────────────────── */
 
 .insta-link{
   margin-top: 20px;
-  color: #888;
+  color: rgba(255,255,255,0.78);
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
@@ -279,16 +423,19 @@ html, body{
   justify-content: center;
   gap: 8px;
   align-self: center;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.20);
 }
 
 .insta-link:hover{
-  color: #E1306C;
+  color: #fff;
   transform: scale(1.05);
 }
 
 .insta-logo{
   width: 18px;
   height: 18px;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
 }
 
 /* ══════════════════════════════════════

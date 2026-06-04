@@ -81,3 +81,49 @@ document.getElementById("level3").addEventListener("click", () => {
     l3Jump()
   }
 })
+
+
+/* ══════════════════════════════════════
+   INTRO UI — XP display & progress bars
+══════════════════════════════════════ */
+
+function updateIntroUI() {
+  const data  = loadPlayerData()
+  const stats = data.statistics
+
+  // XP: every level completion = 15 XP
+  const xp = (
+    (stats.level1Completed || 0) +
+    (stats.crabLevelWins   || 0) +
+    (stats.level3Completed || 0) +
+    (stats.level4Completed || 0) +
+    (stats.level5Completed || 0) +
+    (stats.level6Completed || 0) +
+    (stats.level7Completed || 0)
+  ) * 15
+
+  const xpEl = document.getElementById('introXpPill')
+  if (xpEl) xpEl.textContent = `⭐ ${xp} XP`
+
+  // Progress bars: 5 completions = 100%, each = 20%
+  const bars = [
+    ['progress1', stats.level1Completed],
+    ['progress2', stats.crabLevelWins],
+    ['progress3', stats.level3Completed],
+    ['progress4', stats.level4Completed],
+    ['progress5', stats.level5Completed],
+    ['progress6', stats.level6Completed],
+    ['progress7', stats.level7Completed],
+  ]
+
+  bars.forEach(([id, count]) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    // Delay lets the CSS transition fire after initial render
+    setTimeout(() => {
+      el.style.width = Math.min(100, (count || 0) * 20) + '%'
+    }, 350)
+  })
+}
+
+updateIntroUI()

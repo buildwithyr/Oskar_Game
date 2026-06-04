@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 2 — HUD Vorschau</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0f1117;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 32px 16px 60px; gap: 28px; min-height: 100vh;
+}
+h1 { color: #fff; font-size: 20px; text-align: center; }
+
+/* Phone frame */
+.phone {
+  width: 320px; background: #111827; border-radius: 44px; padding: 10px;
+  box-shadow: 0 0 0 2px #374151, 0 30px 80px rgba(0,0,0,0.7);
+}
+.phone-notch { width: 90px; height: 22px; background: #111827; border-radius: 0 0 14px 14px; margin: 0 auto; }
+.phone-screen { border-radius: 36px; overflow: hidden; position: relative; height: 580px; }
+
+.row { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
+.col { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.lbl { color: #94a3b8; font-size: 12px; font-weight: 700; text-align: center; }
+.lbl-new { color: #FB923C; }
+
+/* ══════ GAME SCREEN BACKGROUNDS ══════ */
+.bg-l1 { background: linear-gradient(160deg, #FFD4A0, #F5A865); }
+.bg-l2 { background: linear-gradient(160deg, #F5C88A, #E8955A); }
+.bg-l3 { background: linear-gradient(180deg, #87CEEB 0%, #f5deb3 70%, #deb887 100%); }
+.bg-l4 { background: linear-gradient(160deg, #E8D5F5, #C490E4); }
+.bg-l5 { background: linear-gradient(160deg, #B3E5FC, #81D4FA); }
+
+.game-screen {
+  width: 100%; height: 100%;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+
+/* ══════════════════════════════════════
+   BACK BUTTON — new
+══════════════════════════════════════ */
+.back-btn{
+  position: absolute; top: 16px; right: 16px; z-index: 80;
+  background: rgba(255,255,255,0.92);
+  border: 1.5px solid rgba(255,255,255,0.80);
+  border-radius: 14px; width: 44px; height: 44px;
+  font-size: 22px; cursor: pointer;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.13);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ══════════════════════════════════════
+   HUD — new (1:1 from style.css)
+══════════════════════════════════════ */
+@property --hud-ring-pct {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+.hud{
+  position: absolute; top: 16px; left: 16px; z-index: 50;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px; padding: 9px 14px;
+  box-shadow: 0 3px 18px rgba(0,0,0,0.12);
+  border: 1.5px solid rgba(255,255,255,0.80);
+  min-width: 130px;
+}
+.hud-title{ font-size: 15px; font-weight: 800; color: #2C2C2C; line-height: 1.2; }
+.hud-sub  { font-size: 11px; color: #888; margin-top: 1px; font-weight: 600; }
+.hud-score{ font-size: 16px; color: #F4845F; margin-top: 4px; font-weight: 900; }
+
+/* Ring */
+.hud-ring{
+  position: absolute;
+  left: calc(100% + 8px); top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-radius: 50%;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.12);
+  border: 1.5px solid rgba(255,255,255,0.80);
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.hud-ring-track{
+  position: absolute; inset: 4px; border-radius: 50%;
+  --hud-ring-pct: 0%;
+  background: conic-gradient(#F4845F var(--hud-ring-pct), rgba(0,0,0,0.08) 0%);
+  transition: --hud-ring-pct 0.45s cubic-bezier(0.34,1.56,0.64,1);
+}
+.hud-ring-inner{
+  position: absolute; inset: 9px; border-radius: 50%;
+  background: rgba(255,255,255,0.95);
+  display: flex; align-items: center; justify-content: center;
+}
+.hud-ring-num{ font-size: 8px; font-weight: 900; color: #F4845F; line-height: 1; text-align: center; }
+
+/* OLD HUD for comparison */
+.hud-old{
+  position: absolute; top: 16px; left: 16px; z-index: 50;
+  background: rgba(255,255,255,0.88); backdrop-filter: blur(8px);
+  border-radius: 16px; padding: 10px 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+}
+.hud-old-title{ font-size: 18px; font-weight: 800; color: #2C2C2C; }
+.hud-old-sub  { font-size: 12px; color: #777; margin-top: 2px; font-weight: 600; }
+.hud-old-score{ font-size: 15px; color: #F4845F; margin-top: 4px; font-weight: 700; }
+
+.back-btn-old{
+  position: absolute; top: 16px; right: 16px; z-index: 80;
+  background: rgba(255,255,255,0.92); border: none;
+  border-radius: 14px; width: 44px; height: 44px;
+  font-size: 22px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Game field decorations */
+.treats-area {
+  position: absolute; top: 28%; left: 0; right: 0;
+  display: flex; justify-content: space-around; padding: 0 30px;
+}
+.treat { font-size: 28px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); }
+
+.dog-area {
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  font-size: 64px; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
+}
+
+/* diff callouts */
+.diff-box {
+  background: #1e293b; border-radius: 12px; padding: 16px;
+  max-width: 680px; width: 100%;
+}
+.diff-box h3 { color: #e2e8f0; font-size: 13px; margin-bottom: 10px; }
+.diff-item { display: flex; gap: 8px; padding: 5px 0; border-bottom: 1px solid #334155; font-size: 12px; color: #94a3b8; }
+.diff-item:last-child { border: none; }
+.diff-item span { color: #4ade80; font-weight: 800; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<h1>Phase 2 — HUD Redesign: IST vs. SOLL</h1>
+
+<div class="row">
+
+  <!-- IST HUD -->
+  <div class="col">
+    <div class="lbl">🔵 IST — Level 1 HUD</div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="game-screen bg-l1">
+          <div class="hud-old">
+            <div class="hud-old-title">Level 1 🍖</div>
+            <div class="hud-old-sub">Fang die Leckerlis!</div>
+            <div class="hud-old-score">🍖 6 / 10</div>
+          </div>
+          <div class="back-btn-old">🏠</div>
+          <div class="treats-area">
+            <div class="treat">🍖</div>
+            <div class="treat">🦴</div>
+            <div class="treat">🍖</div>
+          </div>
+          <div class="dog-area">🐶</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEU HUD Level 1 -->
+  <div class="col">
+    <div class="lbl lbl-new">🟡 NEU — Level 1 HUD (60%)</div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="game-screen bg-l1">
+          <div class="hud" id="hud1">
+            <div class="hud-title">Level 1 🍖</div>
+            <div class="hud-sub">Fang die Leckerlis!</div>
+            <div class="hud-score" id="score1">🍖 6 / 10</div>
+            <!-- Ring injected via script -->
+          </div>
+          <div class="back-btn">🏠</div>
+          <div class="treats-area">
+            <div class="treat">🍖</div>
+            <div class="treat">🦴</div>
+            <div class="treat">🍖</div>
+          </div>
+          <div class="dog-area">🐶</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEU HUD Level 5 (Memory) -->
+  <div class="col">
+    <div class="lbl lbl-new">🟡 NEU — Level 5 Memory (50%)</div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="game-screen bg-l5">
+          <div class="hud" id="hud5">
+            <div class="hud-title">Level 5 🧠</div>
+            <div class="hud-sub">Oskar Memory</div>
+            <div class="hud-score" id="score5">3 von 6 Paaren gefunden</div>
+          </div>
+          <div class="back-btn">🏠</div>
+          <!-- Sample memory grid -->
+          <div style="position:absolute;top:80px;left:0;right:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:10px 20px">
+            <div style="background:rgba(255,255,255,0.7);border-radius:12px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:24px">🐶</div>
+            <div style="background:rgba(255,255,255,0.7);border-radius:12px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:24px">🦴</div>
+            <div style="background:rgba(255,255,255,0.7);border-radius:12px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:24px">🐶</div>
+            <div style="background:rgba(255,255,255,0.4);border-radius:12px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:24px">?</div>
+            <div style="background:rgba(255,255,255,0.7);border-radius:12px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:24px">🦴</div>
+            <div style="background:rgba(255,255,255,0.4);border-radius:12px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:24px">?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEU HUD Level 3 (keine Ring-Anzeige) -->
+  <div class="col">
+    <div class="lbl lbl-new">🟡 NEU — Level 3 Runner (kein Ring)</div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="game-screen bg-l3">
+          <div class="hud" id="hud3">
+            <div class="hud-title">Level 3 🥏</div>
+            <div class="hud-sub">Spring über die Hindernisse!</div>
+            <div class="hud-score" id="score3">Meter: 87</div>
+            <!-- Ring hidden because no X/Y format -->
+          </div>
+          <div class="back-btn">🏠</div>
+          <div style="position:absolute;bottom:60px;left:40px;font-size:52px;filter:drop-shadow(0 8px 16px rgba(0,0,0,0.2))">🏃</div>
+          <div style="position:absolute;bottom:48px;right:60px;font-size:36px">🌵</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:48px;background:linear-gradient(180deg,#deb887,#c49a6c);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Simulate animated ring progress -->
+<script>
+function buildRing(hudId, scoreId) {
+  const hud = document.getElementById(hudId);
+  const scoreEl = document.getElementById(scoreId);
+  if (!hud || !scoreEl) return;
+
+  const ring = document.createElement('div');
+  ring.className = 'hud-ring';
+  ring.setAttribute('aria-hidden', 'true');
+  ring.innerHTML = '<div class="hud-ring-track"></div><div class="hud-ring-inner"><span class="hud-ring-num">–</span></div>';
+  hud.appendChild(ring);
+
+  const track = ring.querySelector('.hud-ring-track');
+  const numEl = ring.querySelector('.hud-ring-num');
+
+  function updateRing() {
+    const text = scoreEl.textContent;
+    const m = text.match(/(\d+)\s*(?:\/|von)\s*(\d+)/);
+    if (!m) { ring.style.opacity = '0'; return; }
+    ring.style.opacity = '1';
+    const pct = Math.min(100, Math.round(parseInt(m[1]) / parseInt(m[2]) * 100));
+    track.style.setProperty('--hud-ring-pct', pct + '%');
+    numEl.textContent = pct + '%';
+  }
+
+  new MutationObserver(updateRing).observe(scoreEl, { childList: true, characterData: true, subtree: true });
+  updateRing();
+}
+
+buildRing('hud1', 'score1');
+buildRing('hud5', 'score5');
+
+// For hud3 (Meter: no X/Y) - ring is invisible
+const hud3 = document.getElementById('hud3');
+const s3 = document.getElementById('score3');
+if (hud3 && s3) {
+  const ring3 = document.createElement('div');
+  ring3.className = 'hud-ring';
+  ring3.innerHTML = '<div class="hud-ring-track"></div><div class="hud-ring-inner"><span class="hud-ring-num">–</span></div>';
+  ring3.style.opacity = '0';
+  hud3.appendChild(ring3);
+}
+</script>
+
+<div class="diff-box">
+  <h3>Phase 2 — Was geändert wurde</h3>
+  <div class="diff-item"><span>→</span> <strong style="color:#e2e8f0">HUD kompakter:</strong> padding 10/16px → 9/14px · hud-title 18px → 15px · hud-score 15px → 16px fetter</div>
+  <div class="diff-item"><span>→</span> <strong style="color:#e2e8f0">HUD Glassmorphism:</strong> blur(8px) → blur(10px) + border 1.5px rgba(255,255,255,0.80) hinzugefügt</div>
+  <div class="diff-item"><span>→</span> <strong style="color:#e2e8f0">Fortschrittsring:</strong> CSS conic-gradient Ring per MutationObserver injiziert — nur für "X / Y" oder "X von Y" sichtbar</div>
+  <div class="diff-item"><span>→</span> <strong style="color:#e2e8f0">Score-Pop-Animation:</strong> @keyframes hudScorePop — bei jeder Punkt-Änderung springt der Score kurz auf 1.28×</div>
+  <div class="diff-item"><span>→</span> <strong style="color:#e2e8f0">@property --hud-ring-pct:</strong> CSS-Eigenschaft registriert → Ring animiert sich smooth (transition 0.45s) statt springt</div>
+  <div class="diff-item"><span>→</span> <strong style="color:#e2e8f0">Back-Button:</strong> border 1.5px rgba(255,255,255,0.80) + blur 10px — passt zu neuen HUD</div>
+  <div class="diff-item"><span>→</span> <strong style="color:#e2e8f0">Kein Level-JS angerührt:</strong> MutationObserver in main.js beobachtet nur .hud-score Textnodes</div>
+</div>
+
+</body>
+</html>

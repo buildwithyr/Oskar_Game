@@ -127,3 +127,60 @@ function updateIntroUI() {
 }
 
 updateIntroUI()
+
+
+/* ══════════════════════════════════════
+   HUD PROGRESS RINGS
+   MutationObserver watches .hud-score text.
+   No level code changes needed.
+══════════════════════════════════════ */
+
+function initHudRings() {
+  document.querySelectorAll('.hud-score').forEach(scoreEl => {
+    const hud = scoreEl.closest('.hud')
+    if (!hud) return
+
+    // Build the ring element
+    const ring = document.createElement('div')
+    ring.className = 'hud-ring'
+    ring.setAttribute('aria-hidden', 'true')
+    ring.innerHTML =
+      '<div class="hud-ring-track"></div>' +
+      '<div class="hud-ring-inner"><span class="hud-ring-num">–</span></div>'
+    hud.appendChild(ring)
+
+    const track = ring.querySelector('.hud-ring-track')
+    const numEl = ring.querySelector('.hud-ring-num')
+
+    function updateRing() {
+      const text = scoreEl.textContent
+      // Match "X / Y" or "X von Y"
+      const m = text.match(/(\d+)\s*(?:\/|von)\s*(\d+)/)
+      if (!m) {
+        ring.style.opacity = '0'
+        return
+      }
+      ring.style.opacity = '1'
+      const cur = parseInt(m[1], 10)
+      const max = parseInt(m[2], 10)
+      const pct = max > 0 ? Math.min(100, Math.round(cur / max * 100)) : 0
+
+      track.style.setProperty('--hud-ring-pct', pct + '%')
+      numEl.textContent = pct + '%'
+
+      // Pop animation on score text
+      scoreEl.classList.remove('hud-score-pop')
+      void scoreEl.offsetWidth   // force reflow to re-trigger animation
+      scoreEl.classList.add('hud-score-pop')
+    }
+
+    // Watch score text changes
+    const obs = new MutationObserver(updateRing)
+    obs.observe(scoreEl, { childList: true, characterData: true, subtree: true })
+
+    // Initial render
+    updateRing()
+  })
+}
+
+initHudRings()

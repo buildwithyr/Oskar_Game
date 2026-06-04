@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oskar Beach Stories – Redesign Mockups</title>
+<style>
+  /* ─── Reset & Base ─────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    min-height: 100vh;
+  }
+
+  /* ─── Layout ───────────────────────────────────── */
+  .page-header {
+    padding: 40px 24px 20px;
+    text-align: center;
+  }
+  .page-header h1 { font-size: clamp(20px, 4vw, 32px); color: #fff; }
+  .page-header p  { font-size: 14px; color: #94a3b8; margin-top: 6px; }
+
+  .section-label {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #64748b;
+    margin: 40px 0 16px;
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    padding: 0 24px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .variant {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .variant-label {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .variant-label span {
+    display: inline-block;
+    background: #1e293b;
+    border-radius: 8px;
+    padding: 4px 14px;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+
+  /* Phone frame */
+  .phone {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    background: #111827;
+    border-radius: 40px;
+    padding: 10px;
+    box-shadow:
+      0 0 0 2px #374151,
+      0 30px 80px rgba(0,0,0,0.6);
+    position: relative;
+  }
+  .phone-notch {
+    width: 100px;
+    height: 24px;
+    background: #111827;
+    border-radius: 0 0 14px 14px;
+    margin: 0 auto 0;
+    position: relative;
+    z-index: 10;
+  }
+  .phone-screen {
+    border-radius: 32px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 9/19.5;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     VARIANTE 0  —  IST-ZUSTAND (aktuell)
+  ═══════════════════════════════════════════════════ */
+  .ist-screen {
+    background: linear-gradient(160deg, #FFF8F0 0%, #FFE8D0 60%, #FFD8B0 100%);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 12px 12px;
+    gap: 10px;
+    overflow: hidden;
+  }
+  .ist-greeting {
+    background: #fff;
+    border-radius: 14px;
+    padding: 12px 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  }
+  .ist-greeting strong { color: #F4845F; font-size: 13px; }
+  .ist-greeting small  { color: #888; font-size: 10px; display: block; margin-top: 2px; }
+  .ist-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    flex: 1;
+  }
+  .ist-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px 8px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  }
+  .ist-card .icon  { font-size: 28px; }
+  .ist-card .badge {
+    font-size: 8px; font-weight: 800; padding: 2px 7px;
+    border-radius: 999px; color: #fff; text-transform: uppercase;
+  }
+  .ist-card .name  { font-size: 9px; font-weight: 700; color: #444; text-align: center; }
+  .ist-card-wide {
+    grid-column: 1 / -1;
+    background: #fff;
+    border-radius: 14px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  }
+  .ist-card-wide .icon  { font-size: 22px; }
+  .ist-card-wide .name  { font-size: 10px; font-weight: 700; color: #444; }
+  .ist-card-wide .badge { font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 999px; color: #fff; }
+  .ist-insta { text-align: center; font-size: 9px; color: #aaa; padding-top: 2px; }
+
+  /* ═══════════════════════════════════════════════════
+     VARIANTE A  —  mykonos-island-voxels inspiriert
+     Canvas2D · Vanilla ES Modules · Warm-Minimal
+  ═══════════════════════════════════════════════════ */
+  .voxel-screen {
+    background: #F9EDD8;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  /* Sonnen-Hintergrund mit CSS */
+  .voxel-sky {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 85% 12%, rgba(255,220,120,0.55) 0%, transparent 70%),
+      linear-gradient(180deg, #87BCDE 0%, #AEDAE8 38%, #F7DFA8 62%, #F0C87A 100%);
+    pointer-events: none;
+  }
+  /* Wellen-SVG simuliert */
+  .voxel-waves {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 38%;
+    background:
+      linear-gradient(180deg, transparent 0%, rgba(255,248,230,0.8) 60%, #F9EDD8 100%);
+    pointer-events: none;
+  }
+  .voxel-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 12px 10px 10px;
+    gap: 8px;
+  }
+  /* Header-Bar */
+  .voxel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0;
+  }
+  .voxel-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .voxel-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #F4845F, #e05a35);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 2px 8px rgba(244,132,95,0.4);
+  }
+  .voxel-title-text { font-size: 14px; font-weight: 800; color: #2a1a0a; line-height: 1.1; }
+  .voxel-title-sub  { font-size: 8px; color: #a07850; font-weight: 600; }
+  .voxel-xp-pill {
+    background: rgba(255,255,255,0.85);
+    border-radius: 99px;
+    padding: 4px 10px;
+    font-size: 9px;
+    font-weight: 800;
+    color: #b07020;
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Hero-Banner – Oskar-Bild-Platzhalter */
+  .voxel-hero {
+    background: rgba(255,255,255,0.45);
+    backdrop-filter: blur(8px);
+    border-radius: 18px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1.5px solid rgba(255,255,255,0.7);
+    box-shadow: 0 4px 16px rgba(180,100,20,0.08);
+  }
+  .voxel-dog-placeholder {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, #FFD580, #F5A020);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .voxel-hero-text strong { display: block; font-size: 12px; font-weight: 800; color: #2a1a0a; }
+  .voxel-hero-text small  { font-size: 9px; color: #806040; }
+
+  /* Kategorien-Chips */
+  .voxel-chips {
+    display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+  .voxel-chip {
+    flex-shrink: 0;
+    padding: 5px 12px;
+    border-radius: 99px;
+    font-size: 9px; font-weight: 800;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .chip-active { background: #F4845F; color: #fff; }
+  .chip-idle   { background: rgba(255,255,255,0.70); color: #805040; border: 1.5px solid rgba(244,132,95,0.3); }
+
+  /* Spiele-Grid – Karten mit Tiefenwirkung */
+  .voxel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    flex: 1;
+  }
+  .voxel-card {
+    border-radius: 16px;
+    padding: 12px 8px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    border: 1.5px solid rgba(255,255,255,0.5);
+  }
+  .vc-1 { background: linear-gradient(135deg, #FF9E6C, #F4603A); }
+  .vc-2 { background: linear-gradient(135deg, #54D9B8, #0E9E7E); }
+  .vc-3 { background: linear-gradient(135deg, #5ABDE8, #1A72B8); }
+  .vc-4 { background: linear-gradient(135deg, #C49BE0, #8040C0); }
+
+  .voxel-card-shine {
+    position: absolute; top: -20px; right: -20px;
+    width: 60px; height: 60px;
+    background: rgba(255,255,255,0.22);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .voxel-card-icon { font-size: 26px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2)); }
+  .voxel-card-name { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.95); }
+  .voxel-card-level {
+    font-size: 8px; font-weight: 700;
+    background: rgba(0,0,0,0.18);
+    border-radius: 6px; padding: 2px 6px;
+    color: rgba(255,255,255,0.85);
+    margin-top: auto;
+  }
+  /* Fortschrittsbalken */
+  .voxel-card-bar {
+    width: 100%; height: 3px;
+    background: rgba(0,0,0,0.18);
+    border-radius: 2px;
+    margin-top: 2px;
+  }
+  .voxel-card-bar-fill {
+    height: 100%; border-radius: 2px;
+    background: rgba(255,255,255,0.75);
+  }
+  /* Wide Card */
+  .vc-wide {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, #FF8FAB, #D6206B);
+  }
+  .vc-wide .voxel-card-name { font-size: 11px; }
+
+  /* ═══════════════════════════════════════════════════
+     VARIANTE B  —  Phaser 3 inspiriert
+     Canvas · Scene-System · Professionelles Game-UI
+  ═══════════════════════════════════════════════════ */
+  .phaser-screen {
+    background: #0a1628;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  /* Animierter Strand-Hintergrund (CSS-only) */
+  .phaser-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, #1a3a6e 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 90% 5%, rgba(255,200,50,0.3) 0%, transparent 60%),
+      linear-gradient(180deg,
+        #0e1f45 0%,
+        #1a3a7a 25%,
+        #1e5299 40%,
+        #2878b0 52%,
+        #d4a060 65%,
+        #c08030 78%,
+        #8a5a20 100%);
+    pointer-events: none;
+  }
+  /* Sterne-Punkte simuliert */
+  .phaser-stars {
+    position: absolute; top: 0; left: 0; right: 0; height: 30%;
+    background-image:
+      radial-gradient(1.5px 1.5px at 15% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 70% 10%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 88% 25%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 30% 8%, rgba(255,255,255,0.9) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  /* Wellen */
+  .phaser-water {
+    position: absolute; bottom: 32%; left: 0; right: 0; height: 8px;
+    background: linear-gradient(90deg,
+      rgba(100,180,255,0.3) 0%, rgba(150,220,255,0.5) 50%, rgba(100,180,255,0.3) 100%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .phaser-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    height: 100%; padding: 12px 10px 10px; gap: 6px;
+  }
+  /* Logo-Banner */
+  .phaser-logo-area {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 4px 0 0;
+  }
+  .phaser-logo-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,0,0,0.4);
+    border: 1.5px solid rgba(255,200,80,0.5);
+    border-radius: 12px;
+    padding: 6px 14px;
+    backdrop-filter: blur(8px);
+  }
+  .phaser-logo-icon { font-size: 20px; }
+  .phaser-logo-title {
+    font-size: 13px; font-weight: 900;
+    background: linear-gradient(135deg, #FFD700, #FF8C00);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: 0.5px;
+  }
+  .phaser-logo-sub {
+    font-size: 8px; color: rgba(255,200,80,0.65);
+    text-align: center; margin-top: 3px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+  }
+
+  /* Profil-Leiste */
+  .phaser-profile {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 8px 10px;
+    backdrop-filter: blur(8px);
+  }
+  .phaser-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: linear-gradient(135deg, #FF8C42, #e05a20);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+    border: 2px solid rgba(255,200,80,0.5);
+  }
+  .phaser-profile-text strong { display: block; font-size: 10px; color: #fff; font-weight: 800; }
+  .phaser-profile-text small  { font-size: 8px; color: rgba(255,255,255,0.5); }
+  .phaser-stars-row {
+    margin-left: auto; display: flex; gap: 2px;
+  }
+  .phaser-star { font-size: 10px; }
+
+  /* Spiel-Karten mit Glassmorphism (dunkel) */
+  .phaser-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    flex: 1;
+  }
+  .phaser-card {
+    border-radius: 14px;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+  }
+  .pc-1 { background: linear-gradient(135deg, rgba(255,100,40,0.7), rgba(200,50,10,0.85)); }
+  .pc-2 { background: linear-gradient(135deg, rgba(30,200,160,0.65), rgba(0,130,100,0.85)); }
+  .pc-3 { background: linear-gradient(135deg, rgba(50,160,230,0.65), rgba(20,80,180,0.85)); }
+  .pc-4 { background: linear-gradient(135deg, rgba(170,100,230,0.65), rgba(100,30,180,0.85)); }
+
+  .phaser-card-glow {
+    position: absolute; top: -10px; right: -10px;
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    pointer-events: none;
+  }
+  .phaser-card-icon { font-size: 24px; }
+  .phaser-card-name { font-size: 10px; font-weight: 800; color: #fff; }
+  .phaser-card-tag  {
+    font-size: 7.5px; font-weight: 700;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 5px; padding: 1px 5px;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .phaser-card-lock { position: absolute; top: 8px; right: 8px; font-size: 10px; opacity: 0.6; }
+
+  .pc-wide {
+    grid-column: 1 / -1;
+    flex-direction: row; align-items: center; gap: 8px; padding: 8px 12px;
+    background: linear-gradient(135deg, rgba(255,120,50,0.65), rgba(220,60,0,0.85));
+  }
+  .pc-wide .phaser-card-name { font-size: 11px; }
+
+  /* ─── Bottom Nav ──────────────────────────────────── */
+  .phaser-nav {
+    display: flex; justify-content: space-around; align-items: center;
+    background: rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 8px 6px;
+    backdrop-filter: blur(12px);
+  }
+  .phaser-nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    font-size: 7px; color: rgba(255,255,255,0.45); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .phaser-nav-item.active { color: #FFD700; }
+  .phaser-nav-item .nav-icon { font-size: 14px; }
+
+  /* ═══════════════════════════════════════════════════
+     HUD VERGLEICHE
+  ═══════════════════════════════════════════════════ */
+
+  /* IST HUD */
+  .ist-game-screen {
+    background: linear-gradient(160deg, #FFD4A0, #F5A865);
+    height: 100%; position: relative;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .ist-hud {
+    position: absolute; top: 10px; left: 10px;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(8px);
+    border-radius: 12px; padding: 7px 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+  }
+  .ist-hud-title { font-size: 11px; font-weight: 800; color: #2C2C2C; }
+  .ist-hud-sub   { font-size: 8px;  color: #777; margin-top: 1px; }
+  .ist-hud-score { font-size: 10px; color: #F4845F; margin-top: 3px; font-weight: 700; }
+  .ist-back-btn {
+    position: absolute; top: 10px; right: 10px;
+    width: 32px; height: 32px; border-radius: 10px;
+    background: rgba(255,255,255,0.9);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  .ist-field {
+    flex: 1; display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 20px;
+  }
+  .ist-dog-placeholder {
+    width: 60px; height: 70px;
+    background: linear-gradient(180deg, #F4845F 0%, #d06030 100%);
+    border-radius: 18px 18px 12px 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  }
+  .ist-treats-area {
+    position: absolute; top: 20%; left: 0; right: 0;
+    display: flex; justify-content: space-around; padding: 0 20px;
+  }
+  .ist-treat { font-size: 22px; }
+
+  /* VOXEL HUD */
+  .voxel-game-screen {
+    height: 100%; position: relative;
+    background: linear-gradient(180deg, #87CEEB 0%, #B8E4F0 50%, #F5C870 75%, #E8A040 100%);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .voxel-hud-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 10px 6px;
+    background: transparent;
+    position: relative; z-index: 10;
+  }
+  .voxel-hud-pill {
+    background: rgba(255,255,255,0.80);
+    backdrop-filter: blur(10px);
+    border-radius: 12px; padding: 6px 12px;
+    border: 1.5px solid rgba(255,255,255,0.9);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .voxel-hud-pill-title { font-size: 10px; font-weight: 800; color: #2a1a0a; }
+  .voxel-hud-pill-score { font-size: 12px; font-weight: 900; color: #E04010; margin-top: 1px; }
+  .voxel-back-pill {
+    background: rgba(255,255,255,0.80);
+    backdrop-filter: blur(10px);
+    border-radius: 12px; padding: 6px 10px;
+    border: 1.5px solid rgba(255,255,255,0.9);
+    font-size: 12px;
+  }
+  .voxel-game-field {
+    flex: 1; position: relative; display: flex;
+    align-items: flex-end; justify-content: center; padding-bottom: 18px;
+  }
+  .voxel-dog-canvas {
+    width: 70px; height: 80px;
+    background: linear-gradient(135deg, #FFD580, #F08020);
+    border-radius: 20px 20px 14px 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    box-shadow: 0 8px 24px rgba(200,100,20,0.35);
+    border: 2.5px solid rgba(255,255,255,0.5);
+  }
+  .voxel-treats-area {
+    position: absolute; top: 10%; left: 0; right: 0;
+    display: flex; justify-content: space-around; padding: 0 10px;
+  }
+  .voxel-treat {
+    font-size: 24px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    animation: floatTreat 2s ease-in-out infinite;
+  }
+  .voxel-treat:nth-child(2) { animation-delay: 0.5s; }
+  .voxel-treat:nth-child(3) { animation-delay: 1s; }
+  @keyframes floatTreat {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-6px); }
+  }
+  /* Canvas-Boden-Welle */
+  .voxel-sand {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 25%;
+    background: linear-gradient(180deg, transparent, rgba(240,190,80,0.7) 40%, #D4A040 100%);
+    border-radius: 50% 50% 0 0 / 40% 40% 0 0;
+  }
+  /* Progress-HUD oben rechts */
+  .voxel-progress-ring {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: conic-gradient(#F4845F 60%, rgba(255,255,255,0.3) 0%);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 10px rgba(244,132,95,0.3);
+  }
+  .voxel-progress-inner {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: rgba(255,255,255,0.85);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 900; color: #E04010;
+  }
+
+  /* PHASER HUD */
+  .phaser-game-screen {
+    height: 100%; position: relative;
+    background: linear-gradient(180deg, #0e2040 0%, #1a5080 40%, #f5c870 70%, #c08030 100%);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .phaser-hud-bar {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding: 10px 10px 6px; position: relative; z-index: 10;
+  }
+  .phaser-hud-panel {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,200,80,0.35);
+    border-radius: 12px; padding: 6px 10px;
+    backdrop-filter: blur(10px);
+  }
+  .phaser-hud-panel-title { font-size: 9px; font-weight: 800; color: #FFD700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .phaser-hud-panel-score { font-size: 13px; font-weight: 900; color: #fff; margin-top: 1px; }
+  .phaser-hud-panel-sub   { font-size: 7.5px; color: rgba(255,255,255,0.5); }
+  .phaser-back-glass {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px; padding: 5px 8px;
+    font-size: 12px; backdrop-filter: blur(8px);
+  }
+  .phaser-hp-bar {
+    margin: 0 10px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,200,80,0.25);
+    border-radius: 8px; padding: 5px 10px;
+    display: flex; align-items: center; gap: 8px;
+    backdrop-filter: blur(6px);
+  }
+  .phaser-hp-label { font-size: 7.5px; color: #FFD700; font-weight: 800; text-transform: uppercase; }
+  .phaser-hp-track { flex: 1; height: 5px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; }
+  .phaser-hp-fill  { height: 100%; width: 60%; background: linear-gradient(90deg, #FF6B00, #FFD700); border-radius: 3px; }
+  .phaser-hp-lives { font-size: 9px; margin-left: 2px; }
+
+  .phaser-game-field {
+    flex: 1; position: relative; display: flex;
+    align-items: flex-end; justify-content: center; padding-bottom: 16px;
+  }
+  .phaser-dog-sprite {
+    width: 56px; height: 66px;
+    background: rgba(255,140,60,0.8);
+    border-radius: 16px 16px 10px 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    box-shadow:
+      0 8px 24px rgba(0,0,0,0.5),
+      0 0 20px rgba(255,140,60,0.4);
+    border: 2px solid rgba(255,200,80,0.4);
+    position: relative; z-index: 5;
+  }
+  .phaser-treats-area {
+    position: absolute; top: 8%; left: 0; right: 0;
+    display: flex; justify-content: space-around; padding: 0 10px;
+    z-index: 4;
+  }
+  .phaser-treat { font-size: 20px; filter: drop-shadow(0 2px 8px rgba(255,200,0,0.6)); }
+  .phaser-ground {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 22%;
+    background: linear-gradient(180deg, #c08040 0%, #8a5a20 100%);
+  }
+  .phaser-shadow {
+    position: absolute; bottom: 22%; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, rgba(255,140,60,0.3), transparent);
+  }
+
+  /* ═══════════════════════════════════════════════════
+     LEVEL COMPLETE SCREENS
+  ═══════════════════════════════════════════════════ */
+
+  /* IST Level-Complete */
+  .ist-complete {
+    height: 100%; position: relative;
+    background: linear-gradient(160deg, #FFD4A0, #F5A865);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ist-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(3px);
+  }
+  .ist-popup {
+    background: #fff;
+    border-radius: 20px; padding: 18px 16px 14px;
+    width: 80%; position: relative; z-index: 2;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .ist-popup-icon { font-size: 36px; }
+  .ist-popup-title { font-size: 14px; font-weight: 900; color: #2C2C2C; }
+  .ist-popup-sub   { font-size: 9px; color: #888; text-align: center; }
+  .ist-stars-row   { display: flex; gap: 4px; }
+  .ist-star        { font-size: 20px; }
+  .ist-popup-btn {
+    background: linear-gradient(135deg, #FF8C42, #FF6B1A);
+    color: #fff; border: none; border-radius: 12px;
+    padding: 9px 24px; font-size: 11px; font-weight: 800;
+    width: 100%; margin-top: 4px;
+    box-shadow: 0 4px 14px rgba(255,107,26,0.4);
+  }
+
+  /* VOXEL Level-Complete */
+  .voxel-complete {
+    height: 100%; position: relative;
+    background: linear-gradient(180deg, #87CEEB 0%, #B8E4F0 50%, #F5C870 75%, #E8A040 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .voxel-complete-overlay {
+    position: absolute; inset: 0;
+    background: rgba(20,10,0,0.3);
+    backdrop-filter: blur(6px);
+  }
+  .voxel-popup {
+    background: rgba(255,252,245,0.95);
+    border-radius: 24px; padding: 20px 16px 16px;
+    width: 82%; position: relative; z-index: 2;
+    box-shadow:
+      0 24px 70px rgba(0,0,0,0.2),
+      0 0 0 1.5px rgba(255,255,255,0.8);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    border: 2px solid rgba(255,255,255,0.9);
+  }
+  .voxel-confetti-row { display: flex; gap: 3px; font-size: 12px; }
+  .voxel-popup-title { font-size: 16px; font-weight: 900; color: #2a1a0a; letter-spacing: -0.3px; }
+  .voxel-popup-sub   { font-size: 9px; color: #806040; text-align: center; font-weight: 600; }
+  .voxel-stars-row   { display: flex; gap: 6px; margin: 2px 0; }
+  .voxel-star        { font-size: 22px; filter: drop-shadow(0 2px 4px rgba(255,180,0,0.4)); }
+  .voxel-score-pill  {
+    background: linear-gradient(135deg, #FF9E6C, #F4603A);
+    border-radius: 12px; padding: 8px 18px;
+    font-size: 13px; font-weight: 900; color: #fff;
+    box-shadow: 0 4px 14px rgba(244,96,58,0.35);
+    width: 100%; text-align: center;
+  }
+  .voxel-popup-actions {
+    display: flex; gap: 8px; width: 100%;
+  }
+  .voxel-btn-retry {
+    flex: 1; background: rgba(240,180,80,0.15);
+    border: 1.5px solid rgba(240,180,80,0.5);
+    border-radius: 12px; padding: 8px;
+    font-size: 10px; font-weight: 800; color: #A06020;
+  }
+  .voxel-btn-next {
+    flex: 2;
+    background: linear-gradient(135deg, #FF9E6C, #F4603A);
+    border-radius: 12px; padding: 8px;
+    font-size: 10px; font-weight: 800; color: #fff;
+    box-shadow: 0 4px 14px rgba(244,96,58,0.35);
+  }
+
+  /* PHASER Level-Complete */
+  .phaser-complete {
+    height: 100%; position: relative;
+    background: linear-gradient(180deg, #0e2040 0%, #1a5080 40%, #f5c870 70%, #c08030 100%);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .phaser-complete-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,5,20,0.55);
+    backdrop-filter: blur(5px);
+  }
+  .phaser-popup {
+    background: linear-gradient(160deg, rgba(10,25,55,0.97), rgba(20,45,90,0.97));
+    border: 1.5px solid rgba(255,200,80,0.4);
+    border-radius: 22px; padding: 18px 14px 14px;
+    width: 82%; position: relative; z-index: 2;
+    box-shadow:
+      0 24px 70px rgba(0,0,0,0.6),
+      0 0 40px rgba(255,200,80,0.1);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .phaser-popup-crown { font-size: 26px; filter: drop-shadow(0 0 10px rgba(255,220,50,0.8)); }
+  .phaser-popup-title {
+    font-size: 14px; font-weight: 900; color: #FFD700;
+    letter-spacing: 1px; text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(255,200,50,0.5);
+  }
+  .phaser-popup-sub { font-size: 9px; color: rgba(255,255,255,0.5); text-align: center; }
+  .phaser-stars-row  { display: flex; gap: 4px; }
+  .phaser-star       {
+    font-size: 22px;
+    filter: drop-shadow(0 0 8px rgba(255,220,50,0.7));
+  }
+  .phaser-score-display {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,200,80,0.3);
+    border-radius: 10px; padding: 8px 16px;
+    text-align: center; width: 100%;
+  }
+  .phaser-score-num { font-size: 20px; font-weight: 900; color: #FFD700; }
+  .phaser-score-lbl { font-size: 7.5px; color: rgba(255,200,80,0.6); text-transform: uppercase; letter-spacing: 1px; }
+  .phaser-popup-actions { display: flex; gap: 6px; width: 100%; }
+  .phaser-btn-retry {
+    flex: 1;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px; padding: 8px;
+    font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.7);
+    backdrop-filter: blur(6px);
+  }
+  .phaser-btn-next {
+    flex: 2;
+    background: linear-gradient(135deg, rgba(255,150,40,0.9), rgba(200,80,0,0.95));
+    border: 1px solid rgba(255,200,80,0.4);
+    border-radius: 10px; padding: 8px;
+    font-size: 10px; font-weight: 800; color: #fff;
+    box-shadow: 0 4px 14px rgba(255,100,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+
+  /* ─── Navigation Tabs ───────────────────────────── */
+  .view-tabs {
+    display: flex; justify-content: center; gap: 8px;
+    padding: 0 24px 0;
+    flex-wrap: wrap;
+  }
+  .view-tab {
+    padding: 7px 18px; border-radius: 99px;
+    font-size: 12px; font-weight: 700;
+    cursor: pointer; border: 1.5px solid #334155;
+    background: transparent; color: #64748b;
+    transition: all 0.2s;
+  }
+  .view-tab.active {
+    background: #3b82f6; border-color: #3b82f6; color: #fff;
+  }
+
+  /* ─── Annotation Callouts ───────────────────────── */
+  .annotation {
+    max-width: 320px;
+    margin: 0 auto;
+    display: flex; flex-direction: column; gap: 6px;
+    padding: 0 4px;
+  }
+  .callout {
+    background: #1e293b;
+    border-left: 3px solid #3b82f6;
+    border-radius: 0 8px 8px 0;
+    padding: 7px 10px;
+    font-size: 11px; color: #94a3b8;
+    line-height: 1.4;
+  }
+  .callout strong { color: #e2e8f0; display: block; font-size: 11px; margin-bottom: 2px; }
+  .callout.good { border-left-color: #22c55e; }
+  .callout.warn { border-left-color: #f59e0b; }
+  .callout.new  { border-left-color: #a855f7; }
+
+  /* divider */
+  hr { border: none; border-top: 1px solid #1e293b; margin: 0; }
+
+  /* rating badges */
+  .ratings {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    justify-content: center; padding: 8px 0 0;
+  }
+  .rating-badge {
+    padding: 3px 10px; border-radius: 99px;
+    font-size: 10px; font-weight: 800;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .rb-design  { background: rgba(168,85,247,0.2); color: #c084fc; border: 1px solid rgba(168,85,247,0.3); }
+  .rb-mobile  { background: rgba(34,197,94,0.2);  color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+  .rb-maint   { background: rgba(59,130,246,0.2); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+  .rb-effort  { background: rgba(249,115,22,0.2); color: #fb923c; border: 1px solid rgba(249,115,22,0.3); }
+
+  /* layout helper */
+  .section-title {
+    font-size: 15px; font-weight: 900; color: #fff;
+    text-align: center; padding: 32px 0 0;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .section-title::before, .section-title::after {
+    content: ''; flex: 1; max-width: 80px; height: 1px; background: #334155;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>🏖️ Oskar Beach Stories — Visueller Redesign-Vergleich</h1>
+  <p>IST-Zustand vs. 3 Redesign-Optionen · Startbildschirm · HUD · Level-Complete</p>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     BLOCK 1: STARTBILDSCHIRM
+════════════════════════════════════════════ -->
+<p class="section-title">Startbildschirm / Levelauswahl</p>
+
+<div class="columns" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+
+  <!-- ── IST-Zustand ── -->
+  <div class="variant">
+    <p class="variant-label">
+      🔵 IST-Zustand<br>
+      <span>Vanilla JS · DOM · Aktueller Code</span>
+    </p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="ist-screen">
+          <div class="ist-greeting">
+            <strong>Hallo, Oskar! 🐾</strong>
+            <small>Wohin möchtest du heute? 😄🌴</small>
+          </div>
+          <div class="ist-grid">
+            <div class="ist-card">
+              <div class="icon">🍖</div>
+              <div class="badge" style="background:linear-gradient(135deg,#FF8C42,#FF6B1A)">Level 1</div>
+              <div class="name">Snack Hunt</div>
+            </div>
+            <div class="ist-card">
+              <div class="icon">🦀</div>
+              <div class="badge" style="background:linear-gradient(135deg,#43CEA2,#185A9D)">Level 2</div>
+              <div class="name">Krebse fangen</div>
+            </div>
+            <div class="ist-card">
+              <div class="icon">🥏</div>
+              <div class="badge" style="background:linear-gradient(135deg,#45B7D1,#2980B9)">Level 3</div>
+              <div class="name">Beach Run</div>
+            </div>
+            <div class="ist-card">
+              <div class="icon">🍭</div>
+              <div class="badge" style="background:linear-gradient(135deg,#A18CD1,#c77dc5)">Level 4</div>
+              <div class="name">Candy Match</div>
+            </div>
+            <div class="ist-card">
+              <div class="icon">🧠</div>
+              <div class="badge" style="background:linear-gradient(135deg,#F7B731,#E67E22)">Level 5</div>
+              <div class="name">Memory</div>
+            </div>
+            <div class="ist-card">
+              <div class="icon">📝</div>
+              <div class="badge" style="background:linear-gradient(135deg,#55EFC4,#00B894)">Level 6</div>
+              <div class="name">Buchstaben</div>
+            </div>
+            <div class="ist-card-wide">
+              <div class="icon">🔍</div>
+              <div>
+                <div class="badge" style="background:linear-gradient(135deg,#FD79A8,#E84393)">Level 7</div>
+                <div class="name" style="text-align:left;margin-top:3px">Finde den Buchstaben</div>
+              </div>
+            </div>
+          </div>
+          <div class="ist-insta">📸 Follow Oskar on Instagram</div>
+        </div>
+      </div>
+    </div>
+    <div class="ratings">
+      <div class="rating-badge rb-design">Design 6/10</div>
+      <div class="rating-badge rb-mobile">Mobile 9/10</div>
+      <div class="rating-badge rb-maint">Wartbar. 8/10</div>
+    </div>
+    <div class="annotation">
+      <div class="callout good"><strong>Gut</strong>Klare Struktur, gute Kontraste, touch-freundlich</div>
+      <div class="callout warn"><strong>Schwach</strong>Kein visuelles Charakterbild · Flat white cards ohne Tiefe · Kein Fortschritts-Feedback</div>
+    </div>
+  </div>
+
+  <!-- ── Option A: mykonos-inspired ── -->
+  <div class="variant">
+    <p class="variant-label">
+      🟡 Option A — "Warm Coastal"<br>
+      <span>Vanilla ES Modules · Canvas2D · mykonos-inspiriert</span>
+    </p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="voxel-screen">
+          <div class="voxel-sky"></div>
+          <div class="voxel-waves"></div>
+          <div class="voxel-content">
+            <div class="voxel-header">
+              <div class="voxel-header-logo">
+                <div class="voxel-avatar">🐾</div>
+                <div>
+                  <div class="voxel-title-text">Oskar</div>
+                  <div class="voxel-title-sub">Beach Stories</div>
+                </div>
+              </div>
+              <div class="voxel-xp-pill">⭐ 420 XP</div>
+            </div>
+            <div class="voxel-hero">
+              <div class="voxel-dog-placeholder">🐶</div>
+              <div class="voxel-hero-text">
+                <strong>Hallo, Spieler!</strong>
+                <small>Wähle dein nächstes Abenteuer 🌴</small>
+              </div>
+            </div>
+            <div class="voxel-chips">
+              <div class="voxel-chip chip-active">Alle</div>
+              <div class="voxel-chip chip-idle">Fangen</div>
+              <div class="voxel-chip chip-idle">Puzzle</div>
+              <div class="voxel-chip chip-idle">Lernen</div>
+            </div>
+            <div class="voxel-grid">
+              <div class="voxel-card vc-1">
+                <div class="voxel-card-shine"></div>
+                <div class="voxel-card-icon">🍖</div>
+                <div class="voxel-card-name">Snack Hunt</div>
+                <div class="voxel-card-bar"><div class="voxel-card-bar-fill" style="width:80%"></div></div>
+                <div class="voxel-card-level">Level 1</div>
+              </div>
+              <div class="voxel-card vc-2">
+                <div class="voxel-card-shine"></div>
+                <div class="voxel-card-icon">🦀</div>
+                <div class="voxel-card-name">Krebse</div>
+                <div class="voxel-card-bar"><div class="voxel-card-bar-fill" style="width:55%"></div></div>
+                <div class="voxel-card-level">Level 2</div>
+              </div>
+              <div class="voxel-card vc-3">
+                <div class="voxel-card-shine"></div>
+                <div class="voxel-card-icon">🥏</div>
+                <div class="voxel-card-name">Beach Run</div>
+                <div class="voxel-card-bar"><div class="voxel-card-bar-fill" style="width:30%"></div></div>
+                <div class="voxel-card-level">Level 3</div>
+              </div>
+              <div class="voxel-card vc-4">
+                <div class="voxel-card-shine"></div>
+                <div class="voxel-card-icon">🍭</div>
+                <div class="voxel-card-name">Candy Match</div>
+                <div class="voxel-card-bar"><div class="voxel-card-bar-fill" style="width:10%"></div></div>
+                <div class="voxel-card-level">Level 4</div>
+              </div>
+              <div class="voxel-card vc-wide">
+                <div class="voxel-card-icon">🔍</div>
+                <div>
+                  <div class="voxel-card-name">Finde den Buchstaben</div>
+                  <div class="voxel-card-level" style="margin-top:2px">Level 7 · NEU</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ratings">
+      <div class="rating-badge rb-design">Design 9/10</div>
+      <div class="rating-badge rb-mobile">Mobile 8/10</div>
+      <div class="rating-badge rb-maint">Wartbar. 8/10</div>
+      <div class="rating-badge rb-effort">Aufwand 5/10</div>
+    </div>
+    <div class="annotation">
+      <div class="callout new"><strong>Neu</strong>Hintergrund-Himmel/Strand per CSS · XP-Anzeige · Kategorie-Filter · Fortschrittsbalken je Karte</div>
+      <div class="callout good"><strong>Gut</strong>Vanilla JS bleibt erhalten · ES-Module statt Script-Tags · Warm-Minimal passt zur Strand-Ästhetik</div>
+      <div class="callout warn"><strong>Tradeoff</strong>Canvas2D erfordert Rendering-Rewrite der Level</div>
+    </div>
+  </div>
+
+  <!-- ── Option B: Phaser 3 ── -->
+  <div class="variant">
+    <p class="variant-label">
+      🟠 Option B — "Night Beach Pro"<br>
+      <span>Phaser 3 · Scene-System · Dark Game UI</span>
+    </p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phaser-screen">
+          <div class="phaser-bg"></div>
+          <div class="phaser-stars"></div>
+          <div class="phaser-water"></div>
+          <div class="phaser-content">
+            <div class="phaser-logo-area">
+              <div class="phaser-logo-badge">
+                <div class="phaser-logo-icon">🐾</div>
+                <div class="phaser-logo-title">OSKAR</div>
+              </div>
+              <div class="phaser-logo-sub">Beach Stories</div>
+            </div>
+            <div class="phaser-profile">
+              <div class="phaser-avatar">🐶</div>
+              <div class="phaser-profile-text">
+                <strong>Spieler</strong>
+                <small>Level 3 · 420 XP</small>
+              </div>
+              <div class="phaser-stars-row">
+                <span class="phaser-star">⭐</span>
+                <span class="phaser-star">⭐</span>
+                <span class="phaser-star">⭐</span>
+              </div>
+            </div>
+            <div class="phaser-grid">
+              <div class="phaser-card pc-1">
+                <div class="phaser-card-glow"></div>
+                <div class="phaser-card-icon">🍖</div>
+                <div class="phaser-card-name">Snack Hunt</div>
+                <div class="phaser-card-tag">Fangen</div>
+              </div>
+              <div class="phaser-card pc-2">
+                <div class="phaser-card-glow"></div>
+                <div class="phaser-card-icon">🦀</div>
+                <div class="phaser-card-name">Krebse</div>
+                <div class="phaser-card-tag">Reaktion</div>
+              </div>
+              <div class="phaser-card pc-3">
+                <div class="phaser-card-glow"></div>
+                <div class="phaser-card-icon">🥏</div>
+                <div class="phaser-card-name">Beach Run</div>
+                <div class="phaser-card-tag">Runner</div>
+              </div>
+              <div class="phaser-card pc-4">
+                <div class="phaser-card-glow"></div>
+                <div class="phaser-card-icon">🍭</div>
+                <div class="phaser-card-name">Candy Match</div>
+                <div class="phaser-card-tag">Puzzle</div>
+                <div class="phaser-card-lock">🔒</div>
+              </div>
+              <div class="phaser-card pc-wide">
+                <div class="phaser-card-icon">🔍</div>
+                <div>
+                  <div class="phaser-card-name">Finde den Buchstaben</div>
+                  <div class="phaser-card-tag" style="margin-top:3px">Lernen · NEU</div>
+                </div>
+              </div>
+            </div>
+            <div class="phaser-nav">
+              <div class="phaser-nav-item active">
+                <span class="nav-icon">🏠</span>
+                <span>Home</span>
+              </div>
+              <div class="phaser-nav-item">
+                <span class="nav-icon">🏆</span>
+                <span>Punkte</span>
+              </div>
+              <div class="phaser-nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Setup</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ratings">
+      <div class="rating-badge rb-design">Design 8/10</div>
+      <div class="rating-badge rb-mobile">Mobile 9/10</div>
+      <div class="rating-badge rb-maint">Wartbar. 9/10</div>
+      <div class="rating-badge rb-effort">Aufwand 8/10</div>
+    </div>
+    <div class="annotation">
+      <div class="callout new"><strong>Neu</strong>Scene-System statt DOM-Screens · Bottom Nav · Lock-System für Level · Profi Game-UI</div>
+      <div class="callout good"><strong>Gut</strong>Phaser 3 ist Industrie-Standard; Canvas/WebGL läuft flüssiger als DOM</div>
+      <div class="callout warn"><strong>Tradeoff</strong>Dunkle Palette ggf. zu komplex für 3–5 Jährige · Aufwand hoch</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     BLOCK 2: HUD
+════════════════════════════════════════════ -->
+<p class="section-title">In-Game HUD (am Beispiel Level 1 – Snack Hunt)</p>
+
+<div class="columns" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+
+  <!-- IST HUD -->
+  <div class="variant">
+    <p class="variant-label">🔵 IST HUD<br><span>Glassmorphism · Oben-Links Panel</span></p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="ist-game-screen">
+          <div class="ist-hud">
+            <div class="ist-hud-title">Level 1 🍖</div>
+            <div class="ist-hud-sub">Fang die Leckerlis!</div>
+            <div class="ist-hud-score">🍖 6 / 10</div>
+          </div>
+          <div class="ist-back-btn">🏠</div>
+          <div class="ist-treats-area">
+            <div class="ist-treat">🍖</div>
+            <div class="ist-treat">🦴</div>
+            <div class="ist-treat">🍖</div>
+          </div>
+          <div class="ist-field">
+            <div class="ist-dog-placeholder">🐶</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation">
+      <div class="callout good"><strong>Gut</strong>Glassmorphism-Stil · kompakt · stört Spielfeld nicht</div>
+      <div class="callout warn"><strong>Fehlt</strong>Kein Timer-Balken · kein visueller Fortschritt · Score-Update ohne Animation</div>
+    </div>
+  </div>
+
+  <!-- VOXEL HUD -->
+  <div class="variant">
+    <p class="variant-label">🟡 Option A HUD<br><span>Pill-Style · Fortschrittsring · Float-Animationen</span></p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="voxel-game-screen">
+          <div class="voxel-hud-bar">
+            <div class="voxel-hud-pill">
+              <div class="voxel-hud-pill-title">Snack Hunt 🍖</div>
+              <div class="voxel-hud-pill-score">6 / 10 gefangen</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+              <div class="voxel-progress-ring">
+                <div class="voxel-progress-inner">60%</div>
+              </div>
+              <div class="voxel-back-pill">🏠</div>
+            </div>
+          </div>
+          <div class="voxel-sand"></div>
+          <div class="voxel-treats-area">
+            <div class="voxel-treat">🍖</div>
+            <div class="voxel-treat">🦴</div>
+            <div class="voxel-treat">🍖</div>
+          </div>
+          <div class="voxel-game-field">
+            <div class="voxel-dog-canvas">🐶</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation">
+      <div class="callout new"><strong>Neu</strong>Fortschritts-Ring (CSS conic-gradient) · Float-Animationen auf Items · Sand/Wellen-Hintergrund per CSS</div>
+      <div class="callout good"><strong>Gut</strong>HUD kompakter, übersichtlicher · Fortschritt sofort sichtbar</div>
+    </div>
+  </div>
+
+  <!-- PHASER HUD -->
+  <div class="variant">
+    <p class="variant-label">🟠 Option B HUD<br><span>Dark Panels · HP-Bar · Partikel-bereit</span></p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phaser-game-screen">
+          <div class="phaser-hud-bar">
+            <div class="phaser-hud-panel">
+              <div class="phaser-hud-panel-title">Snack Hunt</div>
+              <div class="phaser-hud-panel-score">6 / 10</div>
+              <div class="phaser-hud-panel-sub">Leckerlis gefangen 🍖</div>
+            </div>
+            <div class="phaser-back-glass">🏠</div>
+          </div>
+          <div class="phaser-hp-bar">
+            <div class="phaser-hp-label">Zeit</div>
+            <div class="phaser-hp-track"><div class="phaser-hp-fill"></div></div>
+            <div class="phaser-hp-lives">❤️❤️❤️</div>
+          </div>
+          <div class="phaser-treats-area">
+            <div class="phaser-treat">🍖</div>
+            <div class="phaser-treat">🦴</div>
+            <div class="phaser-treat">🍖</div>
+          </div>
+          <div class="phaser-shadow"></div>
+          <div class="phaser-ground"></div>
+          <div class="phaser-game-field">
+            <div class="phaser-dog-sprite">🐶</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation">
+      <div class="callout new"><strong>Neu</strong>Timer-Balken · Herz-Leben-System · dunkler Kontrast für Spielobjekte · Canvas-Rendering-bereit</div>
+      <div class="callout warn"><strong>Hinweis</strong>Dark-UI kann für sehr kleine Kinder (3–4 J.) ungewohnt sein</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     BLOCK 3: LEVEL COMPLETE
+════════════════════════════════════════════ -->
+<p class="section-title">Level-Complete / Belohnungsscreen</p>
+
+<div class="columns" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+
+  <!-- IST Level Complete -->
+  <div class="variant">
+    <p class="variant-label">🔵 IST Level Complete<br><span>Weißes Popup · Sterne · Orange Button</span></p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="ist-complete">
+          <div class="ist-overlay"></div>
+          <div class="ist-popup">
+            <div class="ist-popup-icon">🎉</div>
+            <div class="ist-popup-title">Super gemacht!</div>
+            <div class="ist-popup-sub">Du hast alle Leckerlis gefangen!</div>
+            <div class="ist-stars-row">
+              <span class="ist-star">⭐</span>
+              <span class="ist-star">⭐</span>
+              <span class="ist-star">⭐</span>
+            </div>
+            <div style="font-size:11px;color:#F4845F;font-weight:700">Punkte: 10 / 10</div>
+            <button class="ist-popup-btn">Weiter spielen →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation">
+      <div class="callout good"><strong>Gut</strong>Klar, verständlich, gute CTA</div>
+      <div class="callout warn"><strong>Fehlt</strong>Kein Retry-Button · kein Score-Vergleich · keine Confetti-Animation</div>
+    </div>
+  </div>
+
+  <!-- VOXEL Level Complete -->
+  <div class="variant">
+    <p class="variant-label">🟡 Option A Level Complete<br><span>Warm · Confetti · Dual-Action</span></p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="voxel-complete">
+          <div class="voxel-complete-overlay"></div>
+          <div class="voxel-popup">
+            <div class="voxel-confetti-row">🎊 🌟 🎊 🌟 🎊</div>
+            <div class="voxel-popup-title">Fantastisch!</div>
+            <div class="voxel-popup-sub">Du hast alle 10 Leckerlis gefangen!</div>
+            <div class="voxel-stars-row">
+              <span class="voxel-star">⭐</span>
+              <span class="voxel-star">⭐</span>
+              <span class="voxel-star">⭐</span>
+            </div>
+            <div class="voxel-score-pill">+100 XP · Neuer Rekord! 🏆</div>
+            <div class="voxel-popup-actions">
+              <button class="voxel-btn-retry">🔄 Nochmal</button>
+              <button class="voxel-btn-next">Nächstes Level →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation">
+      <div class="callout new"><strong>Neu</strong>XP-Belohnung sichtbar · Nochmal-Button · warm glassmorphism · Confetti-Emoji-Reihe</div>
+      <div class="callout good"><strong>Gut</strong>Kinder sehen direkt ihren Fortschritt (XP) · Dual-Action besser für Replay-Loop</div>
+    </div>
+  </div>
+
+  <!-- PHASER Level Complete -->
+  <div class="variant">
+    <p class="variant-label">🟠 Option B Level Complete<br><span>Gold · Score-Display · Game-Stil</span></p>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phaser-complete">
+          <div class="phaser-complete-overlay"></div>
+          <div class="phaser-popup">
+            <div class="phaser-popup-crown">👑</div>
+            <div class="phaser-popup-title">Level Complete!</div>
+            <div class="phaser-popup-sub">Alle Leckerlis gefangen!</div>
+            <div class="phaser-stars-row">
+              <span class="phaser-star">⭐</span>
+              <span class="phaser-star">⭐</span>
+              <span class="phaser-star">⭐</span>
+            </div>
+            <div class="phaser-score-display">
+              <div class="phaser-score-num">1.340</div>
+              <div class="phaser-score-lbl">Punkte · Persönlicher Rekord</div>
+            </div>
+            <div class="phaser-popup-actions">
+              <button class="phaser-btn-retry">🔄 Retry</button>
+              <button class="phaser-btn-next">Next Level ▶</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation">
+      <div class="callout new"><strong>Neu</strong>Numerischer Score · persönlicher Rekord · Gold/Krone-Vokabular · Glass-Dark UI</div>
+      <div class="callout warn"><strong>Hinweis</strong>English-Terminologie ("Retry", "Next Level") ggf. anpassen auf Deutsch</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ZUSAMMENFASSUNG
+════════════════════════════════════════════ -->
+<p class="section-title">Empfehlung</p>
+
+<div style="max-width:900px;margin:0 auto 60px;padding:0 24px">
+  <div style="background:#1e293b;border-radius:20px;padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+
+    <div style="background:linear-gradient(135deg,rgba(255,158,108,0.15),rgba(244,96,58,0.15));border:1.5px solid rgba(255,158,108,0.35);border-radius:14px;padding:16px">
+      <div style="font-size:13px;font-weight:900;color:#FB923C;margin-bottom:8px">🥇 Empfohlen: Option A</div>
+      <div style="font-size:11px;color:#cbd5e1;line-height:1.6">
+        <b style="color:#fff">Warm Coastal</b> (mykonos-inspiriert)<br>
+        — Vanilla JS bleibt erhalten<br>
+        — ES-Module lösen Script-Tag-Kaskade ab<br>
+        — Canvas2D gibt Rendering-Power<br>
+        — XP + Fortschrittsbalken motivieren Kinder<br>
+        — Geringster Migrationsaufwand<br>
+        — Design passt perfekt zur Strand-Ästhetik
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px">
+      <div style="font-size:13px;font-weight:900;color:#94a3b8;margin-bottom:8px">🥈 Alternative: Option B</div>
+      <div style="font-size:11px;color:#94a3b8;line-height:1.6">
+        <b style="color:#b0bec5">Night Beach Pro</b> (Phaser 3)<br>
+        — Industriestandard für HTML5-Spiele<br>
+        — Maximale Animationsqualität<br>
+        — Scene-System = skalierbares Architecture<br>
+        — Empfohlen falls neue Level geplant<br>
+        — Hoher Migrationsaufwand<br>
+        — Palette ggf. zu dunkel für 3–5 Jährige
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px">
+      <div style="font-size:13px;font-weight:900;color:#94a3b8;margin-bottom:8px">💡 Hybrid-Tipp</div>
+      <div style="font-size:11px;color:#94a3b8;line-height:1.6">
+        Option A Design-Sprache<br>
+        + Option B Level-Complete UI (Krone, Score)<br>
+        + Bestehende PWA-Architektur behalten<br>
+        + Keine Framework-Abhängigkeit<br><br>
+        → Bestes Verhältnis aus Aufwand und Ergebnis
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

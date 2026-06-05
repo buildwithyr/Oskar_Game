@@ -1,41 +1,44 @@
-const CACHE_VERSION = 'oskar-v4';
+const CACHE_VERSION = 'oskar-v5';
 const CACHE_NAME = `oskar-beach-stories-${CACHE_VERSION}`;
+
+// Base URL derived from service worker location (works on GitHub Pages subpaths)
+const BASE_URL = new URL('./', self.location).href;
 
 // All files to cache on install
 const PRECACHE_URLS = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/manifest.json',
-  '/game/config.js',
-  '/game/utils.js',
-  '/game/storage.js',
-  '/game/main.js',
-  '/game/level1.js',
-  '/game/level_bubble.js',
-  '/game/level_frogger.js',
-  '/game/level3.js',
-  '/game/level4.js',
-  '/game/level5.js',
-  '/game/level6.js',
-  '/game/level7.js',
-  '/game/pwa.js',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/icons/apple-touch-icon.png',
-  '/icons/favicon.png',
-  '/assets/OskarCartoon.png',
-  '/assets/OskarBadehose.png',
-  '/assets/OskarLiegestuhl.png',
-  '/assets/Oskar_springt.png',
-  '/assets/OskarZunge.png',
-  '/assets/OskarZungelinks.png',
-  '/assets/OskarZungerechts.png',
-  '/assets/Frau am Liegestuhl.png',
-  '/assets/Frau am Liegestuhl 2.png',
-  '/assets/Kothaufen.png',
-  '/assets/Instagram_icon.png',
-  '/assets/krebs.png'
+  BASE_URL,
+  BASE_URL + 'index.html',
+  BASE_URL + 'style.css',
+  BASE_URL + 'manifest.json',
+  BASE_URL + 'game/config.js',
+  BASE_URL + 'game/utils.js',
+  BASE_URL + 'game/storage.js',
+  BASE_URL + 'game/main.js',
+  BASE_URL + 'game/level1.js',
+  BASE_URL + 'game/level_bubble.js',
+  BASE_URL + 'game/level_frogger.js',
+  BASE_URL + 'game/level3.js',
+  BASE_URL + 'game/level4.js',
+  BASE_URL + 'game/level5.js',
+  BASE_URL + 'game/level6.js',
+  BASE_URL + 'game/level7.js',
+  BASE_URL + 'game/pwa.js',
+  BASE_URL + 'icons/icon-192.png',
+  BASE_URL + 'icons/icon-512.png',
+  BASE_URL + 'icons/apple-touch-icon.png',
+  BASE_URL + 'icons/favicon.png',
+  BASE_URL + 'assets/OskarCartoon.png',
+  BASE_URL + 'assets/OskarBadehose.png',
+  BASE_URL + 'assets/OskarLiegestuhl.png',
+  BASE_URL + 'assets/Oskar_springt.png',
+  BASE_URL + 'assets/OskarZunge.png',
+  BASE_URL + 'assets/OskarZungelinks.png',
+  BASE_URL + 'assets/OskarZungerechts.png',
+  BASE_URL + 'assets/Frau am Liegestuhl.png',
+  BASE_URL + 'assets/Frau am Liegestuhl 2.png',
+  BASE_URL + 'assets/Kothaufen.png',
+  BASE_URL + 'assets/Instagram_icon.png',
+  BASE_URL + 'assets/krebs.png'
 ];
 
 // Install: precache all assets
@@ -87,7 +90,7 @@ self.addEventListener('fetch', event => {
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
           return response;
         })
-        .catch(() => caches.match(event.request).then(r => r || caches.match('/index.html')))
+        .catch(() => caches.match(event.request).then(r => r || caches.match(BASE_URL + 'index.html')))
     );
     return;
   }

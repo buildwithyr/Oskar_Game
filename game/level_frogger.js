@@ -45,13 +45,12 @@ function frogMakeObstacles() {
     // Water row 3 →  (slow, wide)
     { row: 3, x: 20,  w: 158, speed: 0.85,dir:  1, type: 'log',  emoji: '' },
     { row: 3, x: 250, w: 118, speed: 0.85,dir:  1, type: 'log',  emoji: '' },
-    // Road row 5 ←  (fast)
-    { row: 5, x: 80,  w: 68,  speed: 3.2, dir: -1, type: 'car',  emoji: '🚗' },
-    { row: 5, x: 260, w: 68,  speed: 3.2, dir: -1, type: 'car',  emoji: '🚗' },
-    // Road row 6 →  (medium)
-    { row: 6, x: 40,  w: 72,  speed: 2.4, dir:  1, type: 'car',  emoji: '🚕' },
-    { row: 6, x: 220, w: 64,  speed: 2.4, dir:  1, type: 'car',  emoji: '🚕' },
-    { row: 6, x: 340, w: 64,  speed: 2.4, dir:  1, type: 'car',  emoji: '🛵' },
+    // Road row 5 ←  (reduced speed, wider gap)
+    { row: 5, x: 30,  w: 68,  speed: 1.8, dir: -1, type: 'car',  emoji: '🚗' },
+    { row: 5, x: 260, w: 68,  speed: 1.8, dir: -1, type: 'car',  emoji: '🚗' },
+    // Road row 6 →  (reduced speed, one fewer vehicle)
+    { row: 6, x: 70,  w: 72,  speed: 1.4, dir:  1, type: 'car',  emoji: '🚕' },
+    { row: 6, x: 300, w: 64,  speed: 1.4, dir:  1, type: 'car',  emoji: '🛵' },
   ]
 }
 
@@ -308,14 +307,27 @@ function frogMove(dir) {
   // Bounds check
   if (newRow < 0 || newRow > 8) return
   if (newX < 0 || newX > FROG_W) return
-  if (newRow < frogRow && frogRow === 8) frogResetTimer()  // start moving – reset timer
+  if (newRow < frogRow && frogRow === 8) frogResetTimer()
 
   frogRow = newRow
   frogX   = newX
-  frogOnLog = null  // re-evaluate next frame
+  frogOnLog = null
 
   vibe(VIBRATE.SMALL)
   frogRenderOskar()
+
+  // Immediate water check – don't wait for the next RAF frame
+  if (FROG_ROWS[newRow].type === 'water') {
+    const ox = frogX - FROG_OSKAR_W / 2
+    const onLog = frogObstacles.find(obs =>
+      obs.row === newRow && obs.type === 'log' && frogAabb(ox, FROG_OSKAR_W, obs.x, obs.w)
+    )
+    if (!onLog) {
+      frogDie()
+      return
+    }
+    frogOnLog = onLog
+  }
 
   // Reached goal zone
   if (frogRow === 0) {
@@ -380,15 +392,22 @@ function frogDie() {
   frogOnLog  = null
   frogLives -= 1
 
+  // Always cancel the loop on death – prevents double-RAF on respawn
+  cancelAnimationFrame(frogRafId)
+  clearInterval(frogTimerTick)
+
   vibe(VIBRATE.LARGE)
   frogUpdateHUD()
+
+  // Water splash animation
+  if (FROG_ROWS[frogRow] && FROG_ROWS[frogRow].type === 'water') {
+    frogShowSplash()
+  }
 
   const oskar = document.getElementById('frogOskar')
   if (oskar) oskar.classList.add('frog-dead-anim')
 
   if (frogLives <= 0) {
-    cancelAnimationFrame(frogRafId)
-    clearInterval(frogTimerTick)
     setTimeout(frogGameOver, 900)
   } else {
     setTimeout(() => {
@@ -396,6 +415,18 @@ function frogDie() {
       frogRespawn()
     }, 900)
   }
+}
+
+function frogShowSplash() {
+  const field = document.getElementById('frogField')
+  if (!field) return
+  const el = document.createElement('div')
+  el.className = 'frog-splash'
+  el.textContent = '💦'
+  el.style.left = (frogX - 22) + 'px'
+  el.style.top  = (FROG_ROW_Y[frogRow] + FROG_ROWS[frogRow].h / 2 - 22) + 'px'
+  field.appendChild(el)
+  setTimeout(() => el.remove(), 750)
 }
 
 function frogRespawn() {

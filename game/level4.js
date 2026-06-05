@@ -86,8 +86,8 @@ function renderMatchBoard(){
 
   // End-events on document so drag always completes regardless of finger position
   board._touchEnd = e => {
-    e.preventDefault()
     if(!dragStart || matchBusy){ dragStart = null; return }
+    e.preventDefault()
     const t = e.changedTouches[0]
     processSwipe(t.clientX, t.clientY)
   }

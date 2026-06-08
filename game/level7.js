@@ -16,8 +16,11 @@ let l7Grid        = []   // [{ letter, found, wrong }]
 let l7TotalTarget = 0
 let l7FoundCount  = 0
 let l7Busy        = false
+let l7Timers      = new Set()
 
 function startLevel7(){
+  l7StopGame()
+
   l7Round = 0
   showScreen("level7")
   l7StartRound()
@@ -103,7 +106,7 @@ function onL7CellClick(i){
 
     if(l7FoundCount >= cfg.targets){
       l7Busy = true
-      setTimeout(() => {
+      setGameTimeout(() => {
         l7Round++
         if(l7Round >= L7_ROUNDS_CFG.length){
           l7Win()
@@ -111,7 +114,7 @@ function onL7CellClick(i){
           document.getElementById("l7Feedback").textContent = ""
           l7StartRound()
         }
-      }, 1000)
+      }, 1000, l7Timers)
     }
 
   } else {
@@ -121,21 +124,27 @@ function onL7CellClick(i){
     document.getElementById("l7Feedback").textContent = "❌ Versuch es noch einmal!"
     document.getElementById("l7Feedback").className = "l7-feedback l7-fb-wrong"
 
-    setTimeout(() => {
+    setGameTimeout(() => {
       cell.wrong = false
       renderL7Grid(cfg.cols)
       document.getElementById("l7Feedback").textContent = ""
-    }, 700)
+    }, 700, l7Timers)
   }
 }
 
 function l7Win(){
-  setTimeout(() => {
+  awardLevelWin(7, L7_ROUNDS_CFG.length)
+  setGameTimeout(() => {
     showLevelComplete({
       title: "🔍 Geschafft!",
-      text:  "Oskar hat den Buchstaben gefunden! Du bist ein Spürhund! 🐶",
-      button:"🔄 Nochmal spielen",
-      next:  () => { vibe(VIBRATE.MEDIUM); startLevel7() }
+      text:  "Oskar hat alle Buchstaben gefunden! +1 Knochen 🦴",
+      button:"🏠 Menü",
+      next:  () => showScreen("intro")
     })
-  }, DELAYS.LEVEL_COMPLETE)
+  }, DELAYS.LEVEL_COMPLETE, l7Timers)
+}
+
+function l7StopGame(){
+  l7Busy = false
+  clearGameTimeouts(l7Timers)
 }

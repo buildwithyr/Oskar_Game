@@ -8,6 +8,35 @@ function showScreen(id){
   document.getElementById(id).classList.add("active")
 }
 
+function setGameTimeout(handler, delay, bag){
+  const id = setTimeout(() => {
+    if(bag) bag.delete(id)
+    handler()
+  }, delay)
+  if(bag) bag.add(id)
+  return id
+}
+
+function clearGameTimeouts(bag){
+  if(!bag) return
+  bag.forEach(id => clearTimeout(id))
+  bag.clear()
+}
+
+function awardLevelWin(level, score = 0){
+  const data = loadPlayerData()
+  const completedKey = `level${level}Completed`
+
+  if(data.statistics[completedKey] !== undefined){
+    data.statistics[completedKey] = (data.statistics[completedKey] || 0) + 1
+  }
+
+  data.bones = (data.bones || 0) + 1
+  savePlayerData(data)
+
+  if(score > 0) updateHighscore(level, score)
+}
+
 function showLevelComplete({ title, text, button, next, stars = 3 }){
 
   // Remove old popup if exists

@@ -12,11 +12,15 @@ let l3JumpY      = 0
 let l3JumpVel    = 0
 let l3WorldX     = 0
 let l3HintShown  = true
+let l3Timers     = new Set()
+let l3Overlay    = null
 
 // Cached DOM refs (set once in startLevel3)
 let l3Els = null
 
 function startLevel3(){
+
+  l3StopGame()
 
   l3Distance  = 0
   l3Speed     = L3_SPEED_START
@@ -58,7 +62,7 @@ function startLevel3(){
 }
 
 function l3Jump(){
-  if(l3IsJumping) return
+  if(!l3Running || !l3Els || l3IsJumping) return
   l3IsJumping = true
   l3JumpVel   = L3_JUMP_VEL
   vibe(VIBRATE.SMALL)
@@ -130,14 +134,15 @@ function l3Loop(){
   if(l3Distance >= L3_WIN_DIST){
     l3Running = false
     cancelAnimationFrame(l3Frame)
-    setTimeout(() => {
+    awardLevelWin(3, Math.floor(l3Distance))
+    setGameTimeout(() => {
       showLevelComplete({
         title: "🥏 Frisbee gefangen!",
-        text:  "Oskar ist der beste Strandhund! 🐶",
-        button:"🍭 Weiter",
-        next:  startLevel4
+        text:  "Oskar ist der beste Strandhund! +1 Knochen 🦴",
+        button:"🏠 Menü",
+        next:  () => showScreen("intro")
       })
-    }, DELAYS.LEVEL_COMPLETE)
+    }, DELAYS.LEVEL_COMPLETE, l3Timers)
     return
   }
 
@@ -147,7 +152,12 @@ function l3Loop(){
 
 function l3GameOver(){
 
+  updateHighscore(3, Math.floor(l3Distance))
+
+  if(l3Overlay) l3Overlay.remove()
+
   const overlay = document.createElement("div")
+  l3Overlay = overlay
   overlay.className = "l3-gameover"
   overlay.innerHTML = `
     <div class="popup-box">
@@ -162,7 +172,22 @@ function l3GameOver(){
   document.getElementById("l3RetryBtn").addEventListener("click", () => {
     vibe(VIBRATE.MEDIUM)
     overlay.remove()
+    l3Overlay = null
     startLevel3()
   })
 
+}
+
+
+function l3StopGame(){
+  l3Running = false
+  if(l3Frame){
+    cancelAnimationFrame(l3Frame)
+    l3Frame = null
+  }
+  clearGameTimeouts(l3Timers)
+  if(l3Overlay){
+    l3Overlay.remove()
+    l3Overlay = null
+  }
 }

@@ -18,6 +18,7 @@ let l1FieldH       = 0
 let l1RafId        = null
 let l1SpawnTimer   = null
 let l1TongueTimer  = null
+let l1Timers      = new Set()
 
 function startLevel1(){
   l1Caught   = 0
@@ -39,7 +40,7 @@ function startLevel1(){
 
   document.getElementById("l1Counter").textContent = `🍖 0 / ${L1_GOAL}`
 
-  setTimeout(() => {
+  setGameTimeout(() => {
     l1FieldW  = field.offsetWidth
     l1FieldH  = field.offsetHeight
     l1Running = true
@@ -47,7 +48,7 @@ function startLevel1(){
     l1Loop()
     l1SpawnTimer = setInterval(l1SpawnTreat, L1_SPAWN_INTERVAL)
     l1SpawnTreat()
-  }, 50)
+  }, 50, l1Timers)
 }
 
 function l1StopGame(){
@@ -55,6 +56,7 @@ function l1StopGame(){
   if(l1RafId)     { cancelAnimationFrame(l1RafId); l1RafId = null }
   if(l1SpawnTimer){ clearInterval(l1SpawnTimer);   l1SpawnTimer = null }
   if(l1TongueTimer){ clearTimeout(l1TongueTimer);  l1TongueTimer = null }
+  clearGameTimeouts(l1Timers)
 }
 
 function l1PositionOskar(){
@@ -130,14 +132,15 @@ function l1OnCatch(){
 
   if(l1Caught >= L1_GOAL){
     l1StopGame()
-    setTimeout(() => {
+    awardLevelWin(1, l1Caught)
+    setGameTimeout(() => {
       showLevelComplete({
         title:  "🍖 Super! Oskar ist jetzt satt!",
-        text:   "Jetzt ab ins Strand-Labyrinth 😄",
-        button: "🌴 Weiter",
-        next:   startBubbleLevel
+        text:   "Du hast Oskar gut gefüttert! +1 Knochen 🦴",
+        button: "🏠 Menü",
+        next:   () => showScreen("intro")
       })
-    }, DELAYS.LEVEL_COMPLETE)
+    }, DELAYS.LEVEL_COMPLETE, l1Timers)
   }
 }
 

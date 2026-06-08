@@ -6,11 +6,16 @@ let matchBoard      = []
 let matchNextEmojis = []
 let matchScore      = 0
 let matchBusy       = false
+let matchWon        = false
 let dragStart       = null // { row, col, x, y }
+let matchTimers     = new Set()
 
 function startLevel4(){
+  l4StopGame()
+
   matchScore = 0
   matchBusy  = false
+  matchWon   = false
   dragStart  = null
 
   document.getElementById("matchScore").textContent = "Punkte: 0"
@@ -148,7 +153,7 @@ function processSwipe(clientX, clientY){
 
   matchBusy = true
   renderMatchBoard()
-  setTimeout(() => processMatches(), DELAYS.POPUP)
+  setGameTimeout(() => processMatches(), DELAYS.POPUP, matchTimers)
 }
 
 /* ── Board logic ───────────────────── */
@@ -211,7 +216,7 @@ function processMatches(){
   matchScore += matches.length * MATCH_POINT_PER_MATCH
   document.getElementById("matchScore").textContent = `Punkte: ${matchScore}`
 
-  setTimeout(() => {
+  setGameTimeout(() => {
     matches.forEach(({ r, c }) => { matchBoard[r][c] = null })
 
     for(let c = 0; c < BOARD_COLS; c++){
@@ -236,19 +241,29 @@ function processMatches(){
     }
 
     renderMatchBoard()
-    setTimeout(() => processMatches(), MATCH_POP_DELAY)
-  }, MATCH_POP_DELAY)
+    setGameTimeout(() => processMatches(), MATCH_POP_DELAY, matchTimers)
+  }, MATCH_POP_DELAY, matchTimers)
 }
 
 function checkWin(){
-  if(matchScore >= MATCH_WIN_SCORE){
-    setTimeout(() => {
+  if(matchScore >= MATCH_WIN_SCORE && !matchWon){
+    matchWon = true
+    matchBusy = true
+    awardLevelWin(4, matchScore)
+    setGameTimeout(() => {
       showLevelComplete({
         title: "🏆 Oskar gewinnt!",
-        text:  "Du hast alle Levels geschafft! Guter Hund! 🐶🎉",
-        button:"🔄 Nochmal spielen",
-        next:  () => { vibe(VIBRATE.MEDIUM); showScreen("intro") }
+        text:  "Du hast Candy Match geschafft! +1 Knochen 🦴",
+        button:"🏠 Menü",
+        next:  () => showScreen("intro")
       })
-    }, DELAYS.LEVEL_COMPLETE)
+    }, DELAYS.LEVEL_COMPLETE, matchTimers)
   }
+}
+
+function l4StopGame(){
+  matchBusy = false
+  matchWon = false
+  dragStart = null
+  clearGameTimeouts(matchTimers)
 }

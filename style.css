@@ -5,6 +5,7 @@
 :root {
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --mobile-top-gap: 20px;
 }
 
 /* ══════════════════════════════════════
@@ -52,7 +53,7 @@ html, body{
 
 .back-btn{
   position: absolute;
-  top: calc(var(--safe-top) + 14px);
+  top: calc(var(--safe-top) + var(--mobile-top-gap));
   right: 16px;
   z-index: 80;
   background: rgba(255,255,255,0.92);
@@ -87,7 +88,7 @@ html, body{
 
 .hud{
   position: absolute;
-  top: calc(var(--safe-top) + 14px);
+  top: calc(var(--safe-top) + var(--mobile-top-gap));
   left: 16px;
   z-index: 50;
   background: rgba(255,255,255,0.88);
@@ -723,7 +724,7 @@ html, body{
 #level3 .hud{
   z-index: 100;
   position: fixed;
-  top: calc(var(--safe-top) + 14px);
+  top: calc(var(--safe-top) + var(--mobile-top-gap));
   left: 16px;
 }
 
@@ -1620,8 +1621,8 @@ html, body{
 /* Sky strip (Oskar + HUD) */
 .bp-sky-strip {
   flex-shrink: 0;
-  min-height: 80px;
-  padding-top: calc(var(--safe-top) + 8px);
+  min-height: 92px;
+  padding-top: calc(var(--safe-top) + 14px);
   background: linear-gradient(180deg, #87ceeb 0%, #60b8e0 100%);
   display: flex;
   align-items: center;
@@ -1634,7 +1635,7 @@ html, body{
   content: '☀️';
   position: absolute;
   right: 54px;
-  top: 8px;
+  top: calc(var(--safe-top) + 12px);
   font-size: 34px;
   filter: drop-shadow(0 2px 8px rgba(251,191,36,0.5));
 }
@@ -1988,8 +1989,8 @@ html, body{
 .frog-hud {
   position: absolute;
   top: 0; left: 0; right: 0;
-  min-height: 44px;
-  padding-top: calc(var(--safe-top) + 6px);
+  min-height: 56px;
+  padding-top: calc(var(--safe-top) + 10px);
   padding-bottom: 6px;
   background: rgba(0,0,0,0.55);
   backdrop-filter: blur(6px);
@@ -2018,7 +2019,7 @@ html, body{
 /* Game field */
 .frog-field {
   position: absolute;
-  top: calc(44px + var(--safe-top));
+  top: calc(56px + var(--safe-top));
   left: 0; right: 0;
   bottom: 0;
   overflow: hidden;
@@ -2203,7 +2204,7 @@ html, body{
 }
 
 .frog-dpad-btn {
-  width: 50px; height: 50px;
+  width: 54px; height: 54px;
   background: rgba(255,255,255,0.12);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -2225,7 +2226,7 @@ html, body{
 }
 
 .frog-dpad-center {
-  width: 50px; height: 50px;
+  width: 54px; height: 54px;
   background: transparent;
 }
 

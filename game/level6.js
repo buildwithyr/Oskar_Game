@@ -30,8 +30,11 @@ const L6_TOTAL = 8
 let l6Questions = []
 let l6Index     = 0
 let l6Busy      = false
+let l6Timers    = new Set()
 
 function startLevel6(){
+  l6StopGame()
+
   l6Index = 0
   l6Busy  = false
   const shuffled = [...L6_POOL].sort(() => Math.random() - 0.5)
@@ -89,48 +92,54 @@ function onL6Answer(chosen, q){
       `<span class="l6-letter-in">${chosen}</span>`
     )
 
-    setTimeout(() => {
+    setGameTimeout(() => {
       // ── Phase 2: Show complete word (2000ms) ─────────────────────
       const fullWord = q.display.replace(/_/g, q.answer).replace(/ /g, "")
       wordEl.innerHTML = `<span class="l6-word-complete">${fullWord}</span>`
       wordEl.className = "l6-word l6-word-full"
 
-      setTimeout(() => {
+      setGameTimeout(() => {
         // ── Phase 3: Show success feedback (700ms) ───────────────────
         feedback.textContent = "⭐ Super gemacht!"
         feedback.className   = "l6-feedback l6-correct"
 
-        setTimeout(() => {
+        setGameTimeout(() => {
           l6Index++
           if(l6Index >= L6_TOTAL){
             l6Win()
           } else {
             renderL6Question()
           }
-        }, 700)
-      }, 2000)
-    }, 500)
+        }, 700, l6Timers)
+      }, 2000, l6Timers)
+    }, 500, l6Timers)
 
   } else {
     feedback.textContent = "❌ Versuch es noch einmal!"
     feedback.className   = "l6-feedback l6-wrong"
 
-    setTimeout(() => {
+    setGameTimeout(() => {
       feedback.textContent = ""
       feedback.className   = "l6-feedback"
       document.querySelectorAll(".l6-btn").forEach(b => b.disabled = false)
       l6Busy = false
-    }, 900)
+    }, 900, l6Timers)
   }
 }
 
 function l6Win(){
-  setTimeout(() => {
+  awardLevelWin(6, L6_TOTAL)
+  setGameTimeout(() => {
     showLevelComplete({
       title: "🏆 Oskar ist stolz!",
-      text:  "Alle Fragen richtig beantwortet! Du bist super! 🐶📚",
-      button:"🔄 Nochmal spielen",
-      next:  () => { vibe(VIBRATE.MEDIUM); startLevel6() }
+      text:  "Alle Fragen richtig beantwortet! +1 Knochen 🦴",
+      button:"🏠 Menü",
+      next:  () => showScreen("intro")
     })
-  }, DELAYS.LEVEL_COMPLETE)
+  }, DELAYS.LEVEL_COMPLETE, l6Timers)
+}
+
+function l6StopGame(){
+  l6Busy = false
+  clearGameTimeouts(l6Timers)
 }

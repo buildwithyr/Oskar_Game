@@ -37,6 +37,7 @@ let bpCombo     = 0
 let bpBubbles   = []      // active bubble entries
 let bpSpawnTmr  = null
 let bpUid       = 0
+let bpTimers    = new Set()
 
 // ── Entry Point ─────────────────────────────────────────────────
 function startBubbleLevel() {
@@ -55,6 +56,10 @@ function startBubbleLevel() {
 
 // ── Countdown ───────────────────────────────────────────────────
 function bpBeginCountdown() {
+  const data = loadPlayerData()
+  data.statistics.bubbleGamesPlayed = (data.statistics.bubbleGamesPlayed || 0) + 1
+  savePlayerData(data)
+
   document.getElementById('bpStartScreen').classList.add('hidden')
   const cdEl  = document.getElementById('bpCountdown')
   const numEl = document.getElementById('bpCountdownNum')
@@ -70,12 +75,12 @@ function bpBeginCountdown() {
     numEl.classList.add('bp-cd-anim')
     i++
     if (i < steps.length) {
-      setTimeout(tick, 900)
+      setGameTimeout(tick, 900, bpTimers)
     } else {
-      setTimeout(() => {
+      setGameTimeout(() => {
         cdEl.classList.add('hidden')
         bpStartRound()
-      }, 600)
+      }, 600, bpTimers)
     }
   }
   tick()
@@ -98,13 +103,9 @@ function bpStartRound() {
   bpUpdateHUD()
   bpShowRoundBanner(`Runde ${bpRound + 1} – Los!`)
 
-  const data = loadPlayerData()
-  data.statistics.bubbleGamesPlayed = (data.statistics.bubbleGamesPlayed || 0) + 1
-  savePlayerData(data)
-
-  setTimeout(() => {
+  setGameTimeout(() => {
     if (bpRunning) bpScheduleSpawn()
-  }, 1400)
+  }, 1400, bpTimers)
 }
 
 function bpShowRoundBanner(text) {
@@ -113,11 +114,11 @@ function bpShowRoundBanner(text) {
   el.classList.remove('hidden', 'bp-banner-out')
   void el.offsetWidth
   el.classList.add('bp-banner-in')
-  setTimeout(() => {
+  setGameTimeout(() => {
     el.classList.remove('bp-banner-in')
     el.classList.add('bp-banner-out')
-    setTimeout(() => el.classList.add('hidden'), 450)
-  }, 1100)
+    setGameTimeout(() => el.classList.add('hidden'), 450, bpTimers)
+  }, 1100, bpTimers)
 }
 
 // ── Bubble Spawn ─────────────────────────────────────────────────
@@ -231,7 +232,7 @@ function bpPopBubble(entry) {
       bpRunning = false
       clearTimeout(bpSpawnTmr)
       bpSpawnTmr = null
-      setTimeout(bpRoundComplete, 700)
+      setGameTimeout(bpRoundComplete, 700, bpTimers)
     }
   } else {
     // Poop – lose a life
@@ -246,12 +247,12 @@ function bpPopBubble(entry) {
       bpRunning = false
       clearTimeout(bpSpawnTmr)
       bpSpawnTmr = null
-      setTimeout(bpGameOver, 600)
+      setGameTimeout(bpGameOver, 600, bpTimers)
     }
   }
 
   bpUpdateHUD()
-  setTimeout(() => el.remove(), 320)
+  setGameTimeout(() => el.remove(), 320, bpTimers)
 
   const data = loadPlayerData()
   bpCheckAchievements(data)
@@ -265,7 +266,7 @@ function bpRoundComplete() {
     if (!b.done) {
       b.done = true
       b.el.classList.add('bp-pop-anim')
-      setTimeout(() => b.el.remove(), 300)
+      setGameTimeout(() => b.el.remove(), 300, bpTimers)
     }
   })
   bpBubbles = []
@@ -273,12 +274,12 @@ function bpRoundComplete() {
   bpRound++
 
   if (bpRound >= BP_ROUNDS.length) {
-    setTimeout(bpWin, 500)
+    setGameTimeout(bpWin, 500, bpTimers)
   } else {
-    setTimeout(() => {
+    setGameTimeout(() => {
       bpShowRoundBanner(`Runde ${bpRound + 1} – Los!`)
-      setTimeout(() => bpStartRound(), 1600)
-    }, 300)
+      setGameTimeout(() => bpStartRound(), 1600, bpTimers)
+    }, 300, bpTimers)
   }
 }
 
@@ -329,7 +330,7 @@ function bpSpawnFx(refEl, text, color) {
   fx.style.left  = (rect.left - fRect.left + rect.width  / 2) + 'px'
   fx.style.top   = (rect.top  - fRect.top  + rect.height / 2) + 'px'
   field.appendChild(fx)
-  setTimeout(() => fx.remove(), 900)
+  setGameTimeout(() => fx.remove(), 900, bpTimers)
 }
 
 function bpSpawnParticles(refEl, color) {
@@ -351,7 +352,7 @@ function bpSpawnParticles(refEl, color) {
     p.style.setProperty('--vy', (Math.sin(angle) * dist) + 'px')
     p.style.setProperty('--pc', color)
     field.appendChild(p)
-    setTimeout(() => p.remove(), 550)
+    setGameTimeout(() => p.remove(), 550, bpTimers)
   }
 }
 
@@ -361,17 +362,17 @@ function bpShowCombo(text) {
   el.classList.remove('hidden', 'bp-combo-out')
   void el.offsetWidth
   el.classList.add('bp-combo-in')
-  setTimeout(() => {
+  setGameTimeout(() => {
     el.classList.remove('bp-combo-in')
     el.classList.add('bp-combo-out')
-    setTimeout(() => el.classList.add('hidden'), 400)
-  }, 1300)
+    setGameTimeout(() => el.classList.add('hidden'), 400, bpTimers)
+  }, 1300, bpTimers)
 }
 
 function bpShakeScreen() {
   const s = document.getElementById('level2bubble')
   s.classList.add('bp-shake')
-  setTimeout(() => s.classList.remove('bp-shake'), 500)
+  setGameTimeout(() => s.classList.remove('bp-shake'), 500, bpTimers)
 }
 
 // ── HUD ──────────────────────────────────────────────────────────
@@ -415,6 +416,7 @@ function bpStopGame() {
   bpRunning = false
   clearTimeout(bpSpawnTmr)
   bpSpawnTmr = null
+  clearGameTimeouts(bpTimers)
   bpBubbles  = []
   const field = document.getElementById('bpField')
   if (field) field.innerHTML = ''

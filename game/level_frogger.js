@@ -67,6 +67,7 @@ let frogTimer      = FROG_TIMER_MAX
 let frogTimerTick  = null
 let frogDead       = false  // briefly true during death anim
 let frogShells     = []     // bonus shells on logs
+let frogTimers     = new Set()
 
 // ── Entry Point ─────────────────────────────────────────────────
 function startFroggerLevel() {
@@ -78,6 +79,9 @@ function startFroggerLevel() {
 }
 
 function frogStartGame() {
+  frogStop()
+  frogRunning = true
+
   document.getElementById('frogStartScreen').classList.add('hidden')
   document.getElementById('frogGameArea').classList.remove('hidden')
 
@@ -96,8 +100,6 @@ function frogStartGame() {
   savePlayerData(data)
 
   frogUpdateHUD()
-  frogStartTimer()
-  frogLoop()
 }
 
 // ── Field Builder ────────────────────────────────────────────────
@@ -290,7 +292,7 @@ function frogCheckShellPickup() {
     if (frogAabb(ox, FROG_OSKAR_W, sx, 28)) {
       sh.collected = true
       sh.el.classList.add('frog-shell-pop')
-      setTimeout(() => sh.el.remove(), 400)
+      setGameTimeout(() => sh.el.remove(), 400, frogTimers)
       showToast('🐚 +1 Muschel!', 1200)
       vibe(VIBRATE.SMALL)
     }
@@ -374,14 +376,10 @@ function frogArriveGoal() {
 
   showToast(`🏠 Ziel ${frogGoalsFilled.length}/5!`, 1600)
 
-  const data = loadPlayerData()
-  data.statistics.level8Completed = (data.statistics.level8Completed || 0) + 1
-  savePlayerData(data)
-
   if (frogGoalsFilled.length >= 5) {
-    setTimeout(frogWin, 800)
+    setGameTimeout(frogWin, 800, frogTimers)
   } else {
-    setTimeout(() => frogRespawn(), 1200)
+    setGameTimeout(() => frogRespawn(), 1200, frogTimers)
   }
 }
 
@@ -408,12 +406,12 @@ function frogDie() {
   if (oskar) oskar.classList.add('frog-dead-anim')
 
   if (frogLives <= 0) {
-    setTimeout(frogGameOver, 900)
+    setGameTimeout(frogGameOver, 900, frogTimers)
   } else {
-    setTimeout(() => {
+    setGameTimeout(() => {
       if (oskar) oskar.classList.remove('frog-dead-anim')
       frogRespawn()
-    }, 900)
+    }, 900, frogTimers)
   }
 }
 
@@ -426,7 +424,7 @@ function frogShowSplash() {
   el.style.left = (frogX - 22) + 'px'
   el.style.top  = (FROG_ROW_Y[frogRow] + FROG_ROWS[frogRow].h / 2 - 22) + 'px'
   field.appendChild(el)
-  setTimeout(() => el.remove(), 750)
+  setGameTimeout(() => el.remove(), 750, frogTimers)
 }
 
 function frogRespawn() {
@@ -494,6 +492,7 @@ function frogWin() {
 
   const data = loadPlayerData()
   data.statistics.froggerLevelWins = (data.statistics.froggerLevelWins || 0) + 1
+  data.statistics.level8Completed = (data.statistics.level8Completed || 0) + 1
   data.bones = (data.bones || 0) + 1
   savePlayerData(data)
   updateHighscore(8, frogGoalsFilled.length)
@@ -537,6 +536,7 @@ function frogStop() {
   frogRunning = false
   cancelAnimationFrame(frogRafId)
   clearInterval(frogTimerTick)
+  clearGameTimeouts(frogTimers)
   frogRafId    = null
   frogTimerTick = null
   frogObstacles.forEach(o => { if (o.el) o.el = null })

@@ -80,11 +80,25 @@ document.getElementById("levelBtn10").addEventListener("click", () => {
   startDigLevel()
 })
 
+document.getElementById("levelBtn11").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  startRun3dLevel()
+})
+
 
 // LEVEL 1 - Catch game input
 l1SetupInput()
 
 // LEVEL 3 - Jump (tap on level3 screen)
+// touchstart springt sofort (kein Warten auf click) – Home-Button bleibt ausgenommen
+document.getElementById("level3").addEventListener("touchstart", (e) => {
+  if(e.target.closest(".back-btn")) return
+  if(document.getElementById("level3").classList.contains("active")){
+    e.preventDefault()
+    l3Jump()
+  }
+}, { passive: false })
+
 document.getElementById("level3").addEventListener("click", () => {
   if(document.getElementById("level3").classList.contains("active")){
     l3Jump()
@@ -99,6 +113,12 @@ document.querySelectorAll("#frogDpad .frog-dpad-btn").forEach(btn => {
     frogMove(btn.dataset.fdir)
   }, { passive: false })
 })
+
+// LEVEL 8 - Wischen/Tippen direkt auf dem Spielfeld
+frogBindFieldInput()
+
+// LEVEL 11 - Tippen/Wischen zum Ausweichen
+r3BindInput()
 
 // LEVEL 9 - Tanz-Pads
 document.querySelectorAll("#dcPads .dc-pad").forEach(btn => {
@@ -136,5 +156,10 @@ document.addEventListener("keydown", (e) => {
       e.preventDefault()
       dcPadPress(padMap[e.code])
     }
+  }
+
+  if (active === "level11") {
+    if (e.code === "ArrowLeft"  || e.code === "KeyA") { e.preventDefault(); r3Steer(-1) }
+    if (e.code === "ArrowRight" || e.code === "KeyD") { e.preventDefault(); r3Steer(1) }
   }
 })

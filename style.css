@@ -59,9 +59,9 @@ html, body{
   background: rgba(255,255,255,0.92);
   border: none;
   border-radius: 14px;
-  width: 44px;
-  height: 44px;
-  font-size: 22px;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
   line-height: 1;
   cursor: pointer;
   box-shadow: 0 2px 10px rgba(0,0,0,0.12);
@@ -211,6 +211,7 @@ html, body{
 .level-card:nth-child(8){ animation-delay: 0.34s; }
 .level-card:nth-child(9){ animation-delay: 0.37s; }
 .level-card:nth-child(10){ animation-delay: 0.40s; }
+.level-card:nth-child(11){ animation-delay: 0.43s; }
 
 @keyframes cardIn{
   from{ opacity: 0; transform: translateY(20px) scale(0.95); }
@@ -258,9 +259,11 @@ html, body{
 .badge-8{ background: linear-gradient(135deg, #06b6d4, #0284c7); }
 .badge-9{ background: linear-gradient(135deg, #c471ed, #8e44ad); }
 .badge-10{ background: linear-gradient(135deg, #e0a458, #b5712a); }
+.badge-11{ background: linear-gradient(135deg, #ff8c66, #e84a5f); }
 
-/* Level 8 card spans full width */
-.card-8{
+/* Level 8 + 11 cards span full width */
+.card-8,
+.card-11{
   grid-column: 1 / -1;
   flex-direction: row;
   padding: 20px 24px;
@@ -268,11 +271,13 @@ html, body{
   justify-content: flex-start;
 }
 
-.card-8 .card-icon{
+.card-8 .card-icon,
+.card-11 .card-icon{
   font-size: 42px;
 }
 
-.card-8 .card-name{
+.card-8 .card-name,
+.card-11 .card-name{
   font-size: 16px;
   text-align: left;
 }
@@ -1987,6 +1992,8 @@ html, body{
   inset: 0;
   display: flex;
   flex-direction: column;
+  /* sichtbar neben dem zentrierten Feld (Desktop / breite Screens) */
+  background: linear-gradient(180deg, #11301a 0%, #1d4226 100%);
 }
 
 /* HUD strip */
@@ -2002,7 +2009,8 @@ html, body{
   align-items: center;
   justify-content: space-between;
   padding-left: 14px;
-  padding-right: 14px;
+  /* Platz für den Home-Button rechts – Timer bleibt sichtbar */
+  padding-right: 78px;
   z-index: 50;
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
@@ -2026,7 +2034,12 @@ html, body{
   top: calc(56px + var(--safe-top));
   left: 0; right: 0;
   bottom: 0;
+  max-width: 430px;
+  margin: 0 auto;
   overflow: hidden;
+  /* Sand unterhalb der letzten Reihe – dort sitzt jetzt die Steuerung */
+  background: #f5d98c;
+  touch-action: manipulation;
 }
 
 /* ── Lane styling ─────────────────────────────────── */
@@ -2187,51 +2200,48 @@ html, body{
 }
 
 /* ── D-Pad (Frogger) ──────────────────────────────── */
+/* Einreihiges D-Pad UNTER dem Spielfeld – verdeckt Oskar nicht mehr */
 .frog-dpad {
   position: absolute;
-  bottom: calc(var(--safe-bottom) + 10px);
+  bottom: calc(var(--safe-bottom) + 14px);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 3px;
+  gap: 12px;
   z-index: 60;
-  opacity: 0.65;
-}
-.frog-dpad:active { opacity: 0.85; }
-
-.frog-dpad-row {
-  display: flex;
-  gap: 3px;
-  align-items: center;
 }
 
 .frog-dpad-btn {
-  width: 54px; height: 54px;
-  background: rgba(255,255,255,0.12);
+  width: 58px; height: 58px;
+  background: rgba(70,45,10,0.30);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1.5px solid rgba(255,255,255,0.25);
-  border-radius: 14px;
+  border: 1.5px solid rgba(255,255,255,0.45);
+  border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
-  color: rgba(255,255,255,0.9);
+  font-size: 22px;
+  color: rgba(255,255,255,0.95);
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
   transition: background 0.1s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
 }
 .frog-dpad-btn:active {
-  background: rgba(255,255,255,0.28);
+  background: rgba(70,45,10,0.55);
   transform: scale(0.88);
-  opacity: 1;
 }
 
-.frog-dpad-center {
-  width: 54px; height: 54px;
-  background: transparent;
+/* Vorwärts ist die Haupt-Aktion – grün hervorgehoben */
+.frog-dpad-btn-up {
+  background: rgba(22,163,74,0.75);
+  border-color: rgba(255,255,255,0.7);
+}
+.frog-dpad-btn-up:active {
+  background: rgba(22,163,74,0.95);
 }
 
 /* ── Water splash ─────────────────────────────────── */
@@ -2780,4 +2790,280 @@ html, body{
   font-size: 13px;
   font-weight: 700;
   color: #8a4f16;
+}
+
+/* ══════════════════════════════════════
+   LEVEL 11 – LECKERLI-LAUF (Pseudo-3D)
+══════════════════════════════════════ */
+
+#level11{
+  background: linear-gradient(180deg, #ffd89b 0%, #ff9d6c 100%);
+}
+
+/* ── Start Screen ─────────────────────── */
+.r3-start-screen{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(180deg, #ffd89b 0%, #ff9d6c 55%, #e8c46a 100%);
+}
+
+.r3-start-card{
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 28px;
+  padding: 32px 28px;
+  text-align: center;
+  max-width: 320px;
+  width: 90%;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+
+.r3-start-emoji{
+  font-size: 58px;
+  line-height: 1;
+  margin-bottom: 10px;
+  display: inline-block;
+  animation: dcIdleBounce 1.2s ease-in-out infinite alternate;
+}
+
+.r3-start-title{
+  font-size: 28px;
+  font-weight: 900;
+  color: #c2410c;
+  margin-bottom: 12px;
+}
+
+.r3-start-desc{
+  font-size: 15px;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 26px;
+}
+
+.r3-start-btn{
+  background: linear-gradient(135deg, #ff8c66, #e84a5f);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 16px 48px;
+  font-size: 22px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(232,74,95,0.5);
+  transition: transform 0.12s;
+  letter-spacing: 0.5px;
+}
+
+.r3-start-btn:active{ transform: scale(0.94); }
+
+/* ── Game Area / Kulisse ──────────────── */
+.r3-game-area{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.r3-sky{
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 42%;
+  background: linear-gradient(180deg, #ffd89b 0%, #ffb36b 70%, #ff9d6c 100%);
+}
+
+.r3-sun{
+  position: absolute;
+  top: 26%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff3c4 0%, #ffd34d 55%, rgba(255,180,60,0) 75%);
+  box-shadow: 0 0 60px 24px rgba(255,200,90,0.55);
+}
+
+.r3-sea{
+  position: absolute;
+  top: 37%; left: 0; right: 0;
+  height: 5%;
+  background: linear-gradient(180deg, #2e9cca 0%, #1b6fa8 100%);
+}
+
+.r3-ground{
+  position: absolute;
+  top: 42%; left: 0; right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, #f3d894 0%, #ecca7e 100%);
+}
+
+/* Der Weg: verjüngt sich zum Horizont – das "3D"-Gefühl */
+.r3-path{
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #ddb066 0%, #d6a155 100%);
+  clip-path: polygon(46% 42%, 54% 42%, 97% 100%, 3% 100%);
+}
+
+.r3-world{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ── Bewegte Objekte ──────────────────── */
+.r3-item{
+  position: absolute;
+  left: 0; top: 0;
+  font-size: 72px;
+  line-height: 1;
+  will-change: transform;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 8px rgba(90,50,10,0.35));
+}
+
+.r3-item-collect{
+  animation: r3Collect 0.45s ease-out forwards;
+}
+
+@keyframes r3Collect{
+  0%{   opacity: 1; filter: drop-shadow(0 0 0 rgba(255,255,150,0)); }
+  40%{  opacity: 1; filter: drop-shadow(0 0 22px rgba(255,255,150,0.95)) brightness(1.4); }
+  100%{ opacity: 0; filter: drop-shadow(0 0 30px rgba(255,255,150,0)); }
+}
+
+.r3-item-splat{
+  animation: r3Splat 0.5s ease-out forwards;
+}
+
+@keyframes r3Splat{
+  0%{   opacity: 1; }
+  30%{  opacity: 1; filter: brightness(0.7) blur(1px); }
+  100%{ opacity: 0; filter: brightness(0.5) blur(3px); }
+}
+
+.r3-stripe{
+  position: absolute;
+  left: 0; top: 0;
+  width: 22px;
+  height: 9px;
+  border-radius: 6px;
+  background: rgba(255,250,235,0.85);
+  box-shadow: 0 2px 4px rgba(120,80,20,0.25);
+  will-change: transform;
+}
+
+.r3-palm{
+  position: absolute;
+  left: 0; top: 0;
+  font-size: 64px;
+  line-height: 1;
+  will-change: transform;
+  filter: drop-shadow(0 6px 8px rgba(60,40,10,0.3));
+}
+
+/* ── Oskar ────────────────────────────── */
+.r3-oskar-wrap{
+  position: absolute;
+  bottom: 13%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 95;
+  transition: transform 0.18s ease-out;
+  pointer-events: none;
+}
+
+.r3-oskar{
+  width: min(32vw, 140px);
+  display: block;
+  filter: drop-shadow(0 10px 14px rgba(80,40,0,0.4));
+  animation: r3Run 0.34s ease-in-out infinite alternate;
+}
+
+@keyframes r3Run{
+  from{ transform: translateY(0)    rotate(-2deg); }
+  to{   transform: translateY(-8px) rotate(2deg); }
+}
+
+.r3-oskar-happy{
+  animation: r3Run 0.34s ease-in-out infinite alternate,
+             r3Happy 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes r3Happy{
+  0%{   filter: drop-shadow(0 10px 14px rgba(80,40,0,0.4)); }
+  50%{  filter: drop-shadow(0 0 24px rgba(255,240,140,0.95)) brightness(1.25); }
+  100%{ filter: drop-shadow(0 10px 14px rgba(80,40,0,0.4)); }
+}
+
+.r3-oskar-blink{
+  animation: r3Blink 1.3s linear;
+}
+
+@keyframes r3Blink{
+  0%, 20%, 40%, 60%, 80%{ opacity: 0.25; }
+  10%, 30%, 50%, 70%, 90%, 100%{ opacity: 1; }
+}
+
+/* ── Feedback ─────────────────────────── */
+.r3-float{
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 28px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(120,60,0,0.6);
+  pointer-events: none;
+  animation: r3FloatUp 0.8s ease-out forwards;
+  z-index: 96;
+}
+
+@keyframes r3FloatUp{
+  from{ opacity: 1; margin-top: 0; }
+  to{   opacity: 0; margin-top: -60px; }
+}
+
+.r3-hint{
+  position: absolute;
+  bottom: 5%;
+  font-size: 34px;
+  color: rgba(255,255,255,0.9);
+  text-shadow: 0 2px 10px rgba(120,60,0,0.5);
+  pointer-events: none;
+  animation: r3HintPulse 1s ease-in-out infinite alternate;
+  transition: opacity 0.6s;
+  z-index: 97;
+}
+
+.r3-hint-left{  left: 9%; }
+.r3-hint-right{ right: 9%; }
+
+@keyframes r3HintPulse{
+  from{ transform: scale(1);    opacity: 0.65; }
+  to{   transform: scale(1.25); opacity: 1; }
+}
+
+.r3-flash{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(255,60,60,0) 45%, rgba(255,60,60,0.45) 100%);
+  opacity: 0;
+  z-index: 98;
+}
+
+.r3-flash-on{
+  animation: r3FlashAnim 0.45s ease-out;
+}
+
+@keyframes r3FlashAnim{
+  0%{ opacity: 1; }
+  100%{ opacity: 0; }
 }

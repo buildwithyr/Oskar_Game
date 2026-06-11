@@ -54,6 +54,13 @@ Buddel-Schatzsuche: Im 4×4-Sandfeld sind 6 Knochen vergraben.
 2× tippen = Loch graben. Oskars Nase (👃) verrät, ob ein Knochen
 in einem Nachbarfeld liegt. Je weniger Löcher, desto mehr Sterne.
 
+## Level 11 - Leckerli-Lauf 3D 🌅
+
+Pseudo-3D-Runner ohne Engine: Oskar rennt einen Strandweg entlang,
+der sich zum Horizont verjüngt. Leckerlis 🦴🍖⭐ und Kothaufen 💩
+kommen von vorne und werden größer. Links/rechts tippen zum
+Ausweichen, 15 Leckerlis sammeln, 3 Herzen.
+
 ---
 
 # Projektstruktur
@@ -113,6 +120,31 @@ Das Spiel dient als kreatives Lernprojekt rund um:
 ---
 
 # Changelog
+
+## Version 9 – Strandpromenade-Überarbeitung, Mobile-Feinschliff & 3D-Level (2026-06-11)
+
+**Level 8 – Strandpromenade (komplett überarbeitete Bedienung):**
+- D-Pad verdeckt Oskar nicht mehr: kompaktere Reihen (Start-Zone 186→96px),
+  dadurch eigener Steuerbereich unter dem Spielfeld
+- D-Pad jetzt einreihig (◀ ▲ ▼ ▶), Vorwärts-Knopf grün hervorgehoben
+- Neu: Tippen aufs Spielfeld = Schritt nach vorn, Wischen = zur Seite
+- Kindgerechter: nur noch 3 Ziele statt 5, Autos langsamer (1.8→1.45 / 1.4→1.15)
+- Feldbreite dynamisch statt fix 390px (kein Abschneiden auf kleinen Handys,
+  zentriertes Feld auf Desktop), Ziel-Slots passen sich der Breite an
+- Timer wird nicht mehr vom Home-Button verdeckt
+
+**Mobile-Feinschliff (alle Level):**
+- Home-Button größer (44→50px) für Kinderhände
+- Level 1: Tippen setzt Oskar sofort an die Stelle (vorher nur Ziehen)
+- Level 3: Sprung reagiert sofort auf Touch (kein Warten auf Click-Event)
+
+**Level 11 – Leckerli-Lauf 3D (neu):**
+- Pseudo-3D-Runner: Weg verjüngt sich zum Horizont, Objekte skalieren beim
+  Näherkommen (reine DOM/CSS-Transforms, keine externe Bibliothek)
+- Tipp links/rechts oder Wischen zum Spurwechsel, Pfeiltasten am Desktop
+- 15 Leckerlis sammeln, 💩 ausweichen, 3 Herzen mit Schonzeit nach Treffer
+- Mitlaufende Palmen und Wegmarkierungen für den Tiefeneffekt
+- Neue Datei: `game/level_run3d.js`, Save-Version 4, Cache v7
 
 ## Version 8 – Zwei neue Level (2026-06-11)
 

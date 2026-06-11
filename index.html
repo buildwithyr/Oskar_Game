@@ -30,7 +30,7 @@
   <meta name="format-detection" content="telephone=no">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=16">
 </head>
 
 <body>
@@ -106,6 +106,12 @@
       <div class="card-icon">🦴</div>
       <div class="card-badge badge-10">Level 10</div>
       <div class="card-name">Buddel-Spaß</div>
+    </button>
+
+    <button class="level-card card-11" id="levelBtn11">
+      <div class="card-icon">🌅</div>
+      <div class="card-badge badge-11">Level 11</div>
+      <div class="card-name">Leckerli-Lauf 3D</div>
     </button>
 
   </div>
@@ -327,9 +333,11 @@
       <div class="frog-start-emoji">🐕</div>
       <div class="frog-start-title">Strandpromenade!</div>
       <div class="frog-start-desc">
-        Überquere alle 5 Spuren 🏠<br>
+        Bring Oskar 3× nach Hause 🏠<br>
         Springe auf Baumstämme 🪵<br>
-        Weiche Autos aus 🚗
+        Weiche Autos aus 🚗<br><br>
+        <strong>Tippen</strong> = Schritt nach vorn 👆<br>
+        <strong>Wischen</strong> = zur Seite ↔️
       </div>
       <button class="frog-start-btn" onclick="frogStartGame()">LAUF! 🐾</button>
     </div>
@@ -340,20 +348,17 @@
 
     <div class="frog-hud" id="frogHud">
       <div class="frog-hud-lives" id="frogLivesEl"></div>
-      <div class="frog-hud-score" id="frogScoreEl">0/5 🏠</div>
+      <div class="frog-hud-score" id="frogScoreEl">0/3 🏠</div>
       <div class="frog-hud-timer" id="frogTimerEl">60</div>
     </div>
 
     <div class="frog-field" id="frogField"></div>
 
     <div class="frog-dpad" id="frogDpad">
-      <div class="frog-dpad-btn" data-fdir="up">▲</div>
-      <div class="frog-dpad-row">
-        <div class="frog-dpad-btn" data-fdir="left">◀</div>
-        <div class="frog-dpad-center"></div>
-        <div class="frog-dpad-btn" data-fdir="right">▶</div>
-      </div>
+      <div class="frog-dpad-btn" data-fdir="left">◀</div>
+      <div class="frog-dpad-btn frog-dpad-btn-up" data-fdir="up">▲</div>
       <div class="frog-dpad-btn" data-fdir="down">▼</div>
+      <div class="frog-dpad-btn" data-fdir="right">▶</div>
     </div>
 
   </div>
@@ -455,6 +460,56 @@
 </div>
 
 
+<!-- ═════════════ LEVEL 11 – LECKERLI-LAUF (PSEUDO-3D) ═════════════ -->
+
+<div class="screen" id="level11">
+
+  <button class="back-btn" onclick="r3Stop(); showScreen('intro')">🏠</button>
+
+  <!-- START SCREEN -->
+  <div id="r3StartScreen" class="r3-start-screen">
+    <div class="r3-start-card">
+      <div class="r3-start-emoji">🐕💨</div>
+      <div class="r3-start-title">Leckerli-Lauf!</div>
+      <div class="r3-start-desc">
+        Oskar rennt den Strandweg entlang!<br>
+        Tippe <strong>links / rechts</strong> zum Ausweichen ↔️<br>
+        Sammle <strong>15 Leckerlis</strong> 🦴🍖⭐<br>
+        Aber tritt nicht in den 💩!
+      </div>
+      <button class="r3-start-btn" onclick="r3Begin()">LOS! 🐾</button>
+    </div>
+  </div>
+
+  <!-- GAME AREA -->
+  <div id="r3GameArea" class="r3-game-area hidden">
+
+    <div class="r3-sky"></div>
+    <div class="r3-sun"></div>
+    <div class="r3-sea"></div>
+    <div class="r3-ground"></div>
+    <div class="r3-path"></div>
+
+    <div class="r3-world" id="r3World"></div>
+
+    <div id="r3OskarWrap" class="r3-oskar-wrap">
+      <img id="r3Oskar" class="r3-oskar" src="assets/OskarBadehose.png" alt="Oskar rennt">
+    </div>
+
+    <div class="hud">
+      <div class="hud-title">Level 11 🌅</div>
+      <div class="hud-sub">Sammle die Leckerlis!</div>
+      <div class="hud-score" id="r3Score">🦴 0/15</div>
+    </div>
+
+    <div class="r3-hint r3-hint-left">◀</div>
+    <div class="r3-hint r3-hint-right">▶</div>
+    <div id="r3Flash" class="r3-flash"></div>
+
+  </div>
+</div>
+
+
 <!-- PWA Install Prompt -->
 <div id="pwaInstallBanner" class="pwa-banner" style="display:none" role="dialog" aria-label="App installieren">
   <div class="pwa-banner-content">
@@ -468,21 +523,22 @@
   </div>
 </div>
 
-<script src="game/config.js?v=13"></script>
-<script src="game/utils.js?v=13"></script>
-<script src="game/storage.js?v=13"></script>
-<script src="game/level1.js?v=13"></script>
-<script src="game/level_bubble.js?v=13"></script>
-<script src="game/level3.js?v=13"></script>
-<script src="game/level4.js?v=13"></script>
-<script src="game/level5.js?v=13"></script>
-<script src="game/level6.js?v=13"></script>
-<script src="game/level7.js?v=13"></script>
-<script src="game/level_frogger.js?v=13"></script>
-<script src="game/level_dance.js?v=13"></script>
-<script src="game/level_dig.js?v=13"></script>
-<script src="game/main.js?v=13"></script>
-<script src="game/pwa.js?v=13"></script>
+<script src="game/config.js?v=14"></script>
+<script src="game/utils.js?v=14"></script>
+<script src="game/storage.js?v=14"></script>
+<script src="game/level1.js?v=14"></script>
+<script src="game/level_bubble.js?v=14"></script>
+<script src="game/level3.js?v=14"></script>
+<script src="game/level4.js?v=14"></script>
+<script src="game/level5.js?v=14"></script>
+<script src="game/level6.js?v=14"></script>
+<script src="game/level7.js?v=14"></script>
+<script src="game/level_frogger.js?v=14"></script>
+<script src="game/level_dance.js?v=14"></script>
+<script src="game/level_dig.js?v=14"></script>
+<script src="game/level_run3d.js?v=14"></script>
+<script src="game/main.js?v=14"></script>
+<script src="game/pwa.js?v=14"></script>
 
 </body>
 </html>

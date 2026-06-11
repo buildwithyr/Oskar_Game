@@ -4,7 +4,7 @@
 ══════════════════════════════════════ */
 
 const SAVE_KEY = 'oskar_player_data';
-const CURRENT_SAVE_VERSION = 3;
+const CURRENT_SAVE_VERSION = 4;
 
 const DEFAULT_PLAYER_DATA = {
   saveVersion: CURRENT_SAVE_VERSION,
@@ -35,6 +35,9 @@ const DEFAULT_PLAYER_DATA = {
     danceLevelWins: 0,
     digGamesPlayed: 0,
     digLevelWins: 0,
+    level11Completed: 0,
+    run3dGamesPlayed: 0,
+    run3dLevelWins: 0,
   },
   highscores: {
     level1: 0,
@@ -47,6 +50,7 @@ const DEFAULT_PLAYER_DATA = {
     level8: 0,
     level9: 0,
     level10: 0,
+    level11: 0,
   },
   dailyChallenges: {}
 };
@@ -81,6 +85,11 @@ function migrateSaveData(data) {
   // in by the DEFAULT_PLAYER_DATA merge below
   if (data.saveVersion < 3) {
     data.saveVersion = 3;
+  }
+
+  // v3 → v4: add pseudo-3D runner (level11) — keys filled by merge below
+  if (data.saveVersion < 4) {
+    data.saveVersion = 4;
   }
 
   const filled = { ...DEFAULT_PLAYER_DATA, ...data };

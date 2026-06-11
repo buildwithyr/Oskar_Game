@@ -30,7 +30,7 @@
   <meta name="format-detection" content="telephone=no">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=15">
 </head>
 
 <body>
@@ -94,6 +94,18 @@
       <div class="card-icon">🐕</div>
       <div class="card-badge badge-8">Level 8</div>
       <div class="card-name">Strandpromenade</div>
+    </button>
+
+    <button class="level-card card-9" id="levelBtn9">
+      <div class="card-icon">🎵</div>
+      <div class="card-badge badge-9">Level 9</div>
+      <div class="card-name">Tanzparty</div>
+    </button>
+
+    <button class="level-card card-10" id="levelBtn10">
+      <div class="card-icon">🦴</div>
+      <div class="card-badge badge-10">Level 10</div>
+      <div class="card-name">Buddel-Spaß</div>
     </button>
 
   </div>
@@ -348,6 +360,101 @@
 </div>
 
 
+<!-- ═════════════ LEVEL 9 – TANZPARTY ═════════════ -->
+
+<div class="screen" id="level9">
+
+  <button class="back-btn" onclick="dcStopGame(); showScreen('intro')">🏠</button>
+
+  <!-- START SCREEN -->
+  <div id="dcStartScreen" class="dc-start-screen">
+    <div class="dc-start-card">
+      <img src="assets/Oskartanzend - Kopie.png" class="dc-start-img" alt="Oskar tanzt">
+      <div class="dc-start-title">🎵 Tanzparty!</div>
+      <div class="dc-start-desc">
+        Oskar zeigt dir Tanzschritte 💃<br>
+        Schau gut zu und<br>
+        <strong>tipp sie in der gleichen Reihenfolge nach!</strong>
+      </div>
+      <button class="dc-start-btn" onclick="dcBeginGame()">TANZEN! 🎵</button>
+    </div>
+  </div>
+
+  <!-- GAME AREA -->
+  <div id="dcGameArea" class="dc-game-area hidden">
+
+    <div class="dc-hud">
+      <div class="dc-hud-round" id="dcRoundEl">Runde 1/5</div>
+      <div class="dc-hud-lives" id="dcLivesEl"></div>
+    </div>
+
+    <div class="dc-stage" id="dcStage">
+      <div class="dc-disco" aria-hidden="true">
+        <span class="dc-disco-dot d1"></span>
+        <span class="dc-disco-dot d2"></span>
+        <span class="dc-disco-dot d3"></span>
+        <span class="dc-disco-dot d4"></span>
+      </div>
+      <img id="dcOskar" src="assets/Oskartanzend - Kopie.png" class="dc-oskar" alt="Oskar tanzt">
+      <div class="dc-status" id="dcStatus">Schau gut zu! 👀</div>
+    </div>
+
+    <div class="dc-pads" id="dcPads">
+      <button class="dc-pad dc-pad-0" data-pad="0">🦴</button>
+      <button class="dc-pad dc-pad-1" data-pad="1">🥎</button>
+      <button class="dc-pad dc-pad-2" data-pad="2">🐾</button>
+      <button class="dc-pad dc-pad-3" data-pad="3">⭐</button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═════════════ LEVEL 10 – BUDDEL-SPASS ═════════════ -->
+
+<div class="screen" id="level10">
+
+  <button class="back-btn" onclick="dgStopGame(); showScreen('intro')">🏠</button>
+
+  <!-- START SCREEN -->
+  <div id="dgStartScreen" class="dg-start-screen">
+    <div class="dg-start-card">
+      <div class="dg-start-emoji">🦴</div>
+      <div class="dg-start-title">Buddel-Spaß!</div>
+      <div class="dg-start-desc">
+        Im Sand sind <strong>6 Knochen</strong> versteckt!<br>
+        2× tippen = Loch buddeln 🕳️<br>
+        Oskars Nase hilft dir:<br>
+        <strong>👃 = Knochen ist nebenan!</strong>
+      </div>
+      <button class="dg-start-btn" onclick="dgBeginGame()">BUDDELN! 🐾</button>
+    </div>
+  </div>
+
+  <!-- GAME AREA -->
+  <div id="dgGameArea" class="dg-game-area hidden">
+
+    <div class="hud">
+      <div class="hud-title">Level 10 🦴</div>
+      <div class="hud-sub">Finde alle Knochen!</div>
+      <div class="hud-score" id="dgCounter">🦴 0 / 6</div>
+    </div>
+
+    <div class="dg-content">
+      <div class="dg-oskar-row">
+        <img id="dgOskar" src="assets/OskarCartoon.png" class="dg-oskar" alt="Oskar">
+        <div class="dg-bubble" id="dgBubble">Hier irgendwo sind Knochen! 🤔</div>
+      </div>
+
+      <div class="dg-grid" id="dgGrid"></div>
+
+      <div class="dg-digs" id="dgDigs">🕳️ 0 Löcher gebuddelt</div>
+    </div>
+
+  </div>
+</div>
+
+
 <!-- PWA Install Prompt -->
 <div id="pwaInstallBanner" class="pwa-banner" style="display:none" role="dialog" aria-label="App installieren">
   <div class="pwa-banner-content">
@@ -361,19 +468,21 @@
   </div>
 </div>
 
-<script src="game/config.js?v=12"></script>
-<script src="game/utils.js?v=12"></script>
-<script src="game/storage.js?v=12"></script>
-<script src="game/level1.js?v=12"></script>
-<script src="game/level_bubble.js?v=12"></script>
-<script src="game/level3.js?v=12"></script>
-<script src="game/level4.js?v=12"></script>
-<script src="game/level5.js?v=12"></script>
-<script src="game/level6.js?v=12"></script>
-<script src="game/level7.js?v=12"></script>
-<script src="game/level_frogger.js?v=12"></script>
-<script src="game/main.js?v=12"></script>
-<script src="game/pwa.js?v=12"></script>
+<script src="game/config.js?v=13"></script>
+<script src="game/utils.js?v=13"></script>
+<script src="game/storage.js?v=13"></script>
+<script src="game/level1.js?v=13"></script>
+<script src="game/level_bubble.js?v=13"></script>
+<script src="game/level3.js?v=13"></script>
+<script src="game/level4.js?v=13"></script>
+<script src="game/level5.js?v=13"></script>
+<script src="game/level6.js?v=13"></script>
+<script src="game/level7.js?v=13"></script>
+<script src="game/level_frogger.js?v=13"></script>
+<script src="game/level_dance.js?v=13"></script>
+<script src="game/level_dig.js?v=13"></script>
+<script src="game/main.js?v=13"></script>
+<script src="game/pwa.js?v=13"></script>
 
 </body>
 </html>

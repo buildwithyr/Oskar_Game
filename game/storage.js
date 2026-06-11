@@ -4,7 +4,7 @@
 ══════════════════════════════════════ */
 
 const SAVE_KEY = 'oskar_player_data';
-const CURRENT_SAVE_VERSION = 2;
+const CURRENT_SAVE_VERSION = 3;
 
 const DEFAULT_PLAYER_DATA = {
   saveVersion: CURRENT_SAVE_VERSION,
@@ -29,6 +29,12 @@ const DEFAULT_PLAYER_DATA = {
     froggerGamesPlayed: 0,
     froggerLevelWins: 0,
     bestFroggerTime: 0,
+    level9Completed: 0,
+    level10Completed: 0,
+    danceGamesPlayed: 0,
+    danceLevelWins: 0,
+    digGamesPlayed: 0,
+    digLevelWins: 0,
   },
   highscores: {
     level1: 0,
@@ -39,6 +45,8 @@ const DEFAULT_PLAYER_DATA = {
     level6: 0,
     level7: 0,
     level8: 0,
+    level9: 0,
+    level10: 0,
   },
   dailyChallenges: {}
 };
@@ -67,6 +75,12 @@ function migrateSaveData(data) {
       delete data.statistics.crabLevelWins;
       delete data.statistics.bestCrabRoundTime;
     }
+  }
+
+  // v2 → v3: add dance (level9) + dig (level10) — new keys are filled
+  // in by the DEFAULT_PLAYER_DATA merge below
+  if (data.saveVersion < 3) {
+    data.saveVersion = 3;
   }
 
   const filled = { ...DEFAULT_PLAYER_DATA, ...data };

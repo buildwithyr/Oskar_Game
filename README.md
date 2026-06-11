@@ -39,6 +39,21 @@ Lernspiel: Den fehlenden Buchstaben in einem Wort erkennen. 8 Fragen.
 
 Buchstabensuche: Den gesuchten Buchstaben in einem Raster finden. 5 Runden.
 
+## Level 8 - Strandpromenade 🐕
+
+Frogger-Klassiker: Oskar überquert Straße und Wasser zu 5 Zielhäusern.
+
+## Level 9 - Tanzparty 🎵
+
+Simon Says: Oskar tanzt eine Schrittfolge auf 4 bunten Pads vor –
+gut zuschauen und in der gleichen Reihenfolge nachtippen. 5 Runden, 3 Herzen.
+
+## Level 10 - Buddel-Spaß 🦴
+
+Buddel-Schatzsuche: Im 4×4-Sandfeld sind 6 Knochen vergraben.
+2× tippen = Loch graben. Oskars Nase (👃) verrät, ob ein Knochen
+in einem Nachbarfeld liegt. Je weniger Löcher, desto mehr Sterne.
+
 ---
 
 # Projektstruktur
@@ -98,6 +113,29 @@ Das Spiel dient als kreatives Lernprojekt rund um:
 ---
 
 # Changelog
+
+## Version 8 – Zwei neue Level (2026-06-11)
+
+Zwei komplett neue Spielmodi. Bestehende Level unverändert.
+
+**Level 9 – Tanzparty (Simon Says):**
+- Oskar zeigt mit den Tanz-Grafiken eine Schrittfolge auf 4 bunten Pads vor
+- Spieler tippt die Folge nach; 5 Runden mit wachsender Länge (2→5 Schritte)
+- 3 Herzen, bei Fehlern wird dieselbe Folge sanft wiederholt
+- Disco-Bühne mit Konfetti-Effekt, Tastatur-Support (Tasten 1–4)
+- Neue Datei: `game/level_dance.js`
+
+**Level 10 – Buddel-Spaß (Knochen suchen):**
+- 4×4-Sandfeld, 6 vergrabene Knochen, 2 Krabben als Schreckmoment
+- 2× tippen = graben (mit Sandpartikel-Animation)
+- Schnüffel-Hinweise: 👃-Marker, wenn ein Knochen im Nachbarfeld liegt
+- Kein Verlieren möglich; Sterne nach Anzahl der Grabungen
+- Neue Datei: `game/level_dig.js`
+
+**Integration:**
+- Hauptmenü: 10-Karten-Layout, neue Badges für Level 9/10
+- Save-System: Version 3 (Statistiken + Highscores für Level 9/10)
+- Service Worker: Cache v6 inkl. neuer Dateien und Tanz-Grafiken
 
 ## Version 7 – Mobile-Optimierung (2026-05-30)
 

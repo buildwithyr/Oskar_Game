@@ -150,6 +150,15 @@ function l1SetupInput(){
   const field = document.getElementById("l1Field")
   if(!field) return
 
+  // Auch ein einfacher Tipp setzt Oskar direkt dorthin –
+  // Kinder müssen den Finger nicht erst ziehen
+  field.addEventListener("touchstart", e => {
+    const t = e.touches[0]
+    const rect = field.getBoundingClientRect()
+    l1OskarX = ((t.clientX - rect.left) / rect.width) * 100
+    l1PositionOskar()
+  }, { passive: true })
+
   field.addEventListener("touchmove", e => {
     e.preventDefault()
     const t = e.touches[0]

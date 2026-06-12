@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'oskar-v5';
+const CACHE_VERSION = 'oskar-v9';
 const CACHE_NAME = `oskar-beach-stories-${CACHE_VERSION}`;
 
 // Base URL derived from service worker location (works on GitHub Pages subpaths)
@@ -15,13 +15,13 @@ const PRECACHE_URLS = [
   BASE_URL + 'game/storage.js',
   BASE_URL + 'game/main.js',
   BASE_URL + 'game/level1.js',
-  BASE_URL + 'game/level_bubble.js',
   BASE_URL + 'game/level_frogger.js',
   BASE_URL + 'game/level3.js',
   BASE_URL + 'game/level4.js',
   BASE_URL + 'game/level5.js',
-  BASE_URL + 'game/level6.js',
-  BASE_URL + 'game/level7.js',
+  BASE_URL + 'game/level_dance.js',
+  BASE_URL + 'game/level_dig.js',
+  BASE_URL + 'game/level_run3d.js',
   BASE_URL + 'game/pwa.js',
   BASE_URL + 'icons/icon-192.png',
   BASE_URL + 'icons/icon-512.png',
@@ -38,7 +38,9 @@ const PRECACHE_URLS = [
   BASE_URL + 'assets/Frau am Liegestuhl 2.png',
   BASE_URL + 'assets/Kothaufen.png',
   BASE_URL + 'assets/Instagram_icon.png',
-  BASE_URL + 'assets/krebs.png'
+  BASE_URL + 'assets/krebs.png',
+  BASE_URL + 'assets/Oskartanzend - Kopie.png',
+  BASE_URL + 'assets/Oskartanzendgespiegelt.png'
 ];
 
 // Install: precache all assets

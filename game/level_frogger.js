@@ -1,20 +1,22 @@
 /* ══════════════════════════════════════
-   LEVEL 8 – FROGGER AM STRAND
+   LEVEL 5 – STRANDPROMENADE
    Oskar überquert die Strandpromenade
 ══════════════════════════════════════ */
 
 // ── Layout ─────────────────────────────────────────────────────
-// 9 rows top→bottom, heights in px
+// 9 rows top→bottom, heights in px.
+// Kompakt gehalten, damit unter dem Feld Platz für die Steuerung
+// bleibt und das D-Pad Oskar nicht mehr verdeckt.
 const FROG_ROWS = [
-  { type: 'goal',     h: 62,  bg: '#2d7a0a' },   // 0: Ziel-Zone
-  { type: 'water',    h: 76,  bg: '#1565c0' },   // 1: Wasser (→)
-  { type: 'water',    h: 76,  bg: '#0d47a1' },   // 2: Wasser (←)
-  { type: 'water',    h: 76,  bg: '#1976d2' },   // 3: Wasser (→)
-  { type: 'island',   h: 48,  bg: '#5d4037' },   // 4: Sichere Insel
-  { type: 'road',     h: 76,  bg: '#263238' },   // 5: Straße (←)
-  { type: 'road',     h: 76,  bg: '#37474f' },   // 6: Straße (→)
-  { type: 'sidewalk', h: 44,  bg: '#546e7a' },   // 7: Gehweg (sicher)
-  { type: 'start',    h: 186, bg: '#e8c46a' },   // 8: Start (sicher)
+  { type: 'goal',     h: 58,  bg: '#2d7a0a' },   // 0: Ziel-Zone
+  { type: 'water',    h: 64,  bg: '#1565c0' },   // 1: Wasser (→)
+  { type: 'water',    h: 64,  bg: '#0d47a1' },   // 2: Wasser (←)
+  { type: 'water',    h: 64,  bg: '#1976d2' },   // 3: Wasser (→)
+  { type: 'island',   h: 44,  bg: '#5d4037' },   // 4: Sichere Insel
+  { type: 'road',     h: 64,  bg: '#263238' },   // 5: Straße (←)
+  { type: 'road',     h: 64,  bg: '#37474f' },   // 6: Straße (→)
+  { type: 'sidewalk', h: 40,  bg: '#546e7a' },   // 7: Gehweg (sicher)
+  { type: 'start',    h: 96,  bg: '#e8c46a' },   // 8: Start (sicher)
 ]
 // Row top Y positions (computed from heights)
 const FROG_ROW_Y = FROG_ROWS.reduce((acc, r, i) => {
@@ -22,16 +24,16 @@ const FROG_ROW_Y = FROG_ROWS.reduce((acc, r, i) => {
   return acc
 }, [])
 
-const FROG_W         = 390    // game field width (matches max container)
-const FROG_COL_STEP  = 39     // 10 columns
-const FROG_COLS      = 10
-const FROG_OSKAR_W   = 46
-const FROG_OSKAR_H   = 46
-const FROG_LIVES     = 3
-const FROG_TIMER_MAX = 60     // seconds per attempt
+const FROG_W          = 390    // fallback width (real width read from DOM)
+const FROG_COL_STEP   = 39     // horizontal step size
+const FROG_OSKAR_W    = 46
+const FROG_OSKAR_H    = 46
+const FROG_LIVES      = 3
+const FROG_TIMER_MAX  = 60     // seconds per attempt
+const FROG_GOAL_COUNT = 3      // wie oft Oskar nach Hause muss
 
-// Goal slot center-X positions (5 slots)
-const FROG_GOALS_X = [39, 117, 195, 273, 351]
+// Goal slot center-X positions – computed from real field width in frogBuildField
+let frogGoalsX = []
 
 // Obstacle config: { row, x, w, speed (px/frame), dir, type, emoji }
 function frogMakeObstacles() {
@@ -40,17 +42,17 @@ function frogMakeObstacles() {
     { row: 1, x: 10,  w: 128, speed: 1.1, dir:  1, type: 'log',  emoji: '' },
     { row: 1, x: 230, w: 105, speed: 1.1, dir:  1, type: 'log',  emoji: '' },
     // Water row 2 ←
-    { row: 2, x: 50,  w: 148, speed: 1.5, dir: -1, type: 'log',  emoji: '' },
-    { row: 2, x: 280, w: 108, speed: 1.5, dir: -1, type: 'log',  emoji: '' },
+    { row: 2, x: 50,  w: 148, speed: 1.3, dir: -1, type: 'log',  emoji: '' },
+    { row: 2, x: 280, w: 108, speed: 1.3, dir: -1, type: 'log',  emoji: '' },
     // Water row 3 →  (slow, wide)
     { row: 3, x: 20,  w: 158, speed: 0.85,dir:  1, type: 'log',  emoji: '' },
     { row: 3, x: 250, w: 118, speed: 0.85,dir:  1, type: 'log',  emoji: '' },
-    // Road row 5 ←  (reduced speed, wider gap)
-    { row: 5, x: 30,  w: 68,  speed: 1.8, dir: -1, type: 'car',  emoji: '🚗' },
-    { row: 5, x: 260, w: 68,  speed: 1.8, dir: -1, type: 'car',  emoji: '🚗' },
-    // Road row 6 →  (reduced speed, one fewer vehicle)
-    { row: 6, x: 70,  w: 72,  speed: 1.4, dir:  1, type: 'car',  emoji: '🚕' },
-    { row: 6, x: 300, w: 64,  speed: 1.4, dir:  1, type: 'car',  emoji: '🛵' },
+    // Road row 5 ←  (kindgerecht langsam)
+    { row: 5, x: 30,  w: 68,  speed: 1.45,dir: -1, type: 'car',  emoji: '🚗' },
+    { row: 5, x: 260, w: 68,  speed: 1.45,dir: -1, type: 'car',  emoji: '🚗' },
+    // Road row 6 →
+    { row: 6, x: 70,  w: 72,  speed: 1.15,dir:  1, type: 'car',  emoji: '🚕' },
+    { row: 6, x: 300, w: 64,  speed: 1.15,dir:  1, type: 'car',  emoji: '🛵' },
   ]
 }
 
@@ -72,7 +74,7 @@ let frogTimers     = new Set()
 // ── Entry Point ─────────────────────────────────────────────────
 function startFroggerLevel() {
   frogStop()
-  showScreen('level8')
+  showScreen('level5')
 
   document.getElementById('frogStartScreen').classList.remove('hidden')
   document.getElementById('frogGameArea').classList.add('hidden')
@@ -102,10 +104,20 @@ function frogStartGame() {
   frogUpdateHUD()
 }
 
+// ── Helpers ──────────────────────────────────────────────────────
+function frogFieldW() {
+  const field = document.getElementById('frogField')
+  return (field && field.offsetWidth) || FROG_W
+}
+
 // ── Field Builder ────────────────────────────────────────────────
 function frogBuildField() {
   const field = document.getElementById('frogField')
   field.innerHTML = ''
+
+  // 3 Ziel-Slots, gleichmäßig über die echte Feldbreite verteilt
+  const w = frogFieldW()
+  frogGoalsX = [Math.round(w * 0.18), Math.round(w * 0.5), Math.round(w * 0.82)]
 
   FROG_ROWS.forEach((row, i) => {
     const div = document.createElement('div')
@@ -119,7 +131,7 @@ function frogBuildField() {
 
     // Goal zone: add slots
     if (row.type === 'goal') {
-      FROG_GOALS_X.forEach((gx, si) => {
+      frogGoalsX.forEach((gx, si) => {
         const slot = document.createElement('div')
         slot.className   = 'frog-goal-slot'
         slot.dataset.slot = si
@@ -306,9 +318,9 @@ function frogMove(dir) {
   const newRow = frogRow + (dir === 'up' ? -1 : dir === 'down' ? 1 : 0)
   const newX   = frogX  + (dir === 'left' ? -FROG_COL_STEP : dir === 'right' ? FROG_COL_STEP : 0)
 
-  // Bounds check
+  // Bounds check (Oskar bleibt komplett im Feld, egal wie breit es ist)
   if (newRow < 0 || newRow > 8) return
-  if (newX < 0 || newX > FROG_W) return
+  if (newX < FROG_OSKAR_W / 2 || newX > frogFieldW() - FROG_OSKAR_W / 2) return
   if (newRow < frogRow && frogRow === 8) frogResetTimer()
 
   frogRow = newRow
@@ -345,7 +357,7 @@ function frogArriveGoal() {
 
   // Snap to nearest goal slot
   let nearest = 0, minDist = Infinity
-  FROG_GOALS_X.forEach((gx, i) => {
+  frogGoalsX.forEach((gx, i) => {
     const d = Math.abs(frogX - gx)
     if (d < minDist && !frogGoalsFilled.includes(i)) {
       minDist = d; nearest = i
@@ -353,15 +365,15 @@ function frogArriveGoal() {
   })
 
   // If all slots already taken, use any nearest
-  if (frogGoalsFilled.length >= FROG_GOALS_X.length) {
+  if (frogGoalsFilled.length >= frogGoalsX.length) {
     frogGoalsFilled.forEach((_, i) => {
-      const d = Math.abs(frogX - FROG_GOALS_X[i])
+      const d = Math.abs(frogX - frogGoalsX[i])
       if (d < minDist) { minDist = d; nearest = i }
     })
   }
 
   frogGoalsFilled.push(nearest)
-  frogX = FROG_GOALS_X[nearest]
+  frogX = frogGoalsX[nearest]
   frogRenderOskar()
 
   // Animate goal slot
@@ -374,9 +386,9 @@ function frogArriveGoal() {
   vibe(VIBRATE.LARGE)
   frogUpdateHUD()
 
-  showToast(`🏠 Ziel ${frogGoalsFilled.length}/5!`, 1600)
+  showToast(`🏠 Zuhause ${frogGoalsFilled.length}/${FROG_GOAL_COUNT}!`, 1600)
 
-  if (frogGoalsFilled.length >= 5) {
+  if (frogGoalsFilled.length >= FROG_GOAL_COUNT) {
     setGameTimeout(frogWin, 800, frogTimers)
   } else {
     setGameTimeout(() => frogRespawn(), 1200, frogTimers)
@@ -429,7 +441,7 @@ function frogShowSplash() {
 
 function frogRespawn() {
   frogRow    = 8
-  frogX      = FROG_W / 2
+  frogX      = frogFieldW() / 2
   frogOnLog  = null
   frogDead   = false
   frogResetTimer()
@@ -476,7 +488,7 @@ function frogUpdateHUD() {
     `<span style="opacity:${i < frogLives ? 1 : 0.2}">❤️</span>`).join('')
 
   const sc = document.getElementById('frogScoreEl')
-  if (sc) sc.textContent = `${frogGoalsFilled.length}/5 🏠`
+  if (sc) sc.textContent = `${frogGoalsFilled.length}/${FROG_GOAL_COUNT} 🏠`
 
   const ti = document.getElementById('frogTimerEl')
   if (ti) {
@@ -492,16 +504,16 @@ function frogWin() {
 
   const data = loadPlayerData()
   data.statistics.froggerLevelWins = (data.statistics.froggerLevelWins || 0) + 1
-  data.statistics.level8Completed = (data.statistics.level8Completed || 0) + 1
+  data.statistics.level5Completed = (data.statistics.level5Completed || 0) + 1
   data.bones = (data.bones || 0) + 1
   savePlayerData(data)
-  updateHighscore(8, frogGoalsFilled.length)
+  updateHighscore(5, frogGoalsFilled.length)
   vibe(VIBRATE.LARGE)
 
   const stars = frogLives === 3 ? 3 : frogLives === 2 ? 2 : 1
   showLevelComplete({
-    title:  '🐕 Alle Ziele erreicht!',
-    text:   'Oskar hat die Promenade überquert!\n+1 Knochen 🦴',
+    title:  '🐕 Oskar ist zu Hause!',
+    text:   `Alle ${FROG_GOAL_COUNT} Häuser erreicht!\n+1 Knochen 🦴`,
     button: '🌴 Weiter',
     stars,
     next: () => { frogStop(); showScreen('intro') }
@@ -512,23 +524,46 @@ function frogGameOver() {
   vibe([80, 60, 80])
   showLevelComplete({
     title:  '😵 Zu gefährlich!',
-    text:   `${frogGoalsFilled.length} von 5 Zielen erreicht\nNochmal versuchen?`,
+    text:   `${frogGoalsFilled.length} von ${FROG_GOAL_COUNT} Häusern erreicht\nNochmal versuchen?`,
     button: '🔄 Nochmal',
     stars:  0,
     next:   () => startFroggerLevel()
   })
 }
 
-// ── Input Setup (called on startFroggerLevel) ─────────────────────
-function frogSetupInput() {
-  // D-pad buttons in #level8
-  document.querySelectorAll('#frogDpad .frog-dpad-btn').forEach(btn => {
-    btn.addEventListener('click', () => frogMove(btn.dataset.fdir))
-    btn.addEventListener('touchstart', (e) => {
-      e.preventDefault()
-      frogMove(btn.dataset.fdir)
-    }, { passive: false })
-  })
+// ── Swipe-/Tipp-Steuerung auf dem Spielfeld ──────────────────────
+// Tippen = ein Schritt nach vorn, Wischen = Richtung des Wischs.
+// Einmalig aus main.js gebunden.
+function frogBindFieldInput() {
+  const field = document.getElementById('frogField')
+  if (!field) return
+
+  let startX = 0, startY = 0
+
+  field.addEventListener('touchstart', (e) => {
+    const t = e.touches[0]
+    startX = t.clientX
+    startY = t.clientY
+  }, { passive: true })
+
+  field.addEventListener('touchend', (e) => {
+    if (!frogRunning) return
+    e.preventDefault()   // verhindert Doppel-Auslösen über synthetischen Click
+    const t  = e.changedTouches[0]
+    const dx = t.clientX - startX
+    const dy = t.clientY - startY
+
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) {
+      frogMove('up')      // kurzer Tipp = Schritt nach vorn
+    } else if (Math.abs(dx) > Math.abs(dy)) {
+      frogMove(dx > 0 ? 'right' : 'left')
+    } else {
+      frogMove(dy > 0 ? 'down' : 'up')
+    }
+  }, { passive: false })
+
+  // Desktop: Klick aufs Feld = Schritt nach vorn
+  field.addEventListener('click', () => frogMove('up'))
 }
 
 // ── Cleanup ────────────────────────────────────────────────────────

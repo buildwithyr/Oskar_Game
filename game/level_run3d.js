@@ -55,6 +55,8 @@ let r3SpawnCount  = 0
 let r3LastWasPoop = false
 let r3RafId       = null
 let r3W = 390, r3H = 700
+let r3OskarX      = 0          // kontinuierliche X-Position (px, relativ zur Wegmitte)
+let r3DragId      = null       // aktiver Pointer beim Ziehen
 let r3HintShown   = false
 let r3Timers      = new Set()
 
@@ -70,6 +72,8 @@ function r3Begin(){
   r3Stop()
   r3Running     = true
   r3Lane        = 0
+  r3OskarX      = 0
+  r3DragId      = null
   r3Lives       = R3_LIVES
   r3Collected   = 0
   r3TravelMs    = R3_TRAVEL_START
@@ -81,7 +85,8 @@ function r3Begin(){
 
   document.getElementById('r3StartScreen').classList.add('hidden')
   document.getElementById('r3GameArea').classList.remove('hidden')
-  document.querySelectorAll('#level11 .r3-hint').forEach(h => h.style.opacity = '1')
+  const hint = document.getElementById('r3DragHint')
+  if(hint) hint.style.opacity = '1'
 
   const data = loadPlayerData()
   data.statistics.run3dGamesPlayed = (data.statistics.run3dGamesPlayed || 0) + 1
@@ -301,61 +306,100 @@ function r3PulseOskar(){
 }
 
 // ── Steuerung ───────────────────────────────────────────────────
+// Touch-and-Drag wie in Level 1: Finger (oder Maus/Stift) auf den
+// Spielbereich legen und ziehen – Oskar folgt horizontal der
+// Bewegung, vertikale Bewegung wird ignoriert. Die Spiellogik
+// bleibt spurbasiert: r3Lane wird aus der Position abgeleitet.
+
+function r3HideHint(){
+  if(!r3HintShown) return
+  r3HintShown = false
+  const hint = document.getElementById('r3DragHint')
+  if(hint) hint.style.opacity = '0'
+}
+
+// Aus der kontinuierlichen Position die nächstgelegene Spur ableiten
+function r3ApplyLaneFromX(){
+  const off  = r3LaneOffset()
+  const lane = r3OskarX > off / 2 ? 1 : r3OskarX < -off / 2 ? -1 : 0
+  if(lane !== r3Lane){
+    r3Lane = lane
+    vibe(VIBRATE.SMALL)   // spürbares Feedback beim Spurwechsel
+  }
+}
+
+// Pfeiltasten (Desktop): ganze Spur nach links/rechts
 function r3Steer(dir){
   if(!r3Running) return
   const newLane = Math.max(-1, Math.min(1, r3Lane + dir))
   if(newLane === r3Lane) return
-  r3Lane = newLane
+  r3Lane   = newLane
+  r3OskarX = newLane * r3LaneOffset()
   vibe(VIBRATE.SMALL)
   r3RenderOskar()
-
-  if(r3HintShown){
-    r3HintShown = false
-    document.querySelectorAll('#level11 .r3-hint').forEach(h => h.style.opacity = '0')
-  }
+  r3HideHint()
 }
 
 function r3RenderOskar(instant){
   const wrap = document.getElementById('r3OskarWrap')
   if(!wrap) return
-  const x    = r3Lane * r3LaneOffset()
-  const lean = r3Lane * 6
+  const off  = r3LaneOffset()
+  const lean = (r3OskarX / off) * 6
   if(instant) wrap.style.transition = 'none'
-  wrap.style.transform = `translateX(calc(-50% + ${x}px)) rotate(${lean}deg)`
+  wrap.style.transform = `translateX(calc(-50% + ${r3OskarX}px)) rotate(${lean}deg)`
   if(instant){
     void wrap.offsetWidth
     wrap.style.transition = ''
   }
 }
 
-// Tippen links/rechts + Wischen (einmalig aus main.js gebunden)
+// Finger-/Mausposition → Oskar-Position (wie Level 1: Oskar geht
+// dorthin, wo der Finger ist, begrenzt auf die Wegbreite)
+function r3DragTo(clientX){
+  const area = document.getElementById('r3GameArea')
+  if(!area) return
+  const rect = area.getBoundingClientRect()
+  const off  = r3LaneOffset()
+  const x    = clientX - rect.left - rect.width / 2
+  r3OskarX   = Math.max(-off, Math.min(off, x))
+  r3ApplyLaneFromX()
+
+  const wrap = document.getElementById('r3OskarWrap')
+  if(wrap) wrap.classList.add('r3-dragging')
+  r3RenderOskar()
+}
+
+// Pointer Events decken Touch, Maus und Stift ab
+// (einmalig aus main.js gebunden)
 function r3BindInput(){
   const area = document.getElementById('r3GameArea')
   if(!area) return
 
-  let startX = 0
-
-  area.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX
-  }, { passive: true })
-
-  area.addEventListener('touchend', (e) => {
+  area.addEventListener('pointerdown', (e) => {
     if(!r3Running) return
-    e.preventDefault()
-    const endX = e.changedTouches[0].clientX
-    const dx   = endX - startX
-    if(Math.abs(dx) > 30){
-      r3Steer(dx > 0 ? 1 : -1)            // Wischen
-    } else {
-      r3Steer(endX < r3W / 2 ? -1 : 1)    // Tippen: linke/rechte Hälfte
-    }
-  }, { passive: false })
-
-  // Desktop: Klick links/rechts
-  area.addEventListener('click', (e) => {
-    if(!r3Running) return
-    r3Steer(e.clientX < window.innerWidth / 2 ? -1 : 1)
+    if(e.target.closest('.hud')) return    // HUD-Karte nicht als Steuerfläche
+    r3DragId = e.pointerId
+    if(area.setPointerCapture) area.setPointerCapture(e.pointerId)
+    r3DragTo(e.clientX)
+    r3HideHint()
   })
+
+  area.addEventListener('pointermove', (e) => {
+    if(!r3Running || e.pointerId !== r3DragId) return
+    r3DragTo(e.clientX)
+  })
+
+  const endDrag = (e) => {
+    if(e.pointerId !== r3DragId) return
+    r3DragId = null
+    const wrap = document.getElementById('r3OskarWrap')
+    if(wrap) wrap.classList.remove('r3-dragging')
+    // sanft auf der nächstgelegenen Spur einrasten
+    r3OskarX = r3Lane * r3LaneOffset()
+    r3RenderOskar()
+  }
+  area.addEventListener('pointerup', endDrag)
+  area.addEventListener('pointercancel', endDrag)
 
   window.addEventListener('resize', () => {
     if(r3Running) r3Measure()

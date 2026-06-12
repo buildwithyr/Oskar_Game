@@ -121,6 +121,25 @@ Das Spiel dient als kreatives Lernprojekt rund um:
 
 # Changelog
 
+## Version 10 – Drag-Steuerung im 3D-Lauf & einheitliches Menü (2026-06-12)
+
+**Level 11 – Leckerli-Lauf 3D (neue Steuerung):**
+- Touch-and-Drag wie in Level 1: Finger auf den Spielbereich legen und
+  ziehen – Oskar folgt horizontal der Fingerbewegung (vertikal wird ignoriert)
+- Pointer Events statt Touch/Click: funktioniert mit Touch, Maus und Stift
+- Beim Loslassen rastet Oskar sanft auf der nächstgelegenen Spur ein,
+  Spurlogik/Kollisionen/Tempo unverändert
+- `touch-action: none` im Spielbereich – kein Konflikt mit Scrollen;
+  HUD-Karte und Home-Button sind von der Steuerfläche ausgenommen
+- Pfeiltasten (und A/D) am Desktop funktionieren weiterhin
+- Neuer Hinweis-Pill „↔️ Zieh Oskar hin und her!" statt der Tipp-Pfeile
+
+**Home-Bildschirm – einheitliches Level-Grid:**
+- Keine Vollbreiten-Kacheln mehr (Level 8 + 11 waren ausgenommen)
+- Alle 11 Level als gleich große Kacheln in einem Grid
+  (`auto-fill minmax(150px, 1fr)`: 2 Spalten am Handy, 4 am Desktop)
+- Reihenfolge, Namen, Badges, Abstände und Schatten unverändert
+
 ## Version 9 – Strandpromenade-Überarbeitung, Mobile-Feinschliff & 3D-Level (2026-06-11)
 
 **Level 8 – Strandpromenade (komplett überarbeitete Bedienung):**

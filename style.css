@@ -177,7 +177,9 @@ html, body{
 
 .menu-cards{
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  /* einheitliche, gleich große Kacheln: 2 Spalten am Handy,
+     mehr Spalten auf breiten Screens – nie volle Breite */
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 14px;
   padding: 24px 20px 8px;
   width: 100%;
@@ -260,27 +262,6 @@ html, body{
 .badge-9{ background: linear-gradient(135deg, #c471ed, #8e44ad); }
 .badge-10{ background: linear-gradient(135deg, #e0a458, #b5712a); }
 .badge-11{ background: linear-gradient(135deg, #ff8c66, #e84a5f); }
-
-/* Level 8 + 11 cards span full width */
-.card-8,
-.card-11{
-  grid-column: 1 / -1;
-  flex-direction: row;
-  padding: 20px 24px;
-  gap: 16px;
-  justify-content: flex-start;
-}
-
-.card-8 .card-icon,
-.card-11 .card-icon{
-  font-size: 42px;
-}
-
-.card-8 .card-name,
-.card-11 .card-name{
-  font-size: 16px;
-  text-align: left;
-}
 
 .card-name{
   font-size: 15px;
@@ -2866,7 +2847,9 @@ html, body{
   position: absolute;
   inset: 0;
   overflow: hidden;
-  touch-action: manipulation;
+  /* none statt manipulation: der Browser darf das Ziehen nicht
+     als Scrollen interpretieren – nötig für die Drag-Steuerung */
+  touch-action: none;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -2980,6 +2963,11 @@ html, body{
   pointer-events: none;
 }
 
+/* Beim Ziehen folgt Oskar dem Finger direkt, ohne Nachlauf */
+.r3-oskar-wrap.r3-dragging{
+  transition: none;
+}
+
 .r3-oskar{
   width: min(32vw, 140px);
   display: block;
@@ -3030,24 +3018,28 @@ html, body{
   to{   opacity: 0; margin-top: -60px; }
 }
 
-.r3-hint{
+.r3-drag-hint{
   position: absolute;
-  bottom: 5%;
-  font-size: 34px;
-  color: rgba(255,255,255,0.9);
-  text-shadow: 0 2px 10px rgba(120,60,0,0.5);
+  bottom: 4.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.92);
+  color: #8a4f16;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 10px 20px;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(120,60,0,0.3);
+  white-space: nowrap;
   pointer-events: none;
   animation: r3HintPulse 1s ease-in-out infinite alternate;
   transition: opacity 0.6s;
   z-index: 97;
 }
 
-.r3-hint-left{  left: 9%; }
-.r3-hint-right{ right: 9%; }
-
 @keyframes r3HintPulse{
-  from{ transform: scale(1);    opacity: 0.65; }
-  to{   transform: scale(1.25); opacity: 1; }
+  from{ transform: translateX(-50%) scale(1); }
+  to{   transform: translateX(-50%) scale(1.07); }
 }
 
 .r3-flash{

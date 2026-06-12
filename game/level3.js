@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════
-   LEVEL 3 - RUNNER
+   LEVEL 2 - BEACH RUN
 ══════════════════════════════════════ */
 
 let l3Running    = false
@@ -54,7 +54,7 @@ function startLevel3(){
   l3Els.distTxt.textContent = "Meter: 0"
   l3Els.speedBar.style.width = "0%"
 
-  showScreen("level3")
+  showScreen("level2")
 
   if(l3Frame) cancelAnimationFrame(l3Frame)
   l3Loop()
@@ -134,7 +134,7 @@ function l3Loop(){
   if(l3Distance >= L3_WIN_DIST){
     l3Running = false
     cancelAnimationFrame(l3Frame)
-    awardLevelWin(3, Math.floor(l3Distance))
+    awardLevelWin(2, Math.floor(l3Distance))
     setGameTimeout(() => {
       showLevelComplete({
         title: "🥏 Frisbee gefangen!",

@@ -55,62 +55,44 @@
     </button>
 
     <button class="level-card card-2" id="levelBtn2">
-      <div class="card-icon">🫧</div>
-      <div class="card-badge badge-2">Level 2</div>
-      <div class="card-name">Blasen platzen</div>
-    </button>
-
-    <button class="level-card card-3" id="levelBtn3">
       <div class="card-icon">🥏</div>
-      <div class="card-badge badge-3">Level 3</div>
+      <div class="card-badge badge-2">Level 2</div>
       <div class="card-name">Beach Run</div>
     </button>
 
-    <button class="level-card card-4" id="levelBtn4">
+    <button class="level-card card-3" id="levelBtn3">
       <div class="card-icon">🍭</div>
-      <div class="card-badge badge-4">Level 4</div>
+      <div class="card-badge badge-3">Level 3</div>
       <div class="card-name">Candy Match</div>
     </button>
 
-    <button class="level-card card-5" id="levelBtn5">
+    <button class="level-card card-4" id="levelBtn4">
       <div class="card-icon">🧠</div>
-      <div class="card-badge badge-5">Level 5</div>
+      <div class="card-badge badge-4">Level 4</div>
       <div class="card-name">Oskar Memory</div>
     </button>
 
-    <button class="level-card card-6" id="levelBtn6">
-      <div class="card-icon">📝</div>
-      <div class="card-badge badge-6">Level 6</div>
-      <div class="card-name">Fehlender Buchstabe</div>
-    </button>
-
-    <button class="level-card card-7" id="levelBtn7">
-      <div class="card-icon">🔍</div>
-      <div class="card-badge badge-7">Level 7</div>
-      <div class="card-name">Buchstaben finden</div>
-    </button>
-
-    <button class="level-card card-8" id="levelBtn8">
+    <button class="level-card card-5" id="levelBtn5">
       <div class="card-icon">🐕</div>
-      <div class="card-badge badge-8">Level 8</div>
+      <div class="card-badge badge-5">Level 5</div>
       <div class="card-name">Strandpromenade</div>
     </button>
 
-    <button class="level-card card-9" id="levelBtn9">
+    <button class="level-card card-6" id="levelBtn6">
       <div class="card-icon">🎵</div>
-      <div class="card-badge badge-9">Level 9</div>
+      <div class="card-badge badge-6">Level 6</div>
       <div class="card-name">Tanzparty</div>
     </button>
 
-    <button class="level-card card-10" id="levelBtn10">
+    <button class="level-card card-7" id="levelBtn7">
       <div class="card-icon">🦴</div>
-      <div class="card-badge badge-10">Level 10</div>
+      <div class="card-badge badge-7">Level 7</div>
       <div class="card-name">Buddel-Spaß</div>
     </button>
 
-    <button class="level-card card-11" id="levelBtn11">
+    <button class="level-card card-8" id="levelBtn8">
       <div class="card-icon">🌅</div>
-      <div class="card-badge badge-11">Level 11</div>
+      <div class="card-badge badge-8">Level 8</div>
       <div class="card-name">Leckerli-Lauf 3D</div>
     </button>
 
@@ -140,65 +122,9 @@
 
 </div>
 
-<!-- ═════════════ LEVEL 2 – BUBBLE POP ═════════════ -->
+<!-- ═════════════ LEVEL 2 – BEACH RUN ═════════════ -->
 
-<div class="screen" id="level2bubble">
-
-  <button class="back-btn" onclick="bpStopGame(); showScreen('intro')">🏠</button>
-
-  <!-- START SCREEN -->
-  <div id="bpStartScreen" class="bp-start-screen">
-    <div class="bp-start-bubbles" aria-hidden="true">
-      <div class="bp-prev-bub" style="--sz:88px;--lft:12%;--del:0s">🦀</div>
-      <div class="bp-prev-bub" style="--sz:72px;--lft:58%;--del:0.6s">🐚</div>
-      <div class="bp-prev-bub" style="--sz:96px;--lft:32%;--del:1.3s">💎</div>
-      <div class="bp-prev-bub" style="--sz:80px;--lft:74%;--del:0.9s">💩</div>
-      <div class="bp-prev-bub" style="--sz:76px;--lft:46%;--del:1.9s">⭐</div>
-    </div>
-    <div class="bp-start-card">
-      <div class="bp-start-title">🫧 Blasen platzen!</div>
-      <div class="bp-start-desc">3 Runden · Platze die Blasen<br>Finger weg von <strong>💩</strong> Kothaufen!</div>
-      <button class="bp-start-btn" onclick="bpBeginCountdown()">START</button>
-    </div>
-  </div>
-
-  <!-- COUNTDOWN -->
-  <div id="bpCountdown" class="bp-countdown hidden">
-    <div id="bpCountdownNum" class="bp-countdown-num"></div>
-  </div>
-
-  <!-- GAME AREA -->
-  <div id="bpGameArea" class="bp-game-area hidden">
-
-    <div class="bp-sky-strip">
-      <img src="assets/OskarCartoon.png" class="bp-oskar-watch" alt="Oskar">
-      <div class="bp-hud">
-        <div class="bp-hud-box">
-          <div class="bp-hud-lbl">Punkte</div>
-          <div class="bp-hud-val" id="bpScoreEl">0</div>
-        </div>
-        <div class="bp-hud-progress" id="bpProgressEl">R1/3 · 0/8</div>
-        <div class="bp-hud-lives" id="bpLivesEl"></div>
-      </div>
-    </div>
-
-    <div class="bp-water-surface"></div>
-
-    <div class="bp-field" id="bpField"></div>
-    <div id="bpRoundBanner" class="bp-round-banner hidden"></div>
-    <div id="bpComboFlash"  class="bp-combo-flash  hidden"></div>
-
-    <div class="bp-seabed">
-      <span>🪸</span><span>🐚</span><span>⭐</span>
-      <span>🪸</span><span>🦑</span><span>🐚</span>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═════════════ LEVEL 3 ═════════════ -->
-
-<div class="screen" id="level3">
+<div class="screen" id="level2">
 
   <button class="back-btn back-btn-fixed" onclick="l3StopGame(); showScreen('intro')">🏠</button>
 
@@ -220,7 +146,7 @@
   </div>
 
   <div class="hud">
-    <div class="hud-title">Level 3 🥏</div>
+    <div class="hud-title">Level 2 🥏</div>
     <div class="hud-sub">Spring über die Hindernisse!</div>
     <div class="hud-score" id="distanceText">Meter: 0</div>
   </div>
@@ -242,14 +168,14 @@
 
 </div>
 
-<!-- ═════════════ LEVEL 4 ═════════════ -->
+<!-- ═════════════ LEVEL 3 – CANDY MATCH ═════════════ -->
 
-<div class="screen" id="level4">
+<div class="screen" id="level3">
 
   <button class="back-btn" onclick="l4StopGame(); showScreen('intro')">🏠</button>
 
   <div class="hud">
-    <div class="hud-title">Level 4 🍭</div>
+    <div class="hud-title">Level 3 🍭</div>
     <div class="hud-sub">Match 3 Zeit!</div>
     <div class="hud-score" id="matchScore">Punkte: 0</div>
   </div>
@@ -260,14 +186,14 @@
 
 </div>
 
-<!-- ═════════════ LEVEL 5 - MEMORY ═════════════ -->
+<!-- ═════════════ LEVEL 4 – OSKAR MEMORY ═════════════ -->
 
-<div class="screen" id="level5">
+<div class="screen" id="level4">
 
   <button class="back-btn" onclick="l5StopGame(); showScreen('intro')">🏠</button>
 
   <div class="hud">
-    <div class="hud-title">Level 5 🧠</div>
+    <div class="hud-title">Level 4 🧠</div>
     <div class="hud-sub">Oskar Memory</div>
     <div class="hud-score" id="memPairsText">0 von 6 Paaren gefunden</div>
   </div>
@@ -276,54 +202,9 @@
 
 </div>
 
-<!-- ═════════════ LEVEL 6 - BUCHSTABE ═════════════ -->
+<!-- ═════════════ LEVEL 5 – STRANDPROMENADE ═════════════ -->
 
-<div class="screen" id="level6">
-
-  <button class="back-btn" onclick="l6StopGame(); showScreen('intro')">🏠</button>
-
-  <div class="hud">
-    <div class="hud-title">Level 6 📝</div>
-    <div class="hud-sub">Welcher Buchstabe fehlt?</div>
-    <div class="hud-score" id="l6Progress">Frage 1 von 8</div>
-  </div>
-
-  <div class="l6-container">
-    <div class="oskar-prompt">
-      <img src="assets/OskarCartoon.png" class="prompt-oskar" alt="Oskar">
-      <div class="prompt-bubble">Welcher Buchstabe fehlt?</div>
-    </div>
-    <div class="l6-word" id="l6Word"></div>
-    <div class="l6-feedback" id="l6Feedback"></div>
-    <div class="l6-answers" id="l6Answers"></div>
-  </div>
-
-</div>
-
-<!-- ═════════════ LEVEL 7 - BUCHSTABE FINDEN ═════════════ -->
-
-<div class="screen" id="level7">
-
-  <button class="back-btn" onclick="l7StopGame(); showScreen('intro')">🏠</button>
-
-  <div class="hud">
-    <div class="hud-title">Level 7 🔍</div>
-    <div class="hud-sub" id="l7Sub">Runde 1 von 5</div>
-    <div class="hud-score" id="l7Progress">0 gefunden</div>
-  </div>
-
-  <div class="l7-container">
-    <div class="l7-prompt" id="l7Prompt">Finde den Buchstaben M</div>
-    <div class="l7-feedback" id="l7Feedback"></div>
-    <div class="l7-grid" id="l7Grid"></div>
-  </div>
-
-</div>
-
-
-<!-- ═════════════ LEVEL 8 – FROGGER AM STRAND ═════════════ -->
-
-<div class="screen" id="level8">
+<div class="screen" id="level5">
 
   <button class="back-btn" onclick="frogStop(); showScreen('intro')">🏠</button>
 
@@ -365,9 +246,9 @@
 </div>
 
 
-<!-- ═════════════ LEVEL 9 – TANZPARTY ═════════════ -->
+<!-- ═════════════ LEVEL 6 – TANZPARTY ═════════════ -->
 
-<div class="screen" id="level9">
+<div class="screen" id="level6">
 
   <button class="back-btn" onclick="dcStopGame(); showScreen('intro')">🏠</button>
 
@@ -415,9 +296,9 @@
 </div>
 
 
-<!-- ═════════════ LEVEL 10 – BUDDEL-SPASS ═════════════ -->
+<!-- ═════════════ LEVEL 7 – BUDDEL-SPASS ═════════════ -->
 
-<div class="screen" id="level10">
+<div class="screen" id="level7">
 
   <button class="back-btn" onclick="dgStopGame(); showScreen('intro')">🏠</button>
 
@@ -440,7 +321,7 @@
   <div id="dgGameArea" class="dg-game-area hidden">
 
     <div class="hud">
-      <div class="hud-title">Level 10 🦴</div>
+      <div class="hud-title">Level 7 🦴</div>
       <div class="hud-sub">Finde alle Knochen!</div>
       <div class="hud-score" id="dgCounter">🦴 0 / 6</div>
     </div>
@@ -460,9 +341,9 @@
 </div>
 
 
-<!-- ═════════════ LEVEL 11 – LECKERLI-LAUF (PSEUDO-3D) ═════════════ -->
+<!-- ═════════════ LEVEL 8 – LECKERLI-LAUF (PSEUDO-3D) ═════════════ -->
 
-<div class="screen" id="level11">
+<div class="screen" id="level8">
 
   <button class="back-btn" onclick="r3Stop(); showScreen('intro')">🏠</button>
 
@@ -498,7 +379,7 @@
     </div>
 
     <div class="hud">
-      <div class="hud-title">Level 11 🌅</div>
+      <div class="hud-title">Level 8 🌅</div>
       <div class="hud-sub">Sammle die Leckerlis!</div>
       <div class="hud-score" id="r3Score">🦴 0/15</div>
     </div>
@@ -527,12 +408,9 @@
 <script src="game/utils.js?v=15"></script>
 <script src="game/storage.js?v=15"></script>
 <script src="game/level1.js?v=15"></script>
-<script src="game/level_bubble.js?v=15"></script>
 <script src="game/level3.js?v=15"></script>
 <script src="game/level4.js?v=15"></script>
 <script src="game/level5.js?v=15"></script>
-<script src="game/level6.js?v=15"></script>
-<script src="game/level7.js?v=15"></script>
 <script src="game/level_frogger.js?v=15"></script>
 <script src="game/level_dance.js?v=15"></script>
 <script src="game/level_dig.js?v=15"></script>

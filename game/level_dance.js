@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════
-   LEVEL 9 – TANZPARTY (Simon Says)
+   LEVEL 6 – TANZPARTY (Simon Says)
    Oskar zeigt Tanzschritte –
    schau gut zu und tanz sie nach!
 ══════════════════════════════════════ */
@@ -24,7 +24,7 @@ let dcTimers    = new Set()
 // ── Entry Point ─────────────────────────────────────────────────
 function startDanceLevel(){
   dcStopGame()
-  showScreen("level9")
+  showScreen("level6")
   document.getElementById("dcStartScreen").classList.remove("hidden")
   document.getElementById("dcGameArea").classList.add("hidden")
 }
@@ -147,7 +147,7 @@ function dcRoundComplete(){
 // ── Win / GameOver ──────────────────────────────────────────────
 function dcWin(){
   const score = 50 + dcLives * 20
-  awardLevelWin(9, score)
+  awardLevelWin(6, score)
 
   const data = loadPlayerData()
   data.statistics.danceLevelWins = (data.statistics.danceLevelWins || 0) + 1

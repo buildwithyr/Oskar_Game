@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════
-   LEVEL 10 – BUDDEL-SPASS
+   LEVEL 7 – BUDDEL-SPASS
    Im Sand sind Knochen vergraben!
    2× tippen = graben. Oskars Nase
    verrät, ob ein Knochen in der Nähe ist.
@@ -27,7 +27,7 @@ let dgTimers     = new Set()
 // ── Entry Point ─────────────────────────────────────────────────
 function startDigLevel(){
   dgStopGame()
-  showScreen("level10")
+  showScreen("level7")
   document.getElementById("dgStartScreen").classList.remove("hidden")
   document.getElementById("dgGameArea").classList.add("hidden")
 }
@@ -246,7 +246,7 @@ function dgUpdateHUD(){
 // ── Win ─────────────────────────────────────────────────────────
 function dgWin(){
   const score = Math.max(10, 200 - dgDigs * 10)
-  awardLevelWin(10, score)
+  awardLevelWin(7, score)
 
   const data = loadPlayerData()
   data.statistics.digLevelWins = (data.statistics.digLevelWins || 0) + 1

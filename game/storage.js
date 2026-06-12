@@ -4,7 +4,7 @@
 ══════════════════════════════════════ */
 
 const SAVE_KEY = 'oskar_player_data';
-const CURRENT_SAVE_VERSION = 4;
+const CURRENT_SAVE_VERSION = 5;
 
 const DEFAULT_PLAYER_DATA = {
   saveVersion: CURRENT_SAVE_VERSION,
@@ -22,20 +22,13 @@ const DEFAULT_PLAYER_DATA = {
     level7Completed: 0,
     level8Completed: 0,
     totalPlayTime: 0,
-    bubblePopsTotal: 0,
-    bubbleGamesPlayed: 0,
-    bubbleLevelWins: 0,
-    bestBubbleScore: 0,
     froggerGamesPlayed: 0,
     froggerLevelWins: 0,
     bestFroggerTime: 0,
-    level9Completed: 0,
-    level10Completed: 0,
     danceGamesPlayed: 0,
     danceLevelWins: 0,
     digGamesPlayed: 0,
     digLevelWins: 0,
-    level11Completed: 0,
     run3dGamesPlayed: 0,
     run3dLevelWins: 0,
   },
@@ -48,9 +41,6 @@ const DEFAULT_PLAYER_DATA = {
     level6: 0,
     level7: 0,
     level8: 0,
-    level9: 0,
-    level10: 0,
-    level11: 0,
   },
   dailyChallenges: {}
 };
@@ -81,20 +71,62 @@ function migrateSaveData(data) {
     }
   }
 
-  // v2 → v3: add dance (level9) + dig (level10) — new keys are filled
-  // in by the DEFAULT_PLAYER_DATA merge below
+  // v2 → v3: add dance and dig levels
   if (data.saveVersion < 3) {
     data.saveVersion = 3;
   }
 
-  // v3 → v4: add pseudo-3D runner (level11) — keys filled by merge below
+  // v3 → v4: add pseudo-3D runner
   if (data.saveVersion < 4) {
     data.saveVersion = 4;
+  }
+
+  // v4 → v5: compact the remaining level progress from the previous 11-slot
+  // layout down to the current 8-slot layout.
+  if (data.saveVersion < 5) {
+    const oldStats = data.statistics || {};
+    const oldScores = data.highscores || {};
+
+    data.statistics = {
+      ...oldStats,
+      level1Completed: oldStats.level1Completed || 0,
+      level2Completed: oldStats.level3Completed || 0,
+      level3Completed: oldStats.level4Completed || 0,
+      level4Completed: oldStats.level5Completed || 0,
+      level5Completed: oldStats.level8Completed || 0,
+      level6Completed: oldStats.level9Completed || 0,
+      level7Completed: oldStats.level10Completed || 0,
+      level8Completed: oldStats.level11Completed || 0,
+    };
+
+    data.highscores = {
+      level1: oldScores.level1 || 0,
+      level2: oldScores.level3 || 0,
+      level3: oldScores.level4 || 0,
+      level4: oldScores.level5 || 0,
+      level5: oldScores.level8 || 0,
+      level6: oldScores.level9 || 0,
+      level7: oldScores.level10 || 0,
+      level8: oldScores.level11 || 0,
+    };
+
+    data.saveVersion = 5;
   }
 
   const filled = { ...DEFAULT_PLAYER_DATA, ...data };
   filled.statistics = { ...DEFAULT_PLAYER_DATA.statistics, ...data.statistics };
   filled.highscores = { ...DEFAULT_PLAYER_DATA.highscores, ...data.highscores };
+
+  // Remove keys for deleted or formerly higher-numbered levels after merge.
+  for (const key of [
+    'level9Completed', 'level10Completed', 'level11Completed',
+    'bubblePopsTotal', 'bubbleGamesPlayed', 'bubbleLevelWins', 'bestBubbleScore'
+  ]) {
+    delete filled.statistics[key];
+  }
+  for (const key of ['level9', 'level10', 'level11']) {
+    delete filled.highscores[key];
+  }
 
   return filled;
 }

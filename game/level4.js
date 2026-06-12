@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════
-   LEVEL 4 - MATCH 3
+   LEVEL 3 - CANDY MATCH
 ══════════════════════════════════════ */
 
 let matchBoard      = []
@@ -20,7 +20,7 @@ function startLevel4(){
 
   document.getElementById("matchScore").textContent = "Punkte: 0"
 
-  showScreen("level4")
+  showScreen("level3")
   initMatchBoard()
   renderMatchBoard()
 }
@@ -249,7 +249,7 @@ function checkWin(){
   if(matchScore >= MATCH_WIN_SCORE && !matchWon){
     matchWon = true
     matchBusy = true
-    awardLevelWin(4, matchScore)
+    awardLevelWin(3, matchScore)
     setGameTimeout(() => {
       showLevelComplete({
         title: "🏆 Oskar gewinnt!",

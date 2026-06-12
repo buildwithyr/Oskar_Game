@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════
-   LEVEL 11 – LECKERLI-LAUF (Pseudo-3D)
+   LEVEL 8 – LECKERLI-LAUF (Pseudo-3D)
    Oskar rennt in den Sonnenuntergang:
    Leckerlis kommen von vorne und werden
    größer, je näher sie kommen. Links/
@@ -63,7 +63,7 @@ let r3Timers      = new Set()
 // ── Entry Point ─────────────────────────────────────────────────
 function startRun3dLevel(){
   r3Stop()
-  showScreen('level11')
+  showScreen('level8')
   document.getElementById('r3StartScreen').classList.remove('hidden')
   document.getElementById('r3GameArea').classList.add('hidden')
 }
@@ -419,7 +419,7 @@ function r3UpdateHUD(){
 // ── Win / GameOver ──────────────────────────────────────────────
 function r3Win(){
   const score = r3Collected * 10 + r3Lives * 20
-  awardLevelWin(11, score)
+  awardLevelWin(8, score)
 
   const data = loadPlayerData()
   data.statistics.run3dLevelWins = (data.statistics.run3dLevelWins || 0) + 1

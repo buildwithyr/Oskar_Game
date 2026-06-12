@@ -11,17 +11,17 @@ const ASSETS = {
   OSKAR_JUMP: "assets/Oskar_springt.png",
   OSKAR_CHAIR: "assets/OskarLiegestuhl.png",
   POOP: "assets/Kothaufen.png",
-  KREBS: "assets/krebs.png"
+  KREBS: "assets/krebs.png",
+  OSKAR_DANCE: "assets/Oskartanzend - Kopie.png",
+  OSKAR_DANCE_FLIP: "assets/Oskartanzendgespiegelt.png"
 }
 
 // Level 1 - Snacks
 const LEVEL1_SNACK_GOAL = 5
 const LEVEL1_SNACK_CLICK_DELAY = 250
 
-// Level 2 - Maze
-const MAZE_SIZE = 15
+// Level 2 - Beach Run
 
-// Level 3 - Runner
 const L3_GROUND = 0
 const L3_JUMP_VEL = -18
 const L3_GRAVITY = 1.0
@@ -33,7 +33,7 @@ const L3_SPEED_FRAME_RATE = 0.05
 const L3_COLLISION_MARGIN = 18
 const L3_OBSTACLE_SPACING = 400
 
-// Level 4 - Match3
+// Level 3 - Match3
 const EMOJIS = ["🐶","🦴","🌴","🥏","🍖","☀️","🌊"]
 const BOARD_COLS = 7
 const BOARD_ROWS = 7
@@ -41,9 +41,11 @@ const MATCH_WIN_SCORE = 300
 const MATCH_POP_DELAY = 280
 const MATCH_POINT_PER_MATCH = 10
 
-// Level 5 - Memory  (constants live in level5.js)
-// Level 6 - Buchstabe  (pool in level6.js)
-// Level 7 - Finde Buchstaben  (rounds in level7.js)
+// Level 4 - Memory  (constants live in level5.js)
+// Level 5 - Strandpromenade (constants live in level_frogger.js)
+// Level 6 - Tanzparty (constants live in level_dance.js)
+// Level 7 - Buddel-Spaß (constants live in level_dig.js)
+// Level 8 - Leckerli-Lauf 3D (constants live in level_run3d.js)
 
 // Vibration patterns
 const VIBRATE = {

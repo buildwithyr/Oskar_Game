@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════
-   LEVEL 5 - OSKAR MEMORY
+   LEVEL 4 - OSKAR MEMORY
 ══════════════════════════════════════ */
 
 const L5_EMOJIS = ["🐶","🦴","⚽","🐱","🐾","🍖"]
@@ -8,14 +8,17 @@ let memCards   = []   // [{ emoji, flipped, matched }]
 let memFlipped = []   // indices of currently face-up unmatched cards
 let memPairs   = 0
 let memBusy    = false
+let memTimers  = new Set()
 
 function startLevel5(){
+  l5StopGame()
+
   memCards   = []
   memFlipped = []
   memPairs   = 0
   memBusy    = false
 
-  showScreen("level5")
+  showScreen("level4")
   initMemory()
   renderMemory()
 }
@@ -71,7 +74,7 @@ function onMemCardClick(i){
     const [a, b] = memFlipped
 
     if(memCards[a].emoji === memCards[b].emoji){
-      setTimeout(() => {
+      setGameTimeout(() => {
         memCards[a].matched = true
         memCards[b].matched = true
         memFlipped = []
@@ -80,26 +83,33 @@ function onMemCardClick(i){
         vibe(VIBRATE.MEDIUM)
         renderMemory()
         if(memPairs === L5_EMOJIS.length) memWin()
-      }, 500)
+      }, 500, memTimers)
     } else {
-      setTimeout(() => {
+      setGameTimeout(() => {
         memCards[a].flipped = false
         memCards[b].flipped = false
         memFlipped = []
         memBusy = false
         renderMemory()
-      }, 1000)
+      }, 1000, memTimers)
     }
   }
 }
 
 function memWin(){
-  setTimeout(() => {
+  awardLevelWin(4, memPairs)
+  setGameTimeout(() => {
     showLevelComplete({
       title: "🎉 Fantastisch!",
-      text:  "Du hast alle Paare gefunden! Oskar ist stolz auf dich! 🐶",
-      button:"🔄 Nochmal spielen",
-      next:  () => { vibe(VIBRATE.MEDIUM); startLevel5() }
+      text:  "Du hast alle Paare gefunden! +1 Knochen 🦴",
+      button:"🏠 Menü",
+      next:  () => showScreen("intro")
     })
-  }, DELAYS.LEVEL_COMPLETE)
+  }, DELAYS.LEVEL_COMPLETE, memTimers)
+}
+
+function l5StopGame(){
+  memBusy = false
+  memFlipped = []
+  clearGameTimeouts(memTimers)
 }

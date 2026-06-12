@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════
-   LEVEL 8 – FROGGER AM STRAND
+   LEVEL 5 – STRANDPROMENADE
    Oskar überquert die Strandpromenade
 ══════════════════════════════════════ */
 
@@ -74,7 +74,7 @@ let frogTimers     = new Set()
 // ── Entry Point ─────────────────────────────────────────────────
 function startFroggerLevel() {
   frogStop()
-  showScreen('level8')
+  showScreen('level5')
 
   document.getElementById('frogStartScreen').classList.remove('hidden')
   document.getElementById('frogGameArea').classList.add('hidden')
@@ -504,10 +504,10 @@ function frogWin() {
 
   const data = loadPlayerData()
   data.statistics.froggerLevelWins = (data.statistics.froggerLevelWins || 0) + 1
-  data.statistics.level8Completed = (data.statistics.level8Completed || 0) + 1
+  data.statistics.level5Completed = (data.statistics.level5Completed || 0) + 1
   data.bones = (data.bones || 0) + 1
   savePlayerData(data)
-  updateHighscore(8, frogGoalsFilled.length)
+  updateHighscore(5, frogGoalsFilled.length)
   vibe(VIBRATE.LARGE)
 
   const stars = frogLives === 3 ? 3 : frogLives === 2 ? 2 : 1

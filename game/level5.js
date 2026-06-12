@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════
-   LEVEL 5 - OSKAR MEMORY
+   LEVEL 4 - OSKAR MEMORY
 ══════════════════════════════════════ */
 
 const L5_EMOJIS = ["🐶","🦴","⚽","🐱","🐾","🍖"]
@@ -18,7 +18,7 @@ function startLevel5(){
   memPairs   = 0
   memBusy    = false
 
-  showScreen("level5")
+  showScreen("level4")
   initMemory()
   renderMemory()
 }
@@ -97,7 +97,7 @@ function onMemCardClick(i){
 }
 
 function memWin(){
-  awardLevelWin(5, memPairs)
+  awardLevelWin(4, memPairs)
   setGameTimeout(() => {
     showLevelComplete({
       title: "🎉 Fantastisch!",

@@ -369,28 +369,24 @@ function r3DragTo(clientX){
   r3RenderOskar()
 }
 
-// Pointer Events decken Touch, Maus und Stift ab
+// Eingabe: native Touch-Events für den Finger (wie im stabilen Level 1),
+// Pointer Events nur für Maus/Stift auf Desktop.
+// Hintergrund: setPointerCapture auf einem Touch-Pointer ist auf iOS/
+// WebKit unzuverlässig – die pointermove-Events bleiben beim Ziehen oft
+// aus. Deshalb läuft Touch über Touch-Events und Pointer ignoriert Touch.
 // (einmalig aus main.js gebunden)
 function r3BindInput(){
   const area = document.getElementById('r3GameArea')
   if(!area) return
 
-  area.addEventListener('pointerdown', (e) => {
-    if(!r3Running) return
-    if(e.target.closest('.hud')) return    // HUD-Karte nicht als Steuerfläche
-    r3DragId = e.pointerId
-    if(area.setPointerCapture) area.setPointerCapture(e.pointerId)
-    r3DragTo(e.clientX)
+  const beginDrag = (clientX) => {
+    const wrap = document.getElementById('r3OskarWrap')
+    if(wrap) wrap.classList.add('r3-dragging')
+    r3DragTo(clientX)
     r3HideHint()
-  })
+  }
 
-  area.addEventListener('pointermove', (e) => {
-    if(!r3Running || e.pointerId !== r3DragId) return
-    r3DragTo(e.clientX)
-  })
-
-  const endDrag = (e) => {
-    if(e.pointerId !== r3DragId) return
+  const releaseDrag = () => {
     r3DragId = null
     const wrap = document.getElementById('r3OskarWrap')
     if(wrap) wrap.classList.remove('r3-dragging')
@@ -398,8 +394,53 @@ function r3BindInput(){
     r3OskarX = r3Lane * r3LaneOffset()
     r3RenderOskar()
   }
-  area.addEventListener('pointerup', endDrag)
-  area.addEventListener('pointercancel', endDrag)
+
+  // ── Touch (iOS/Android) ───────────────────────────────────────
+  area.addEventListener('touchstart', (e) => {
+    if(!r3Running) return
+    if(e.target.closest('.hud')) return    // HUD-Karte nicht als Steuerfläche
+    const t = e.touches[0]
+    if(!t) return
+    e.preventDefault()                     // kein Scrollen/Zoomen
+    r3DragId = 'touch'
+    beginDrag(t.clientX)
+  }, { passive: false })
+
+  area.addEventListener('touchmove', (e) => {
+    if(!r3Running || r3DragId !== 'touch') return
+    const t = e.touches[0]
+    if(!t) return
+    e.preventDefault()
+    r3DragTo(t.clientX)
+  }, { passive: false })
+
+  const endTouch = () => {
+    if(r3DragId !== 'touch') return
+    releaseDrag()
+  }
+  area.addEventListener('touchend', endTouch)
+  area.addEventListener('touchcancel', endTouch)
+
+  // ── Maus / Stift (Desktop) ────────────────────────────────────
+  area.addEventListener('pointerdown', (e) => {
+    if(!r3Running || e.pointerType === 'touch') return
+    if(e.target.closest('.hud')) return
+    r3DragId = e.pointerId
+    if(area.setPointerCapture) area.setPointerCapture(e.pointerId)
+    beginDrag(e.clientX)
+  })
+
+  area.addEventListener('pointermove', (e) => {
+    if(!r3Running || e.pointerType === 'touch' || e.pointerId !== r3DragId) return
+    r3DragTo(e.clientX)
+  })
+
+  const endPointer = (e) => {
+    if(e.pointerType === 'touch' || e.pointerId !== r3DragId) return
+    releaseDrag()
+  }
+  area.addEventListener('pointerup', endPointer)
+  area.addEventListener('pointercancel', endPointer)
 
   window.addEventListener('resize', () => {
     if(r3Running) r3Measure()

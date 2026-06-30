@@ -47,6 +47,13 @@ html, body{
   display: flex;
 }
 
+/* Globale Sichtbarkeits-Utility: blendet Elemente komplett aus
+   (auch aus dem Hit-Testing). Wird von den Start-Screens und
+   Spielflächen der Level 5–8 per classList.toggle('hidden') genutzt. */
+.hidden{
+  display: none !important;
+}
+
 /* ══════════════════════════════════════
    BACK BUTTON
 ══════════════════════════════════════ */

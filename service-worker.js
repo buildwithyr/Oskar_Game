@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'oskar-v10';
+const CACHE_VERSION = 'oskar-v11';
 const CACHE_NAME = `oskar-beach-stories-${CACHE_VERSION}`;
 
 // Base URL derived from service worker location (works on GitHub Pages subpaths)

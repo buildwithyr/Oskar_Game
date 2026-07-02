@@ -6,8 +6,8 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#FFF5E6",
-  "theme_color": "#F4845F",
+  "background_color": "#F6C878",
+  "theme_color": "#E8763A",
   "lang": "de",
   "categories": ["games", "entertainment", "kids"],
   "icons": [

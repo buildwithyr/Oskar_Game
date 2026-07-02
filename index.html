@@ -10,8 +10,8 @@
   <link rel="manifest" href="manifest.json">
 
   <!-- Theme & Status Bar -->
-  <meta name="theme-color" content="#F4845F">
-  <meta name="background-color" content="#FFF5E6">
+  <meta name="theme-color" content="#E8763A">
+  <meta name="background-color" content="#F6C878">
 
   <!-- iOS PWA Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -29,70 +29,119 @@
   <!-- Prevent phone number detection -->
   <meta name="format-detection" content="telephone=no">
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
   <!-- Styles -->
-  <link rel="stylesheet" href="style.css?v=18">
+  <link rel="stylesheet" href="style.css?v=19">
 </head>
 
 <body>
 
-<!-- ═════════════ INTRO ═════════════ -->
+<!-- ═════════════ BOOT SPLASH ═════════════ -->
 
-<div class="screen active" id="intro">
+<div id="bootSplash">
+  <div class="boot-splash-halo"></div>
+  <img src="icons/icon-192.png" class="boot-splash-icon" alt="">
+  <div class="boot-splash-word">
+    <div class="boot-splash-title">OSKAR</div>
+    <div class="boot-splash-subtitle">BEACH STORIES</div>
+  </div>
+  <div class="boot-splash-dots">
+    <span class="boot-splash-dot"></span>
+    <span class="boot-splash-dot"></span>
+    <span class="boot-splash-dot"></span>
+  </div>
+  <div class="boot-splash-footer">Strand wird vorbereitet …</div>
+</div>
 
-  <section class="hero-section">
-    <div class="greeting-card">
-      <p class="greeting-hello">Hallo, <strong>Oskar</strong>!</p>
-      <p class="greeting-sub">Wohin möchtest du heute? 😄🌴</p>
+<!-- ═════════════ START / SPLASH ═════════════ -->
+
+<div class="screen active" id="start">
+
+  <div class="start-sun"></div>
+  <div class="start-palm start-palm-left" aria-hidden="true">🌴</div>
+  <div class="start-palm start-palm-right" aria-hidden="true">🌴</div>
+
+  <div class="start-content">
+    <div class="start-wordmark">
+      <div class="start-title">OSKAR</div>
+      <div class="start-subtitle">BEACH STORIES</div>
     </div>
-  </section>
+
+    <img src="assets/OskarBadehose.png" class="start-hero" alt="Oskar">
+
+    <button class="start-play-btn" id="startPlayBtn">SPIELEN ▸</button>
+  </div>
+
+  <a href="https://instagram.com/oskar.the.jackrussel/" target="_blank" rel="noopener noreferrer" class="start-footer">📸 @oskar.the.jackrussel</a>
+
+</div>
+
+<!-- ═════════════ INTRO / LEVEL-AUSWAHL ═════════════ -->
+
+<div class="screen" id="intro">
+
+  <div class="intro-header">
+    <div class="intro-header-left">
+      <p class="intro-eyebrow">Moin, Oskar! ☀️</p>
+      <h1 class="intro-title">Wohin heute?</h1>
+    </div>
+    <div class="bones-chip">
+      <span class="bones-chip-icon">🦴</span>
+      <span class="bones-chip-count" id="bonesCount">0</span>
+    </div>
+  </div>
 
   <div class="menu-cards">
 
     <button class="level-card card-1" id="levelBtn1">
-      <div class="card-icon">🍖</div>
-      <div class="card-badge badge-1">Level 1</div>
+      <div class="card-icon-chip chip-1"><span class="card-icon">🍖</span></div>
+      <div class="card-label">Level 1</div>
       <div class="card-name">Snack Hunt</div>
     </button>
 
     <button class="level-card card-2" id="levelBtn2">
-      <div class="card-icon">🥏</div>
-      <div class="card-badge badge-2">Level 2</div>
+      <div class="card-icon-chip chip-2"><span class="card-icon">🥏</span></div>
+      <div class="card-label">Level 2</div>
       <div class="card-name">Beach Run</div>
     </button>
 
     <button class="level-card card-3" id="levelBtn3">
-      <div class="card-icon">🍭</div>
-      <div class="card-badge badge-3">Level 3</div>
+      <div class="card-icon-chip chip-3"><span class="card-icon">🍭</span></div>
+      <div class="card-label">Level 3</div>
       <div class="card-name">Candy Match</div>
     </button>
 
     <button class="level-card card-4" id="levelBtn4">
-      <div class="card-icon">🧠</div>
-      <div class="card-badge badge-4">Level 4</div>
+      <div class="card-icon-chip chip-4"><span class="card-icon">🧠</span></div>
+      <div class="card-label">Level 4</div>
       <div class="card-name">Oskar Memory</div>
     </button>
 
     <button class="level-card card-5" id="levelBtn5">
-      <div class="card-icon">🐕</div>
-      <div class="card-badge badge-5">Level 5</div>
+      <div class="card-icon-chip chip-5"><span class="card-icon">🐕</span></div>
+      <div class="card-label">Level 5</div>
       <div class="card-name">Strandpromenade</div>
     </button>
 
     <button class="level-card card-6" id="levelBtn6">
-      <div class="card-icon">🎵</div>
-      <div class="card-badge badge-6">Level 6</div>
+      <div class="card-icon-chip chip-6"><span class="card-icon">🎵</span></div>
+      <div class="card-label">Level 6</div>
       <div class="card-name">Tanzparty</div>
     </button>
 
     <button class="level-card card-7" id="levelBtn7">
-      <div class="card-icon">🦴</div>
-      <div class="card-badge badge-7">Level 7</div>
+      <div class="card-icon-chip chip-7"><span class="card-icon">🦴</span></div>
+      <div class="card-label">Level 7</div>
       <div class="card-name">Buddel-Spaß</div>
     </button>
 
     <button class="level-card card-8" id="levelBtn8">
-      <div class="card-icon">🌅</div>
-      <div class="card-badge badge-8">Level 8</div>
+      <div class="card-icon-chip chip-8"><span class="card-icon">🌅</span></div>
+      <div class="card-label">Level 8</div>
       <div class="card-name">Leckerli-Lauf 3D</div>
     </button>
 
@@ -100,7 +149,7 @@
 
   <a href="https://instagram.com/oskar.the.jackrussel/" target="_blank" rel="noopener noreferrer" class="insta-link">
     <img src="assets/Instagram_icon.png" class="insta-logo" alt="Instagram">
-    Follow Oskar on Instagram 📸
+    Folge Oskar auf Instagram 📸
   </a>
 
 </div>
@@ -405,7 +454,7 @@
 </div>
 
 <script src="game/config.js?v=15"></script>
-<script src="game/utils.js?v=15"></script>
+<script src="game/utils.js?v=16"></script>
 <script src="game/storage.js?v=15"></script>
 <script src="game/level1.js?v=15"></script>
 <script src="game/level3.js?v=15"></script>
@@ -415,7 +464,7 @@
 <script src="game/level_dance.js?v=15"></script>
 <script src="game/level_dig.js?v=15"></script>
 <script src="game/level_run3d.js?v=16"></script>
-<script src="game/main.js?v=15"></script>
+<script src="game/main.js?v=16"></script>
 <script src="game/pwa.js?v=15"></script>
 
 </body>

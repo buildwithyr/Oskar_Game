@@ -6,6 +6,12 @@ function vibe(pattern){
 function showScreen(id){
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"))
   document.getElementById(id).classList.add("active")
+  if(id === "intro") updateBonesDisplay()
+}
+
+function updateBonesDisplay(){
+  const el = document.getElementById("bonesCount")
+  if(el) el.textContent = loadPlayerData().bones
 }
 
 function setGameTimeout(handler, delay, bag){

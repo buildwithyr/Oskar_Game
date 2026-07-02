@@ -25,9 +25,26 @@ preloadImages.forEach(src => {
 
 
 /* ══════════════════════════════════════
+   BOOT SPLASH
+══════════════════════════════════════ */
+
+setTimeout(() => {
+  const splash = document.getElementById("bootSplash")
+  if(!splash) return
+  splash.classList.add("boot-splash-hide")
+  setTimeout(() => splash.remove(), 550)
+}, 1200)
+
+
+/* ══════════════════════════════════════
    EVENT LISTENERS (zentral)
 ══════════════════════════════════════ */
 
+// START SCREEN
+document.getElementById("startPlayBtn").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  showScreen("intro")
+})
 
 // LEVEL SELECT
 document.getElementById("levelBtn1").addEventListener("click", () => {

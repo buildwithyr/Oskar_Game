@@ -34,6 +34,9 @@ Buddel-Schatzsuche: Im 4×4-Sandfeld sind 6 Knochen vergraben. Oskars Nase (👃
 ### Level 8 - Leckerli-Lauf 3D 🌅
 Pseudo-3D-Runner: Oskar sammelt Leckerlis und weicht Kothaufen aus.
 
+### Level 9 - Kokos-Katapult 🥥
+Wurfspiel im Angry-Birds-Stil: Kokosnuss nach unten/zur Seite ziehen und auf eine Burg aus Fässern schleudern. 3 Stufen mit steigendem Schwierigkeitsgrad, Sterne-Wertung pro Stufe.
+
 ---
 
 ## Projektstruktur
@@ -52,7 +55,7 @@ manifest.json    PWA-Manifest
 
 ## Features
 
-* 8 spielbare Levels ohne Nummernlücken
+* 9 spielbare Levels ohne Nummernlücken
 * Mobile-first Layout
 * Touch-Steuerung für alle Levels
 * Fortschritt, Highscores und Knochen-Belohnungen via `localStorage`

@@ -4,12 +4,13 @@
 ══════════════════════════════════════ */
 
 const SAVE_KEY = 'oskar_player_data';
-const CURRENT_SAVE_VERSION = 5;
+const CURRENT_SAVE_VERSION = 6;
 
 const DEFAULT_PLAYER_DATA = {
   saveVersion: CURRENT_SAVE_VERSION,
   name: '',
   bones: 0,
+  catapultStageUnlocked: 1,
   achievements: [],
   statistics: {
     gamesPlayed: 0,
@@ -31,6 +32,9 @@ const DEFAULT_PLAYER_DATA = {
     digLevelWins: 0,
     run3dGamesPlayed: 0,
     run3dLevelWins: 0,
+    level9Completed: 0,
+    catapultGamesPlayed: 0,
+    catapultLevelWins: 0,
   },
   highscores: {
     level1: 0,
@@ -41,6 +45,7 @@ const DEFAULT_PLAYER_DATA = {
     level6: 0,
     level7: 0,
     level8: 0,
+    level9: 0,
   },
   dailyChallenges: {}
 };
@@ -110,21 +115,33 @@ function migrateSaveData(data) {
       level8: oldScores.level11 || 0,
     };
 
+    // Drop the leftover keys of the old 11-slot layout right here:
+    // from v6 on, level9* keys are live again (Coconut Catapult).
+    for (const key of ['level9Completed', 'level10Completed', 'level11Completed']) {
+      delete data.statistics[key];
+    }
+
     data.saveVersion = 5;
+  }
+
+  // v5 → v6: add level 9 (Coconut Catapult) — new statistics/highscore
+  // keys come from the defaults merge below, stage unlock is top-level.
+  if (data.saveVersion < 6) {
+    data.saveVersion = 6;
   }
 
   const filled = { ...DEFAULT_PLAYER_DATA, ...data };
   filled.statistics = { ...DEFAULT_PLAYER_DATA.statistics, ...data.statistics };
   filled.highscores = { ...DEFAULT_PLAYER_DATA.highscores, ...data.highscores };
 
-  // Remove keys for deleted or formerly higher-numbered levels after merge.
+  // Remove keys for deleted levels after merge.
   for (const key of [
-    'level9Completed', 'level10Completed', 'level11Completed',
+    'level10Completed', 'level11Completed',
     'bubblePopsTotal', 'bubbleGamesPlayed', 'bubbleLevelWins', 'bestBubbleScore'
   ]) {
     delete filled.statistics[key];
   }
-  for (const key of ['level9', 'level10', 'level11']) {
+  for (const key of ['level10', 'level11']) {
     delete filled.highscores[key];
   }
 

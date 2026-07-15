@@ -35,7 +35,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="style.css?v=19">
+  <link rel="stylesheet" href="style.css?v=20">
 </head>
 
 <body>
@@ -143,6 +143,12 @@
       <div class="card-icon-chip chip-8"><span class="card-icon">🌅</span></div>
       <div class="card-label">Level 8</div>
       <div class="card-name">Leckerli-Lauf 3D</div>
+    </button>
+
+    <button class="level-card card-9" id="levelBtn9">
+      <div class="card-icon-chip chip-9"><span class="card-icon">🥥</span></div>
+      <div class="card-label">Level 9</div>
+      <div class="card-name">Kokos-Katapult</div>
     </button>
 
   </div>
@@ -440,6 +446,53 @@
 </div>
 
 
+<!-- ═════════════ LEVEL 9 – KOKOS-KATAPULT ═════════════ -->
+
+<div class="screen" id="level9">
+
+  <button class="back-btn" onclick="cpStop(); showScreen('intro')">🏠</button>
+
+  <!-- START SCREEN -->
+  <div id="cpStartScreen" class="cp-start-screen">
+    <div class="cp-start-card">
+      <img src="assets/Kokosnuss.svg" class="cp-start-img" alt="Kokosnuss">
+      <div class="cp-start-title">🥥 Kokos-Katapult!</div>
+      <div class="cp-start-desc">
+        Da vorne steht eine Burg aus Fässern! 🏰<br>
+        Zieh die Kokosnuss <strong>nach unten</strong><br>
+        und <strong>zur Seite</strong>,<br>
+        dann <strong>loslassen</strong> zum Werfen! 🎯
+      </div>
+      <div class="cp-stage-btns" id="cpStageBtns"></div>
+    </div>
+  </div>
+
+  <!-- GAME AREA -->
+  <div id="cpGameArea" class="cp-game-area hidden">
+
+    <div class="cp-sky"></div>
+    <div class="cp-sun"></div>
+    <div class="cp-sea"></div>
+    <div class="cp-ground"></div>
+    <div class="cp-path"></div>
+    <div class="cp-palm cp-palm-left">🌴</div>
+    <div class="cp-palm cp-palm-right">🌴</div>
+
+    <div class="cp-world" id="cpWorld"></div>
+
+    <div class="hud">
+      <div class="hud-title">Level 9 🥥</div>
+      <div class="hud-sub" id="cpStageInfo">Stufe 1</div>
+      <div class="hud-score" id="cpScoreEl">🥥🥥🥥 · 🎯 0 %</div>
+    </div>
+
+    <img id="cpCoconut" class="cp-coconut" src="assets/Kokosnuss.svg" alt="Kokosnuss">
+    <div class="cp-drag-hint" id="cpDragHint">🥥 Ziehen &amp; loslassen!</div>
+
+  </div>
+</div>
+
+
 <!-- PWA Install Prompt -->
 <div id="pwaInstallBanner" class="pwa-banner" style="display:none" role="dialog" aria-label="App installieren">
   <div class="pwa-banner-content">
@@ -453,9 +506,9 @@
   </div>
 </div>
 
-<script src="game/config.js?v=15"></script>
+<script src="game/config.js?v=16"></script>
 <script src="game/utils.js?v=16"></script>
-<script src="game/storage.js?v=15"></script>
+<script src="game/storage.js?v=16"></script>
 <script src="game/level1.js?v=15"></script>
 <script src="game/level3.js?v=15"></script>
 <script src="game/level4.js?v=15"></script>
@@ -464,7 +517,8 @@
 <script src="game/level_dance.js?v=15"></script>
 <script src="game/level_dig.js?v=15"></script>
 <script src="game/level_run3d.js?v=16"></script>
-<script src="game/main.js?v=16"></script>
+<script src="game/level_catapult.js?v=1"></script>
+<script src="game/main.js?v=17"></script>
 <script src="game/pwa.js?v=15"></script>
 
 </body>

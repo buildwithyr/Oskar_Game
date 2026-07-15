@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140">
+  <!-- Cartoon-Holzfass für Level 9 (Kokos-Katapult) -->
+  <!-- Fasskörper mit Bauch -->
+  <path d="M18 18 Q8 70 18 122 Q60 136 102 122 Q112 70 102 18 Q60 4 18 18 Z"
+        fill="#C08A4C" stroke="#5C3317" stroke-width="7" stroke-linejoin="round"/>
+  <!-- Dauben (vertikale Bretterfugen) -->
+  <path d="M40 11 Q34 70 40 129" fill="none" stroke="#96662E" stroke-width="4" stroke-linecap="round"/>
+  <path d="M60 8  Q60 70 60 132" fill="none" stroke="#96662E" stroke-width="4" stroke-linecap="round"/>
+  <path d="M80 11 Q86 70 80 129" fill="none" stroke="#96662E" stroke-width="4" stroke-linecap="round"/>
+  <!-- Licht-Highlight links oben -->
+  <path d="M26 24 Q20 48 24 72" fill="none" stroke="#E2B77E" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+  <!-- Metallringe -->
+  <path d="M13 34 Q60 46 107 34 L106 50 Q60 62 14 50 Z"
+        fill="#7B7B86" stroke="#3E3E46" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M14 92 Q60 104 106 92 L105 108 Q60 120 15 108 Z"
+        fill="#7B7B86" stroke="#3E3E46" stroke-width="5" stroke-linejoin="round"/>
+  <!-- Glanzpunkte auf den Ringen -->
+  <path d="M24 41 Q40 46 56 47" fill="none" stroke="#B9B9C4" stroke-width="4" stroke-linecap="round"/>
+  <path d="M25 99 Q41 104 57 105" fill="none" stroke="#B9B9C4" stroke-width="4" stroke-linecap="round"/>
+</svg>

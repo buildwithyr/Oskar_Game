@@ -13,7 +13,9 @@ const ASSETS = {
   POOP: "assets/Kothaufen.png",
   KREBS: "assets/krebs.png",
   OSKAR_DANCE: "assets/Oskartanzend - Kopie.png",
-  OSKAR_DANCE_FLIP: "assets/Oskartanzendgespiegelt.png"
+  OSKAR_DANCE_FLIP: "assets/Oskartanzendgespiegelt.png",
+  COCONUT: "assets/Kokosnuss.svg",
+  BARREL: "assets/Fass.svg"
 }
 
 // Level 1 - Snacks
@@ -46,6 +48,7 @@ const MATCH_POINT_PER_MATCH = 10
 // Level 6 - Tanzparty (constants live in level_dance.js)
 // Level 7 - Buddel-Spaß (constants live in level_dig.js)
 // Level 8 - Leckerli-Lauf 3D (constants live in level_run3d.js)
+// Level 9 - Kokos-Katapult (constants live in level_catapult.js)
 
 // Vibration patterns
 const VIBRATE = {

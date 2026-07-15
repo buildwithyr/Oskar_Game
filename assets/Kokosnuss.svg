@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Cartoon-Kokosnuss für Level 9 (Kokos-Katapult) -->
+  <!-- Nuss -->
+  <circle cx="60" cy="60" r="52" fill="#7A4A26" stroke="#46280F" stroke-width="7"/>
+  <!-- hellere innere Ringe -->
+  <circle cx="60" cy="60" r="40" fill="none" stroke="#95602F" stroke-width="6" opacity="0.9"/>
+  <circle cx="60" cy="60" r="27" fill="none" stroke="#A9743C" stroke-width="5" opacity="0.8"/>
+  <!-- Faser-Striche -->
+  <path d="M28 34 Q36 28 45 25" fill="none" stroke="#5E3A1E" stroke-width="4" stroke-linecap="round"/>
+  <path d="M84 88 Q76 95 66 98"  fill="none" stroke="#5E3A1E" stroke-width="4" stroke-linecap="round"/>
+  <path d="M22 66 Q24 76 30 84"  fill="none" stroke="#5E3A1E" stroke-width="4" stroke-linecap="round"/>
+  <!-- die drei Keimlöcher -->
+  <ellipse cx="49" cy="49" rx="6.5" ry="8"  fill="#3E2210"/>
+  <ellipse cx="70" cy="47" rx="6.5" ry="8"  fill="#3E2210"/>
+  <ellipse cx="60" cy="67" rx="7"   ry="8.5" fill="#3E2210"/>
+  <!-- Glanzlicht -->
+  <path d="M30 30 Q40 20 54 18" fill="none" stroke="#C89A62" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+</svg>

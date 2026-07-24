@@ -2463,7 +2463,17 @@ html, body{
 
 #level9{
   background: linear-gradient(180deg, #8fd3f4 0%, #f6e3b4 100%);
+  min-height: 100dvh;
 }
+
+/* Stufen-Stimmung: jede Stufe bekommt einen eigenen Himmel-Ton,
+   damit sich die 3 Burgen auch optisch voneinander abheben. */
+.cp-game-area.cp-stage-2 .cp-sky{ background: linear-gradient(180deg, #5fb0e0 0%, #9ad2ef 70%, #d9ecd8 100%); }
+.cp-game-area.cp-stage-2 .cp-ground{ background: linear-gradient(180deg, #e9d48a 0%, #dfc073 100%); }
+.cp-game-area.cp-stage-3 .cp-sky{ background: linear-gradient(180deg, #f0904f 0%, #f7c26b 55%, #fbe2a6 100%); }
+.cp-game-area.cp-stage-3 .cp-sun{ background: radial-gradient(circle, #fff0d0 0%, #ffb454 55%, rgba(255,150,60,0) 75%); }
+.cp-game-area.cp-stage-3 .cp-sea{ background: linear-gradient(180deg, #d97a4a 0%, #b5522f 100%); }
+.cp-game-area.cp-stage-3 .cp-ground{ background: linear-gradient(180deg, #f0c77e 0%, #d9a25c 100%); }
 
 /* ── Start Screen ─────────────────────── */
 .cp-start-screen{
@@ -2729,4 +2739,33 @@ html, body{
   animation: r3HintPulse 1s ease-in-out infinite alternate;
   transition: opacity 0.6s;
   z-index: 65;
+}
+
+/* Kleine Splitter/Krümel, die bei einem Treffer wegfliegen */
+.cp-chip{
+  position: absolute;
+  left: 0; top: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 68;
+  animation: cpChipFly 0.6s cubic-bezier(0.25,0.8,0.4,1) forwards;
+}
+
+@keyframes cpChipFly{
+  0%{   transform: translate(-50%,-50%) translate(0,0) rotate(0deg);   opacity: 1; }
+  100%{ transform: translate(-50%,-50%) translate(var(--cp-chip-x,40px), var(--cp-chip-y,60px)) rotate(var(--cp-chip-r,360deg)); opacity: 0; }
+}
+
+/* Kleiner Wackler der ganzen Szene bei einem satten Volltreffer */
+.cp-game-area.cp-shake{
+  animation: cpShake 0.32s ease-in-out;
+}
+
+@keyframes cpShake{
+  0%, 100%{ transform: translate(0, 0); }
+  25%{ transform: translate(-6px, 3px); }
+  50%{ transform: translate(5px, -3px); }
+  75%{ transform: translate(-3px, 2px); }
 }

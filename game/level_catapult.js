@@ -135,7 +135,9 @@ function cpBegin(stage){
   cpHintShown  = true
 
   document.getElementById('cpStartScreen').classList.add('hidden')
-  document.getElementById('cpGameArea').classList.remove('hidden')
+  const area = document.getElementById('cpGameArea')
+  area.classList.remove('hidden', 'cp-stage-2', 'cp-stage-3')
+  if(stage > 1) area.classList.add('cp-stage-' + stage)
   const hint = document.getElementById('cpDragHint')
   if(hint) hint.style.opacity = '1'
 
@@ -435,7 +437,7 @@ function cpLaunch(){
   if(!cpAim) return
   cpAiming     = false
   cpThrowsLeft--
-  cpFlight = { wx: cpAim.wx, wy: cpAim.wy, z: 0, vx: cpAim.vx, vy: cpAim.vy, rot: 0 }
+  cpFlight = { wx: cpAim.wx, wy: cpAim.wy, z: 0, vx: cpAim.vx, vy: cpAim.vy, rot: 0, launchT: performance.now() }
   cpAim = null
 
   vibe(VIBRATE.SMALL)
@@ -482,7 +484,10 @@ function cpLoop(now){
     return
   }
 
-  cpRenderCoconut(f.wx, f.wy, f.z, 1, f.rot)
+  // kurzer "Plopp" direkt nach dem Abschuss – für mehr Wumms
+  const age = now - f.launchT
+  const pop = age < 150 ? 1 + (1 - age / 150) * 0.4 : 1
+  cpRenderCoconut(f.wx, f.wy, f.z, pop, f.rot)
   cpRafId = requestAnimationFrame(cpLoop)
 }
 
@@ -500,6 +505,8 @@ function cpPlaneHit(planeZ, ix, iy){
   vibe(VIBRATE.MEDIUM)
   hits.forEach(b => cpDestroyBarrel(b, 'break'))
   cpMissEffect('💥', ix, iy, planeZ)
+  cpParticleBurst(ix, iy, planeZ)
+  if(hits.length > 1) cpShakeScreen()
 
   const coco = document.getElementById('cpCoconut')
   if(coco) coco.style.display = 'none'
@@ -532,6 +539,41 @@ function cpMissEffect(emoji, wx, wy, z){
     `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%) scale(${pos.s})`
   world.appendChild(el)
   setGameTimeout(() => el.remove(), 600, cpTimers)
+}
+
+// Kleine Holz-/Kokos-Krümel, die bei einem Treffer auseinanderfliegen
+const CP_CHIP_COLORS = ['#C08A4C', '#8a5a2c', '#F5E6C8', '#7A4A26']
+
+function cpParticleBurst(wx, wy, z){
+  const world = document.getElementById('cpWorld')
+  if(!world) return
+  const pos = cpProject(wx, wy, z)
+  const count = 7
+
+  for(let i = 0; i < count; i++){
+    const chip = document.createElement('div')
+    chip.className = 'cp-chip'
+    const angle = (Math.PI * 2 * i) / count + Math.random() * 0.6
+    const dist  = (30 + Math.random() * 40) * pos.s
+    chip.style.setProperty('--cp-chip-x', (Math.cos(angle) * dist) + 'px')
+    chip.style.setProperty('--cp-chip-y', (Math.sin(angle) * dist - 20) + 'px')
+    chip.style.setProperty('--cp-chip-r', (Math.random() * 540 - 270) + 'deg')
+    chip.style.background = CP_CHIP_COLORS[i % CP_CHIP_COLORS.length]
+    chip.style.width  = chip.style.height = (6 + Math.random() * 6) + 'px'
+    chip.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`
+    world.appendChild(chip)
+    setGameTimeout(() => chip.remove(), 650, cpTimers)
+  }
+}
+
+// Kurzer Wackler der Spielszene bei einem satten Mehrfachtreffer
+function cpShakeScreen(){
+  const area = document.getElementById('cpGameArea')
+  if(!area) return
+  area.classList.remove('cp-shake')
+  void area.offsetWidth
+  area.classList.add('cp-shake')
+  setGameTimeout(() => area.classList.remove('cp-shake'), 320, cpTimers)
 }
 
 // ── Einsturz-Logik ──────────────────────────────────────────────

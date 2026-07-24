@@ -12,7 +12,9 @@ const preloadImages = [
   ASSETS.POOP,
   ASSETS.KREBS,
   ASSETS.OSKAR_DANCE,
-  ASSETS.OSKAR_DANCE_FLIP
+  ASSETS.OSKAR_DANCE_FLIP,
+  ASSETS.COCONUT,
+  ASSETS.BARREL
 ]
 
 preloadImages.forEach(src => {
@@ -87,6 +89,11 @@ document.getElementById("levelBtn8").addEventListener("click", () => {
   startRun3dLevel()
 })
 
+document.getElementById("levelBtn9").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  startCatapultLevel()
+})
+
 
 // LEVEL 1 - Catch game input
 l1SetupInput()
@@ -121,6 +128,9 @@ frogBindFieldInput()
 
 // LEVEL 8 - Tippen/Wischen zum Ausweichen
 r3BindInput()
+
+// LEVEL 9 - Kokosnuss ziehen und werfen
+cpBindInput()
 
 // LEVEL 6 - Tanz-Pads
 document.querySelectorAll("#dcPads .dc-pad").forEach(btn => {

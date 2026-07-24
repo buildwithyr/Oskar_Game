@@ -454,6 +454,7 @@ html, body{
 .level-card:nth-child(6){ animation-delay: 0.28s; }
 .level-card:nth-child(7){ animation-delay: 0.31s; }
 .level-card:nth-child(8){ animation-delay: 0.34s; }
+.level-card:nth-child(9){ animation-delay: 0.37s; }
 
 @keyframes cardIn{
   from{ opacity: 0; transform: translateY(20px) scale(0.95); }
@@ -499,6 +500,7 @@ html, body{
 .chip-6{ background: linear-gradient(150deg, #B98BE0, #8E52C4); box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 6px 14px rgba(142,82,196,0.34); }
 .chip-7{ background: linear-gradient(150deg, #E0A458, #B5712A); box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 6px 14px rgba(181,113,42,0.34); }
 .chip-8{ background: linear-gradient(150deg, #6FB7E8, #2E86C4); box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 6px 14px rgba(46,134,196,0.34); }
+.chip-9{ background: linear-gradient(150deg, #9C6B4F, #5D3A22); box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 6px 14px rgba(93,58,34,0.34); }
 
 .card-label{
   font-family: 'Nunito', sans-serif;
@@ -2453,4 +2455,317 @@ html, body{
 @keyframes r3FlashAnim{
   0%{ opacity: 1; }
   100%{ opacity: 0; }
+}
+
+/* ══════════════════════════════════════
+   LEVEL 9 – KOKOS-KATAPULT
+══════════════════════════════════════ */
+
+#level9{
+  background: linear-gradient(180deg, #8fd3f4 0%, #f6e3b4 100%);
+  min-height: 100dvh;
+}
+
+/* Stufen-Stimmung: jede Stufe bekommt einen eigenen Himmel-Ton,
+   damit sich die 3 Burgen auch optisch voneinander abheben. */
+.cp-game-area.cp-stage-2 .cp-sky{ background: linear-gradient(180deg, #5fb0e0 0%, #9ad2ef 70%, #d9ecd8 100%); }
+.cp-game-area.cp-stage-2 .cp-ground{ background: linear-gradient(180deg, #e9d48a 0%, #dfc073 100%); }
+.cp-game-area.cp-stage-3 .cp-sky{ background: linear-gradient(180deg, #f0904f 0%, #f7c26b 55%, #fbe2a6 100%); }
+.cp-game-area.cp-stage-3 .cp-sun{ background: radial-gradient(circle, #fff0d0 0%, #ffb454 55%, rgba(255,150,60,0) 75%); }
+.cp-game-area.cp-stage-3 .cp-sea{ background: linear-gradient(180deg, #d97a4a 0%, #b5522f 100%); }
+.cp-game-area.cp-stage-3 .cp-ground{ background: linear-gradient(180deg, #f0c77e 0%, #d9a25c 100%); }
+
+/* ── Start Screen ─────────────────────── */
+.cp-start-screen{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(180deg, #8fd3f4 0%, #bfe6e0 55%, #f2d99a 100%);
+}
+
+.cp-start-card{
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 28px;
+  padding: 30px 26px;
+  text-align: center;
+  max-width: 340px;
+  width: 92%;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+
+.cp-start-img{
+  width: 74px;
+  height: 74px;
+  margin-bottom: 8px;
+  animation: dcIdleBounce 1.2s ease-in-out infinite alternate;
+}
+
+.cp-start-title{
+  font-size: 27px;
+  font-weight: 900;
+  color: #6b4423;
+  margin-bottom: 12px;
+}
+
+.cp-start-desc{
+  font-size: 15px;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 22px;
+}
+
+/* Stufen-Auswahl: große Tap-Ziele, gesperrte Stufen ausgegraut */
+.cp-stage-btns{
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.cp-stage-btn{
+  flex: 1;
+  min-height: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: none;
+  border-radius: 18px;
+  padding: 10px 6px;
+  cursor: pointer;
+  background: linear-gradient(150deg, #7FD07A, #3FA24C);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(63,162,76,0.4);
+  transition: transform 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cp-stage-btn:active{ transform: scale(0.94); }
+
+.cp-stage-btn.cp-stage-locked{
+  background: #d8d2c4;
+  color: #8d8574;
+  box-shadow: none;
+  cursor: default;
+}
+
+.cp-stage-ico{
+  font-size: 26px;
+  line-height: 1;
+}
+
+.cp-stage-name{
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.cp-stage-sub{
+  font-size: 10px;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+/* ── Game Area / Kulisse ──────────────── */
+.cp-game-area{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* der Browser darf das Ziehen nicht als Scrollen interpretieren */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.cp-sky{
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 44%;
+  background: linear-gradient(180deg, #6dc4ee 0%, #a8ddf5 70%, #cfeaf2 100%);
+}
+
+.cp-sun{
+  position: absolute;
+  top: 7%;
+  right: 12%;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff8d6 0%, #ffe066 55%, rgba(255,220,90,0) 75%);
+  box-shadow: 0 0 50px 20px rgba(255,225,120,0.55);
+}
+
+.cp-sea{
+  position: absolute;
+  top: 39%; left: 0; right: 0;
+  height: 5%;
+  background: linear-gradient(180deg, #3aa8d8 0%, #1b7ab0 100%);
+}
+
+.cp-ground{
+  position: absolute;
+  top: 44%; left: 0; right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, #f3d894 0%, #ecca7e 100%);
+}
+
+/* Der Weg zur Fässerburg: verjüngt sich zum Horizont */
+.cp-path{
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #ddb066 0%, #d6a155 100%);
+  clip-path: polygon(38% 44%, 62% 44%, 96% 100%, 4% 100%);
+}
+
+.cp-palm{
+  position: absolute;
+  top: 33%;
+  font-size: 74px;
+  line-height: 1;
+  filter: drop-shadow(0 6px 8px rgba(60,40,10,0.3));
+  pointer-events: none;
+}
+
+.cp-palm-left{  left: 2%; }
+.cp-palm-right{ right: 2%; transform: scaleX(-1); }
+
+.cp-world{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ── Fässer ───────────────────────────── */
+.cp-fass{
+  position: absolute;
+  left: 0; top: 0;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.cp-fass-img{
+  width: 100%;
+  height: 100%;
+  background: url('assets/Fass.svg') center / contain no-repeat;
+  filter: drop-shadow(0 4px 5px rgba(90,50,10,0.35));
+}
+
+/* direkt getroffen: Fass fliegt zur Seite raus */
+.cp-fass-break{
+  animation: cpFassBreak 0.7s ease-in forwards;
+}
+
+@keyframes cpFassBreak{
+  0%{   transform: translate(0, 0) rotate(0deg);           opacity: 1; }
+  100%{ transform: translate(var(--cp-fly-x, 70px), 90px) rotate(280deg); opacity: 0; }
+}
+
+/* Halt verloren und zu tief gefallen: kippt um und rollt weg */
+.cp-fass-roll{
+  animation: cpFassRoll 0.75s ease-in forwards;
+}
+
+@keyframes cpFassRoll{
+  0%{   transform: translate(0, 0) rotate(0deg);           opacity: 1; }
+  60%{  transform: translate(calc(var(--cp-fly-x, 70px) * 0.5), 24px) rotate(120deg); opacity: 1; }
+  100%{ transform: translate(var(--cp-fly-x, 70px), 40px) rotate(260deg); opacity: 0; }
+}
+
+/* ── Kokosnuss ─────────────────────────── */
+.cp-coconut{
+  position: absolute;
+  left: 0; top: 0;
+  width: 58px;
+  height: 58px;
+  will-change: transform;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 10px rgba(60,30,0,0.4));
+  z-index: 60;
+}
+
+/* Rückschnappen nach abgebrochenem Zug */
+.cp-coconut-snap{
+  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ── Flugbahn-Vorschau ────────────────── */
+.cp-dot{
+  position: absolute;
+  left: 0; top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.95);
+  border: 2px dashed rgba(120,70,20,0.55);
+  will-change: transform;
+  pointer-events: none;
+  z-index: 55;
+}
+
+/* ── Effekte & Hinweis ────────────────── */
+.cp-boom{
+  position: absolute;
+  left: 0; top: 0;
+  font-size: 58px;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 70;
+  animation: cpBoom 0.55s ease-out forwards;
+}
+
+@keyframes cpBoom{
+  0%{   opacity: 1; margin-top: 0; }
+  100%{ opacity: 0; margin-top: -26px; }
+}
+
+.cp-drag-hint{
+  position: absolute;
+  bottom: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.92);
+  color: #8a4f16;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 10px 20px;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(120,60,0,0.3);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: r3HintPulse 1s ease-in-out infinite alternate;
+  transition: opacity 0.6s;
+  z-index: 65;
+}
+
+/* Kleine Splitter/Krümel, die bei einem Treffer wegfliegen */
+.cp-chip{
+  position: absolute;
+  left: 0; top: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 68;
+  animation: cpChipFly 0.6s cubic-bezier(0.25,0.8,0.4,1) forwards;
+}
+
+@keyframes cpChipFly{
+  0%{   transform: translate(-50%,-50%) translate(0,0) rotate(0deg);   opacity: 1; }
+  100%{ transform: translate(-50%,-50%) translate(var(--cp-chip-x,40px), var(--cp-chip-y,60px)) rotate(var(--cp-chip-r,360deg)); opacity: 0; }
+}
+
+/* Kleiner Wackler der ganzen Szene bei einem satten Volltreffer */
+.cp-game-area.cp-shake{
+  animation: cpShake 0.32s ease-in-out;
+}
+
+@keyframes cpShake{
+  0%, 100%{ transform: translate(0, 0); }
+  25%{ transform: translate(-6px, 3px); }
+  50%{ transform: translate(5px, -3px); }
+  75%{ transform: translate(-3px, 2px); }
 }

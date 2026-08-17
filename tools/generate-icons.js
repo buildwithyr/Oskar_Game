@@ -1,3 +1,4 @@
+// einmalig verwendet, nicht Teil vom Build/Spiel
 // Generiert das App-Icon (Squircle, Sonnen-Gradient, Oskar-Cartoon) als PNG.
 // Pure Node.js, keine Dependencies: eigener minimaler PNG-Decoder (fuer
 // assets/OskarCartoon.png) und -Encoder (zlib ist Node-Bordmittel).
@@ -308,8 +309,8 @@ function buildIcon(size, oskarSrc) {
    RUN
 ══════════════════════════════════════ */
 
-const assetsDir = path.join(__dirname, 'assets');
-const iconsDir = path.join(__dirname, 'icons');
+const assetsDir = path.join(__dirname, '..', 'assets');
+const iconsDir = path.join(__dirname, '..', 'icons');
 if (!fs.existsSync(iconsDir)) fs.mkdirSync(iconsDir);
 
 const oskarSrc = readPNG(path.join(assetsDir, 'OskarCartoon.png'));

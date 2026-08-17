@@ -1,6 +1,8 @@
+// einmalig verwendet, nicht Teil vom Build/Spiel
 // Generiert einen Cartoon-Krebs als sauberes RGBA-PNG (keine Libs nötig)
 const zlib = require('zlib');
 const fs   = require('fs');
+const path = require('path');
 
 const SIZE = 400;
 const buf  = new Uint8Array(SIZE * SIZE * 4); // RGBA, alles transparent
@@ -162,5 +164,5 @@ fillEllipse(75, 112, 28, 16, -0.5,  ...LRED, 140);
 fillEllipse(325, 112, 28, 16,  0.5, ...LRED, 140);
 
 /* ── Speichern ─────────────────────────────────────── */
-fs.writeFileSync('assets/krebs.png', toPNG(buf, SIZE));
+fs.writeFileSync(path.join(__dirname, '..', 'assets', 'krebs.png'), toPNG(buf, SIZE));
 console.log('✅ assets/krebs.png erstellt (400×400, RGBA)');

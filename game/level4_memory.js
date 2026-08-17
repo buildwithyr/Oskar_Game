@@ -2,7 +2,7 @@
    LEVEL 4 - OSKAR MEMORY
 ══════════════════════════════════════ */
 
-const L5_EMOJIS = ["🐶","🦴","⚽","🐱","🐾","🍖"]
+const L4_EMOJIS = ["🐶","🦴","⚽","🐱","🐾","🍖"]
 
 let memCards   = []   // [{ emoji, flipped, matched }]
 let memFlipped = []   // indices of currently face-up unmatched cards
@@ -10,8 +10,8 @@ let memPairs   = 0
 let memBusy    = false
 let memTimers  = new Set()
 
-function startLevel5(){
-  l5StopGame()
+function startLevel4Memory(){
+  l4StopGame()
 
   memCards   = []
   memFlipped = []
@@ -24,7 +24,7 @@ function startLevel5(){
 }
 
 function initMemory(){
-  const emojis = [...L5_EMOJIS, ...L5_EMOJIS]
+  const emojis = [...L4_EMOJIS, ...L4_EMOJIS]
   for(let i = emojis.length - 1; i > 0; i--){
     const j = Math.floor(Math.random() * (i + 1))
     ;[emojis[i], emojis[j]] = [emojis[j], emojis[i]]
@@ -82,7 +82,7 @@ function onMemCardClick(i){
         memBusy = false
         vibe(VIBRATE.MEDIUM)
         renderMemory()
-        if(memPairs === L5_EMOJIS.length) memWin()
+        if(memPairs === L4_EMOJIS.length) memWin()
       }, 500, memTimers)
     } else {
       setGameTimeout(() => {
@@ -108,7 +108,7 @@ function memWin(){
   }, DELAYS.LEVEL_COMPLETE, memTimers)
 }
 
-function l5StopGame(){
+function l4StopGame(){
   memBusy = false
   memFlipped = []
   clearGameTimeouts(memTimers)

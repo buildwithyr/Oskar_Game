@@ -59,12 +59,12 @@ document.getElementById("levelBtn2").addEventListener("click", () => {
 
 document.getElementById("levelBtn3").addEventListener("click", () => {
   vibe(VIBRATE.SMALL)
-  startLevel4()
+  startLevel3Match()
 })
 
 document.getElementById("levelBtn4").addEventListener("click", () => {
   vibe(VIBRATE.SMALL)
-  startLevel5()
+  startLevel4Memory()
 })
 
 document.getElementById("levelBtn5").addEventListener("click", () => {

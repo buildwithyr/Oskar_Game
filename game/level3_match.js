@@ -10,8 +10,8 @@ let matchWon        = false
 let dragStart       = null // { row, col, x, y }
 let matchTimers     = new Set()
 
-function startLevel4(){
-  l4StopGame()
+function startLevel3Match(){
+  l3StopGame()
 
   matchScore = 0
   matchBusy  = false
@@ -261,7 +261,7 @@ function checkWin(){
   }
 }
 
-function l4StopGame(){
+function l3StopGame(){
   matchBusy = false
   matchWon = false
   dragStart = null

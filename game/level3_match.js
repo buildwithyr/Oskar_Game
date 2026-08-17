@@ -88,32 +88,27 @@ function renderMatchBoard(){
       board.appendChild(cell)
     }
   }
+}
 
-  // End-events on document so drag always completes regardless of finger position
-  board._touchEnd = e => {
+// ── Touch / Mouse Input ───────────────
+// Document-level drag-end listeners so a swipe always completes
+// regardless of where the finger/cursor ends up, bound once here
+// instead of re-bound on every renderMatchBoard() call.
+
+function l3SetupInput(){
+  document.addEventListener("touchend", e => {
     if(!dragStart || matchBusy){ dragStart = null; return }
     e.preventDefault()
     const t = e.changedTouches[0]
     processSwipe(t.clientX, t.clientY)
-  }
-  board._mouseUp = e => {
+  }, { passive: false })
+
+  document.addEventListener("mouseup", e => {
     if(!dragStart || matchBusy){ dragStart = null; return }
     processSwipe(e.clientX, e.clientY)
-  }
-  board._touchCancel = () => { dragStart = null }
+  })
 
-  // Remove any old listeners before adding new ones
-  document.removeEventListener("touchend",    board._prevTouchEnd   || (() => {}))
-  document.removeEventListener("mouseup",     board._prevMouseUp    || (() => {}))
-  document.removeEventListener("touchcancel", board._prevTouchCancel|| (() => {}))
-
-  document.addEventListener("touchend",    board._touchEnd,    { passive: false })
-  document.addEventListener("mouseup",     board._mouseUp)
-  document.addEventListener("touchcancel", board._touchCancel)
-
-  board._prevTouchEnd    = board._touchEnd
-  board._prevMouseUp     = board._mouseUp
-  board._prevTouchCancel = board._touchCancel
+  document.addEventListener("touchcancel", () => { dragStart = null })
 }
 
 /* ── Swap logic ────────────────────── */

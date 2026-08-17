@@ -91,6 +91,9 @@ document.getElementById("levelBtn8").addEventListener("click", () => {
 // LEVEL 1 - Catch game input
 l1SetupInput()
 
+// LEVEL 3 - Candy Match drag input
+l3SetupInput()
+
 // LEVEL 2 - Beach Run jump (tap on level2 screen)
 // touchstart springt sofort (kein Warten auf click) – Home-Button bleibt ausgenommen
 document.getElementById("level2").addEventListener("touchstart", (e) => {

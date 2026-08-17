@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'oskar-v11';
+const CACHE_VERSION = 'oskar-v12';
 const CACHE_NAME = `oskar-beach-stories-${CACHE_VERSION}`;
 
 // Base URL derived from service worker location (works on GitHub Pages subpaths)
@@ -17,8 +17,8 @@ const PRECACHE_URLS = [
   BASE_URL + 'game/level1.js',
   BASE_URL + 'game/level_frogger.js',
   BASE_URL + 'game/level3.js',
-  BASE_URL + 'game/level4.js',
-  BASE_URL + 'game/level5.js',
+  BASE_URL + 'game/level3_match.js',
+  BASE_URL + 'game/level4_memory.js',
   BASE_URL + 'game/level_dance.js',
   BASE_URL + 'game/level_dig.js',
   BASE_URL + 'game/level_run3d.js',

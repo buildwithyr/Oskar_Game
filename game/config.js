@@ -41,7 +41,7 @@ const MATCH_WIN_SCORE = 300
 const MATCH_POP_DELAY = 280
 const MATCH_POINT_PER_MATCH = 10
 
-// Level 4 - Memory  (constants live in level5.js)
+// Level 4 - Memory  (constants live in level4_memory.js)
 // Level 5 - Strandpromenade (constants live in level_frogger.js)
 // Level 6 - Tanzparty (constants live in level_dance.js)
 // Level 7 - Buddel-Spaß (constants live in level_dig.js)

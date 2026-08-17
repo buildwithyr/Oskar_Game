@@ -59,12 +59,12 @@ document.getElementById("levelBtn2").addEventListener("click", () => {
 
 document.getElementById("levelBtn3").addEventListener("click", () => {
   vibe(VIBRATE.SMALL)
-  startLevel4()
+  startLevel3Match()
 })
 
 document.getElementById("levelBtn4").addEventListener("click", () => {
   vibe(VIBRATE.SMALL)
-  startLevel5()
+  startLevel4Memory()
 })
 
 document.getElementById("levelBtn5").addEventListener("click", () => {
@@ -90,6 +90,9 @@ document.getElementById("levelBtn8").addEventListener("click", () => {
 
 // LEVEL 1 - Catch game input
 l1SetupInput()
+
+// LEVEL 3 - Candy Match drag input
+l3SetupInput()
 
 // LEVEL 2 - Beach Run jump (tap on level2 screen)
 // touchstart springt sofort (kein Warten auf click) – Home-Button bleibt ausgenommen

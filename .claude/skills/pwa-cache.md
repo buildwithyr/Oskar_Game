@@ -10,7 +10,7 @@ Wie man den PWA-Service-Worker aktuell hält, wenn neue Dateien oder Assets zum 
 
 ```js
 // Muster: oskar-vN  (N ist eine laufende Zahl)
-const CACHE_VERSION = 'oskar-v12'   // war v11
+const CACHE_VERSION = "oskar-v12" // war v11
 ```
 
 Der neue Cache-Name (`oskar-beach-stories-oskar-v12`) wird beim nächsten Aufruf aktiviert. Der Activate-Handler löscht alle alten Caches automatisch.
@@ -20,8 +20,8 @@ Der neue Cache-Name (`oskar-beach-stories-oskar-v12`) wird beim nächsten Aufruf
 ```js
 const PRECACHE_URLS = [
   // … bestehende Einträge …
-  BASE_URL + 'game/level_mynew.js',        // neue JS-Datei
-  BASE_URL + 'assets/MeinNeuesBild.png',   // neues Bild
+  BASE_URL + "game/level_mynew.js", // neue JS-Datei
+  BASE_URL + "assets/MeinNeuesBild.png" // neues Bild
 ]
 ```
 
@@ -38,7 +38,7 @@ Wenn ein Bild neu dazukommt, muss es an zwei weiteren Stellen eingetragen werden
 ```js
 const ASSETS = {
   // … bestehende …
-  MY_NEW_IMAGE: "assets/MeinNeuesBild.png",
+  MY_NEW_IMAGE: "assets/MeinNeuesBild.png"
 }
 ```
 
@@ -47,7 +47,7 @@ const ASSETS = {
 ```js
 const preloadImages = [
   // … bestehende …
-  ASSETS.MY_NEW_IMAGE,
+  ASSETS.MY_NEW_IMAGE
 ]
 ```
 

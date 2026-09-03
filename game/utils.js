@@ -1,60 +1,60 @@
-
-function vibe(pattern){
-  if(navigator.vibrate) navigator.vibrate(pattern)
+function vibe(pattern) {
+  if (navigator.vibrate) navigator.vibrate(pattern)
 }
 
-function showScreen(id){
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"))
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"))
   document.getElementById(id).classList.add("active")
-  if(id === "intro") updateBonesDisplay()
+  if (id === "intro") updateBonesDisplay()
 }
 
-function updateBonesDisplay(){
+function updateBonesDisplay() {
   const el = document.getElementById("bonesCount")
-  if(el) el.textContent = loadPlayerData().bones
+  if (el) el.textContent = loadPlayerData().bones
 }
 
-function setGameTimeout(handler, delay, bag){
+function setGameTimeout(handler, delay, bag) {
   const id = setTimeout(() => {
-    if(bag) bag.delete(id)
+    if (bag) bag.delete(id)
     handler()
   }, delay)
-  if(bag) bag.add(id)
+  if (bag) bag.add(id)
   return id
 }
 
-function clearGameTimeouts(bag){
-  if(!bag) return
-  bag.forEach(id => clearTimeout(id))
+function clearGameTimeouts(bag) {
+  if (!bag) return
+  bag.forEach((id) => clearTimeout(id))
   bag.clear()
 }
 
-function awardLevelWin(level, score = 0){
+function awardLevelWin(level, score = 0) {
   const data = loadPlayerData()
   const completedKey = `level${level}Completed`
 
-  if(data.statistics[completedKey] !== undefined){
+  if (data.statistics[completedKey] !== undefined) {
     data.statistics[completedKey] = (data.statistics[completedKey] || 0) + 1
   }
 
   data.bones = (data.bones || 0) + 1
   savePlayerData(data)
 
-  if(score > 0) updateHighscore(level, score)
+  if (score > 0) updateHighscore(level, score)
 }
 
-function showLevelComplete({ title, text, button, next, stars = 3 }){
-
+function showLevelComplete({ title, text, button, next, stars = 3 }) {
   // Remove old popup if exists
   const old = document.getElementById("levelCompletePopup")
-  if(old) old.remove()
+  if (old) old.remove()
 
   const popup = document.createElement("div")
   popup.className = "popup"
   popup.id = "levelCompletePopup"
 
-  const starsHtml = Array.from({ length: 3 }, (_, i) =>
-    `<span class="star" style="animation-delay:${i * 0.15}s">${i < stars ? "⭐" : "☆"}</span>`
+  const starsHtml = Array.from(
+    { length: 3 },
+    (_, i) =>
+      `<span class="star" style="animation-delay:${i * 0.15}s">${i < stars ? "⭐" : "☆"}</span>`
   ).join("")
 
   popup.innerHTML = `
@@ -73,14 +73,13 @@ function showLevelComplete({ title, text, button, next, stars = 3 }){
     popup.remove()
     next()
   })
-
 }
 
-function showToast(msg, duration = 2200){
+function showToast(msg, duration = 2200) {
   const old = document.getElementById("gameToast")
-  if(old) old.remove()
+  if (old) old.remove()
   const el = document.createElement("div")
-  el.id        = "gameToast"
+  el.id = "gameToast"
   el.className = "game-toast"
   el.textContent = msg
   document.body.appendChild(el)

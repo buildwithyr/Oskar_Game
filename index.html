@@ -1,471 +1,530 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Oskar Beach Stories</title>
-
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json">
-
-  <!-- Theme & Status Bar -->
-  <meta name="theme-color" content="#E8763A">
-  <meta name="background-color" content="#F6C878">
-
-  <!-- iOS PWA Meta Tags -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Oskar">
-
-  <!-- iOS Icons -->
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-
-  <!-- Prevent phone number detection -->
-  <meta name="format-detection" content="telephone=no">
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="style.css?v=19">
-</head>
-
-<body>
-
-<!-- ═════════════ BOOT SPLASH ═════════════ -->
-
-<div id="bootSplash">
-  <div class="boot-splash-halo"></div>
-  <img src="icons/icon-192.png" class="boot-splash-icon" alt="">
-  <div class="boot-splash-word">
-    <div class="boot-splash-title">OSKAR</div>
-    <div class="boot-splash-subtitle">BEACH STORIES</div>
-  </div>
-  <div class="boot-splash-dots">
-    <span class="boot-splash-dot"></span>
-    <span class="boot-splash-dot"></span>
-    <span class="boot-splash-dot"></span>
-  </div>
-  <div class="boot-splash-footer">Strand wird vorbereitet …</div>
-</div>
-
-<!-- ═════════════ START / SPLASH ═════════════ -->
-
-<div class="screen active" id="start">
-
-  <div class="start-sun"></div>
-  <div class="start-palm start-palm-left" aria-hidden="true">🌴</div>
-  <div class="start-palm start-palm-right" aria-hidden="true">🌴</div>
-
-  <div class="start-content">
-    <div class="start-wordmark">
-      <div class="start-title">OSKAR</div>
-      <div class="start-subtitle">BEACH STORIES</div>
-    </div>
-
-    <img src="assets/OskarBadehose.png" class="start-hero" alt="Oskar">
-
-    <button class="start-play-btn" id="startPlayBtn">SPIELEN ▸</button>
-  </div>
-
-  <a href="https://instagram.com/oskar.the.jackrussel/" target="_blank" rel="noopener noreferrer" class="start-footer">📸 @oskar.the.jackrussel</a>
-
-</div>
-
-<!-- ═════════════ INTRO / LEVEL-AUSWAHL ═════════════ -->
-
-<div class="screen" id="intro">
-
-  <div class="intro-header">
-    <div class="intro-header-left">
-      <p class="intro-eyebrow">Moin, Oskar! ☀️</p>
-      <h1 class="intro-title">Wohin heute?</h1>
-    </div>
-    <div class="bones-chip">
-      <span class="bones-chip-icon">🦴</span>
-      <span class="bones-chip-count" id="bonesCount">0</span>
-    </div>
-  </div>
-
-  <div class="menu-cards">
-
-    <button class="level-card card-1" id="levelBtn1">
-      <div class="card-icon-chip chip-1"><span class="card-icon">🍖</span></div>
-      <div class="card-label">Level 1</div>
-      <div class="card-name">Snack Hunt</div>
-    </button>
-
-    <button class="level-card card-2" id="levelBtn2">
-      <div class="card-icon-chip chip-2"><span class="card-icon">🥏</span></div>
-      <div class="card-label">Level 2</div>
-      <div class="card-name">Beach Run</div>
-    </button>
-
-    <button class="level-card card-3" id="levelBtn3">
-      <div class="card-icon-chip chip-3"><span class="card-icon">🍭</span></div>
-      <div class="card-label">Level 3</div>
-      <div class="card-name">Candy Match</div>
-    </button>
-
-    <button class="level-card card-4" id="levelBtn4">
-      <div class="card-icon-chip chip-4"><span class="card-icon">🧠</span></div>
-      <div class="card-label">Level 4</div>
-      <div class="card-name">Oskar Memory</div>
-    </button>
-
-    <button class="level-card card-5" id="levelBtn5">
-      <div class="card-icon-chip chip-5"><span class="card-icon">🐕</span></div>
-      <div class="card-label">Level 5</div>
-      <div class="card-name">Strandpromenade</div>
-    </button>
-
-    <button class="level-card card-6" id="levelBtn6">
-      <div class="card-icon-chip chip-6"><span class="card-icon">🎵</span></div>
-      <div class="card-label">Level 6</div>
-      <div class="card-name">Tanzparty</div>
-    </button>
-
-    <button class="level-card card-7" id="levelBtn7">
-      <div class="card-icon-chip chip-7"><span class="card-icon">🦴</span></div>
-      <div class="card-label">Level 7</div>
-      <div class="card-name">Buddel-Spaß</div>
-    </button>
-
-    <button class="level-card card-8" id="levelBtn8">
-      <div class="card-icon-chip chip-8"><span class="card-icon">🌅</span></div>
-      <div class="card-label">Level 8</div>
-      <div class="card-name">Leckerli-Lauf 3D</div>
-    </button>
-
-  </div>
-
-  <a href="https://instagram.com/oskar.the.jackrussel/" target="_blank" rel="noopener noreferrer" class="insta-link">
-    <img src="assets/Instagram_icon.png" class="insta-logo" alt="Instagram">
-    Folge Oskar auf Instagram 📸
-  </a>
-
-</div>
-
-
-<!-- ═════════════ LEVEL 1 ═════════════ -->
-
-<div class="screen" id="level1">
-
-  <button class="back-btn" onclick="l1StopGame(); showScreen('intro')">🏠</button>
-
-  <div class="hud">
-    <div class="hud-title">Level 1 🍖</div>
-    <div class="hud-sub">Fang die Leckerlis!</div>
-    <div class="hud-score" id="l1Counter">🍖 0 / 10</div>
-  </div>
-
-  <div class="l1-field" id="l1Field"></div>
-
-</div>
-
-<!-- ═════════════ LEVEL 2 – BEACH RUN ═════════════ -->
-
-<div class="screen" id="level2">
-
-  <button class="back-btn back-btn-fixed" onclick="l3StopGame(); showScreen('intro')">🏠</button>
-
-  <div class="sun"></div>
-  <div class="cartoon-cloud cloud-1"></div>
-  <div class="cartoon-cloud cloud-2"></div>
-  <div class="cartoon-cloud cloud-3"></div>
-
-  <div class="world" id="world">
-    <div class="sky-bg"></div>
-    <div class="cloud cloud1"></div>
-    <div class="cloud cloud2"></div>
-    <div class="cloud cloud3"></div>
-    <div class="wave"></div>
-    <div class="palm palm1">🌴</div>
-    <img src="assets/Frau am Liegestuhl.png"   class="beach-person person1">
-    <img src="assets/Frau am Liegestuhl 2.png" class="beach-person person2">
-    <div class="sand"></div>
-  </div>
-
-  <div class="hud">
-    <div class="hud-title">Level 2 🥏</div>
-    <div class="hud-sub">Spring über die Hindernisse!</div>
-    <div class="hud-score" id="distanceText">Meter: 0</div>
-  </div>
-
-  <img src="assets/OskarBadehose.png" class="runner" id="runner">
-  <div class="frisbee" id="frisbee">🥏</div>
-  <div class="obstacle" id="obstacle"></div>
-  <div class="event-toast" id="eventToast"></div>
-
-  <div class="speed-bar-wrap">
-    <div class="speed-label">Tempo 🔥</div>
-    <div class="speed-bar-bg">
-      <div class="speed-bar-fill" id="speedBar"></div>
-    </div>
-  </div>
-
-  <div class="jump-hint" id="jumpHint">Tippen zum Springen ↑</div>
-
-
-</div>
-
-<!-- ═════════════ LEVEL 3 – CANDY MATCH ═════════════ -->
-
-<div class="screen" id="level3">
-
-  <button class="back-btn" onclick="l3StopGame(); showScreen('intro')">🏠</button>
-
-  <div class="hud">
-    <div class="hud-title">Level 3 🍭</div>
-    <div class="hud-sub">Match 3 Zeit!</div>
-    <div class="hud-score" id="matchScore">Punkte: 0</div>
-  </div>
-
-  <div class="match3-wrap">
-    <div id="matchBoard"></div>
-  </div>
-
-</div>
-
-<!-- ═════════════ LEVEL 4 – OSKAR MEMORY ═════════════ -->
-
-<div class="screen" id="level4">
-
-  <button class="back-btn" onclick="l4StopGame(); showScreen('intro')">🏠</button>
-
-  <div class="hud">
-    <div class="hud-title">Level 4 🧠</div>
-    <div class="hud-sub">Oskar Memory</div>
-    <div class="hud-score" id="memPairsText">0 von 6 Paaren gefunden</div>
-  </div>
-
-  <div class="mem-grid" id="memGrid"></div>
-
-</div>
-
-<!-- ═════════════ LEVEL 5 – STRANDPROMENADE ═════════════ -->
-
-<div class="screen" id="level5">
-
-  <button class="back-btn" onclick="frogStop(); showScreen('intro')">🏠</button>
-
-  <!-- START SCREEN -->
-  <div id="frogStartScreen" class="frog-start-screen">
-    <div class="frog-start-card">
-      <div class="frog-start-emoji">🐕</div>
-      <div class="frog-start-title">Strandpromenade!</div>
-      <div class="frog-start-desc">
-        Bring Oskar 3× nach Hause 🏠<br>
-        Springe auf Baumstämme 🪵<br>
-        Weiche Autos aus 🚗<br><br>
-        <strong>Tippen</strong> = Schritt nach vorn 👆<br>
-        <strong>Wischen</strong> = zur Seite ↔️
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>Oskar Beach Stories</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- Theme & Status Bar -->
+    <meta name="theme-color" content="#E8763A" />
+    <meta name="background-color" content="#F6C878" />
+
+    <!-- iOS PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Oskar" />
+
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+
+    <!-- Prevent phone number detection -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css?v=19" />
+  </head>
+
+  <body>
+    <!-- ═════════════ BOOT SPLASH ═════════════ -->
+
+    <div id="bootSplash">
+      <div class="boot-splash-halo"></div>
+      <img src="icons/icon-192.png" class="boot-splash-icon" alt="" />
+      <div class="boot-splash-word">
+        <div class="boot-splash-title">OSKAR</div>
+        <div class="boot-splash-subtitle">BEACH STORIES</div>
       </div>
-      <button class="frog-start-btn" onclick="frogStartGame()">LAUF! 🐾</button>
-    </div>
-  </div>
-
-  <!-- GAME AREA -->
-  <div id="frogGameArea" class="frog-game-area hidden">
-
-    <div class="frog-hud" id="frogHud">
-      <div class="frog-hud-lives" id="frogLivesEl"></div>
-      <div class="frog-hud-score" id="frogScoreEl">0/3 🏠</div>
-      <div class="frog-hud-timer" id="frogTimerEl">60</div>
-    </div>
-
-    <div class="frog-field" id="frogField"></div>
-
-    <div class="frog-dpad" id="frogDpad">
-      <div class="frog-dpad-btn" data-fdir="left">◀</div>
-      <div class="frog-dpad-btn frog-dpad-btn-up" data-fdir="up">▲</div>
-      <div class="frog-dpad-btn" data-fdir="down">▼</div>
-      <div class="frog-dpad-btn" data-fdir="right">▶</div>
-    </div>
-
-  </div>
-</div>
-
-
-<!-- ═════════════ LEVEL 6 – TANZPARTY ═════════════ -->
-
-<div class="screen" id="level6">
-
-  <button class="back-btn" onclick="dcStopGame(); showScreen('intro')">🏠</button>
-
-  <!-- START SCREEN -->
-  <div id="dcStartScreen" class="dc-start-screen">
-    <div class="dc-start-card">
-      <img src="assets/Oskartanzend - Kopie.png" class="dc-start-img" alt="Oskar tanzt">
-      <div class="dc-start-title">🎵 Tanzparty!</div>
-      <div class="dc-start-desc">
-        Oskar zeigt dir Tanzschritte 💃<br>
-        Schau gut zu und<br>
-        <strong>tipp sie in der gleichen Reihenfolge nach!</strong>
+      <div class="boot-splash-dots">
+        <span class="boot-splash-dot"></span>
+        <span class="boot-splash-dot"></span>
+        <span class="boot-splash-dot"></span>
       </div>
-      <button class="dc-start-btn" onclick="dcBeginGame()">TANZEN! 🎵</button>
-    </div>
-  </div>
-
-  <!-- GAME AREA -->
-  <div id="dcGameArea" class="dc-game-area hidden">
-
-    <div class="dc-hud">
-      <div class="dc-hud-round" id="dcRoundEl">Runde 1/5</div>
-      <div class="dc-hud-lives" id="dcLivesEl"></div>
+      <div class="boot-splash-footer">Strand wird vorbereitet …</div>
     </div>
 
-    <div class="dc-stage" id="dcStage">
-      <div class="dc-disco" aria-hidden="true">
-        <span class="dc-disco-dot d1"></span>
-        <span class="dc-disco-dot d2"></span>
-        <span class="dc-disco-dot d3"></span>
-        <span class="dc-disco-dot d4"></span>
-      </div>
-      <img id="dcOskar" src="assets/Oskartanzend - Kopie.png" class="dc-oskar" alt="Oskar tanzt">
-      <div class="dc-status" id="dcStatus">Schau gut zu! 👀</div>
-    </div>
+    <!-- ═════════════ START / SPLASH ═════════════ -->
 
-    <div class="dc-pads" id="dcPads">
-      <button class="dc-pad dc-pad-0" data-pad="0">🦴</button>
-      <button class="dc-pad dc-pad-1" data-pad="1">🥎</button>
-      <button class="dc-pad dc-pad-2" data-pad="2">🐾</button>
-      <button class="dc-pad dc-pad-3" data-pad="3">⭐</button>
-    </div>
+    <div class="screen active" id="start">
+      <div class="start-sun"></div>
+      <div class="start-palm start-palm-left" aria-hidden="true">🌴</div>
+      <div class="start-palm start-palm-right" aria-hidden="true">🌴</div>
 
-  </div>
-</div>
+      <div class="start-content">
+        <div class="start-wordmark">
+          <div class="start-title">OSKAR</div>
+          <div class="start-subtitle">BEACH STORIES</div>
+        </div>
 
+        <img src="assets/OskarBadehose.png" class="start-hero" alt="Oskar" />
 
-<!-- ═════════════ LEVEL 7 – BUDDEL-SPASS ═════════════ -->
-
-<div class="screen" id="level7">
-
-  <button class="back-btn" onclick="dgStopGame(); showScreen('intro')">🏠</button>
-
-  <!-- START SCREEN -->
-  <div id="dgStartScreen" class="dg-start-screen">
-    <div class="dg-start-card">
-      <div class="dg-start-emoji">🦴</div>
-      <div class="dg-start-title">Buddel-Spaß!</div>
-      <div class="dg-start-desc">
-        Im Sand sind <strong>6 Knochen</strong> versteckt!<br>
-        2× tippen = Loch buddeln 🕳️<br>
-        Oskars Nase hilft dir:<br>
-        <strong>👃 = Knochen ist nebenan!</strong>
-      </div>
-      <button class="dg-start-btn" onclick="dgBeginGame()">BUDDELN! 🐾</button>
-    </div>
-  </div>
-
-  <!-- GAME AREA -->
-  <div id="dgGameArea" class="dg-game-area hidden">
-
-    <div class="hud">
-      <div class="hud-title">Level 7 🦴</div>
-      <div class="hud-sub">Finde alle Knochen!</div>
-      <div class="hud-score" id="dgCounter">🦴 0 / 6</div>
-    </div>
-
-    <div class="dg-content">
-      <div class="dg-oskar-row">
-        <img id="dgOskar" src="assets/OskarCartoon.png" class="dg-oskar" alt="Oskar">
-        <div class="dg-bubble" id="dgBubble">Hier irgendwo sind Knochen! 🤔</div>
+        <button class="start-play-btn" id="startPlayBtn">SPIELEN ▸</button>
       </div>
 
-      <div class="dg-grid" id="dgGrid"></div>
-
-      <div class="dg-digs" id="dgDigs">🕳️ 0 Löcher gebuddelt</div>
+      <a
+        href="https://instagram.com/oskar.the.jackrussel/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="start-footer"
+        >📸 @oskar.the.jackrussel</a
+      >
     </div>
 
-  </div>
-</div>
+    <!-- ═════════════ INTRO / LEVEL-AUSWAHL ═════════════ -->
 
-
-<!-- ═════════════ LEVEL 8 – LECKERLI-LAUF (PSEUDO-3D) ═════════════ -->
-
-<div class="screen" id="level8">
-
-  <button class="back-btn" onclick="r3Stop(); showScreen('intro')">🏠</button>
-
-  <!-- START SCREEN -->
-  <div id="r3StartScreen" class="r3-start-screen">
-    <div class="r3-start-card">
-      <div class="r3-start-emoji">🐕💨</div>
-      <div class="r3-start-title">Leckerli-Lauf!</div>
-      <div class="r3-start-desc">
-        Oskar rennt den Strandweg entlang!<br>
-        <strong>Zieh Oskar mit dem Finger</strong><br>
-        nach links und rechts ↔️<br>
-        Sammle <strong>15 Leckerlis</strong> 🦴🍖⭐<br>
-        Aber tritt nicht in den 💩!
+    <div class="screen" id="intro">
+      <div class="intro-header">
+        <div class="intro-header-left">
+          <p class="intro-eyebrow">Moin, Oskar! ☀️</p>
+          <h1 class="intro-title">Wohin heute?</h1>
+        </div>
+        <div class="bones-chip">
+          <span class="bones-chip-icon">🦴</span>
+          <span class="bones-chip-count" id="bonesCount">0</span>
+        </div>
       </div>
-      <button class="r3-start-btn" onclick="r3Begin()">LOS! 🐾</button>
+
+      <div class="menu-cards">
+        <button class="level-card card-1" id="levelBtn1">
+          <div class="card-icon-chip chip-1"><span class="card-icon">🍖</span></div>
+          <div class="card-label">Level 1</div>
+          <div class="card-name">Snack Hunt</div>
+        </button>
+
+        <button class="level-card card-2" id="levelBtn2">
+          <div class="card-icon-chip chip-2"><span class="card-icon">🥏</span></div>
+          <div class="card-label">Level 2</div>
+          <div class="card-name">Beach Run</div>
+        </button>
+
+        <button class="level-card card-3" id="levelBtn3">
+          <div class="card-icon-chip chip-3"><span class="card-icon">🍭</span></div>
+          <div class="card-label">Level 3</div>
+          <div class="card-name">Candy Match</div>
+        </button>
+
+        <button class="level-card card-4" id="levelBtn4">
+          <div class="card-icon-chip chip-4"><span class="card-icon">🧠</span></div>
+          <div class="card-label">Level 4</div>
+          <div class="card-name">Oskar Memory</div>
+        </button>
+
+        <button class="level-card card-5" id="levelBtn5">
+          <div class="card-icon-chip chip-5"><span class="card-icon">🐕</span></div>
+          <div class="card-label">Level 5</div>
+          <div class="card-name">Strandpromenade</div>
+        </button>
+
+        <button class="level-card card-6" id="levelBtn6">
+          <div class="card-icon-chip chip-6"><span class="card-icon">🎵</span></div>
+          <div class="card-label">Level 6</div>
+          <div class="card-name">Tanzparty</div>
+        </button>
+
+        <button class="level-card card-7" id="levelBtn7">
+          <div class="card-icon-chip chip-7"><span class="card-icon">🦴</span></div>
+          <div class="card-label">Level 7</div>
+          <div class="card-name">Buddel-Spaß</div>
+        </button>
+
+        <button class="level-card card-8" id="levelBtn8">
+          <div class="card-icon-chip chip-8"><span class="card-icon">🌅</span></div>
+          <div class="card-label">Level 8</div>
+          <div class="card-name">Leckerli-Lauf 3D</div>
+        </button>
+      </div>
+
+      <a
+        href="https://instagram.com/oskar.the.jackrussel/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="insta-link"
+      >
+        <img src="assets/Instagram_icon.png" class="insta-logo" alt="Instagram" />
+        Folge Oskar auf Instagram 📸
+      </a>
     </div>
-  </div>
 
-  <!-- GAME AREA -->
-  <div id="r3GameArea" class="r3-game-area hidden">
+    <!-- ═════════════ LEVEL 1 ═════════════ -->
 
-    <div class="r3-sky"></div>
-    <div class="r3-sun"></div>
-    <div class="r3-sea"></div>
-    <div class="r3-ground"></div>
-    <div class="r3-path"></div>
+    <div class="screen" id="level1">
+      <button
+        class="back-btn"
+        onclick="
+          l1StopGame()
+          showScreen('intro')
+        "
+      >
+        🏠
+      </button>
 
-    <div class="r3-world" id="r3World"></div>
+      <div class="hud">
+        <div class="hud-title">Level 1 🍖</div>
+        <div class="hud-sub">Fang die Leckerlis!</div>
+        <div class="hud-score" id="l1Counter">🍖 0 / 10</div>
+      </div>
 
-    <div id="r3OskarWrap" class="r3-oskar-wrap">
-      <img id="r3Oskar" class="r3-oskar" src="assets/OskarBadehose.png" alt="Oskar rennt">
+      <div class="l1-field" id="l1Field"></div>
     </div>
 
-    <div class="hud">
-      <div class="hud-title">Level 8 🌅</div>
-      <div class="hud-sub">Sammle die Leckerlis!</div>
-      <div class="hud-score" id="r3Score">🦴 0/15</div>
+    <!-- ═════════════ LEVEL 2 – BEACH RUN ═════════════ -->
+
+    <div class="screen" id="level2">
+      <button
+        class="back-btn back-btn-fixed"
+        onclick="
+          l3StopGame()
+          showScreen('intro')
+        "
+      >
+        🏠
+      </button>
+
+      <div class="sun"></div>
+      <div class="cartoon-cloud cloud-1"></div>
+      <div class="cartoon-cloud cloud-2"></div>
+      <div class="cartoon-cloud cloud-3"></div>
+
+      <div class="world" id="world">
+        <div class="sky-bg"></div>
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="wave"></div>
+        <div class="palm palm1">🌴</div>
+        <img src="assets/Frau am Liegestuhl.png" class="beach-person person1" />
+        <img src="assets/Frau am Liegestuhl 2.png" class="beach-person person2" />
+        <div class="sand"></div>
+      </div>
+
+      <div class="hud">
+        <div class="hud-title">Level 2 🥏</div>
+        <div class="hud-sub">Spring über die Hindernisse!</div>
+        <div class="hud-score" id="distanceText">Meter: 0</div>
+      </div>
+
+      <img src="assets/OskarBadehose.png" class="runner" id="runner" />
+      <div class="frisbee" id="frisbee">🥏</div>
+      <div class="obstacle" id="obstacle"></div>
+      <div class="event-toast" id="eventToast"></div>
+
+      <div class="speed-bar-wrap">
+        <div class="speed-label">Tempo 🔥</div>
+        <div class="speed-bar-bg">
+          <div class="speed-bar-fill" id="speedBar"></div>
+        </div>
+      </div>
+
+      <div class="jump-hint" id="jumpHint">Tippen zum Springen ↑</div>
     </div>
 
-    <div class="r3-drag-hint" id="r3DragHint">↔️ Zieh Oskar hin und her!</div>
-    <div id="r3Flash" class="r3-flash"></div>
+    <!-- ═════════════ LEVEL 3 – CANDY MATCH ═════════════ -->
 
-  </div>
-</div>
+    <div class="screen" id="level3">
+      <button
+        class="back-btn"
+        onclick="
+          l3StopGame()
+          showScreen('intro')
+        "
+      >
+        🏠
+      </button>
 
+      <div class="hud">
+        <div class="hud-title">Level 3 🍭</div>
+        <div class="hud-sub">Match 3 Zeit!</div>
+        <div class="hud-score" id="matchScore">Punkte: 0</div>
+      </div>
 
-<!-- PWA Install Prompt -->
-<div id="pwaInstallBanner" class="pwa-banner" style="display:none" role="dialog" aria-label="App installieren">
-  <div class="pwa-banner-content">
-    <span class="pwa-banner-icon">🐾</span>
-    <div class="pwa-banner-text">
-      <strong>Oskar Beach Stories</strong>
-      <span id="pwaInstallHint"></span>
+      <div class="match3-wrap">
+        <div id="matchBoard"></div>
+      </div>
     </div>
-    <button id="pwaInstallBtn" class="pwa-install-btn" style="display:none">Installieren</button>
-    <button id="pwaDismissBtn" class="pwa-dismiss-btn" aria-label="Schließen">✕</button>
-  </div>
-</div>
 
-<script src="game/config.js?v=15"></script>
-<script src="game/utils.js?v=16"></script>
-<script src="game/storage.js?v=15"></script>
-<script src="game/level1.js?v=15"></script>
-<script src="game/level3.js?v=15"></script>
-<script src="game/level3_match.js?v=16"></script>
-<script src="game/level4_memory.js?v=16"></script>
-<script src="game/level_frogger.js?v=15"></script>
-<script src="game/level_dance.js?v=15"></script>
-<script src="game/level_dig.js?v=15"></script>
-<script src="game/level_run3d.js?v=16"></script>
-<script src="game/main.js?v=16"></script>
-<script src="game/pwa.js?v=15"></script>
+    <!-- ═════════════ LEVEL 4 – OSKAR MEMORY ═════════════ -->
 
-</body>
+    <div class="screen" id="level4">
+      <button
+        class="back-btn"
+        onclick="
+          l4StopGame()
+          showScreen('intro')
+        "
+      >
+        🏠
+      </button>
+
+      <div class="hud">
+        <div class="hud-title">Level 4 🧠</div>
+        <div class="hud-sub">Oskar Memory</div>
+        <div class="hud-score" id="memPairsText">0 von 6 Paaren gefunden</div>
+      </div>
+
+      <div class="mem-grid" id="memGrid"></div>
+    </div>
+
+    <!-- ═════════════ LEVEL 5 – STRANDPROMENADE ═════════════ -->
+
+    <div class="screen" id="level5">
+      <button
+        class="back-btn"
+        onclick="
+          frogStop()
+          showScreen('intro')
+        "
+      >
+        🏠
+      </button>
+
+      <!-- START SCREEN -->
+      <div id="frogStartScreen" class="frog-start-screen">
+        <div class="frog-start-card">
+          <div class="frog-start-emoji">🐕</div>
+          <div class="frog-start-title">Strandpromenade!</div>
+          <div class="frog-start-desc">
+            Bring Oskar 3× nach Hause 🏠<br />
+            Springe auf Baumstämme 🪵<br />
+            Weiche Autos aus 🚗<br /><br />
+            <strong>Tippen</strong> = Schritt nach vorn 👆<br />
+            <strong>Wischen</strong> = zur Seite ↔️
+          </div>
+          <button class="frog-start-btn" onclick="frogStartGame()">LAUF! 🐾</button>
+        </div>
+      </div>
+
+      <!-- GAME AREA -->
+      <div id="frogGameArea" class="frog-game-area hidden">
+        <div class="frog-hud" id="frogHud">
+          <div class="frog-hud-lives" id="frogLivesEl"></div>
+          <div class="frog-hud-score" id="frogScoreEl">0/3 🏠</div>
+          <div class="frog-hud-timer" id="frogTimerEl">60</div>
+        </div>
+
+        <div class="frog-field" id="frogField"></div>
+
+        <div class="frog-dpad" id="frogDpad">
+          <div class="frog-dpad-btn" data-fdir="left">◀</div>
+          <div class="frog-dpad-btn frog-dpad-btn-up" data-fdir="up">▲</div>
+          <div class="frog-dpad-btn" data-fdir="down">▼</div>
+          <div class="frog-dpad-btn" data-fdir="right">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════════════ LEVEL 6 – TANZPARTY ═════════════ -->
+
+    <div class="screen" id="level6">
+      <button
+        class="back-btn"
+        onclick="
+          dcStopGame()
+          showScreen('intro')
+        "
+      >
+        🏠
+      </button>
+
+      <!-- START SCREEN -->
+      <div id="dcStartScreen" class="dc-start-screen">
+        <div class="dc-start-card">
+          <img src="assets/Oskartanzend - Kopie.png" class="dc-start-img" alt="Oskar tanzt" />
+          <div class="dc-start-title">🎵 Tanzparty!</div>
+          <div class="dc-start-desc">
+            Oskar zeigt dir Tanzschritte 💃<br />
+            Schau gut zu und<br />
+            <strong>tipp sie in der gleichen Reihenfolge nach!</strong>
+          </div>
+          <button class="dc-start-btn" onclick="dcBeginGame()">TANZEN! 🎵</button>
+        </div>
+      </div>
+
+      <!-- GAME AREA -->
+      <div id="dcGameArea" class="dc-game-area hidden">
+        <div class="dc-hud">
+          <div class="dc-hud-round" id="dcRoundEl">Runde 1/5</div>
+          <div class="dc-hud-lives" id="dcLivesEl"></div>
+        </div>
+
+        <div class="dc-stage" id="dcStage">
+          <div class="dc-disco" aria-hidden="true">
+            <span class="dc-disco-dot d1"></span>
+            <span class="dc-disco-dot d2"></span>
+            <span class="dc-disco-dot d3"></span>
+            <span class="dc-disco-dot d4"></span>
+          </div>
+          <img
+            id="dcOskar"
+            src="assets/Oskartanzend - Kopie.png"
+            class="dc-oskar"
+            alt="Oskar tanzt"
+          />
+          <div class="dc-status" id="dcStatus">Schau gut zu! 👀</div>
+        </div>
+
+        <div class="dc-pads" id="dcPads">
+          <button class="dc-pad dc-pad-0" data-pad="0">🦴</button>
+          <button class="dc-pad dc-pad-1" data-pad="1">🥎</button>
+          <button class="dc-pad dc-pad-2" data-pad="2">🐾</button>
+          <button class="dc-pad dc-pad-3" data-pad="3">⭐</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════════════ LEVEL 7 – BUDDEL-SPASS ═════════════ -->
+
+    <div class="screen" id="level7">
+      <button
+        class="back-btn"
+        onclick="
+          dgStopGame()
+          showScreen('intro')
+        "
+      >
+        🏠
+      </button>
+
+      <!-- START SCREEN -->
+      <div id="dgStartScreen" class="dg-start-screen">
+        <div class="dg-start-card">
+          <div class="dg-start-emoji">🦴</div>
+          <div class="dg-start-title">Buddel-Spaß!</div>
+          <div class="dg-start-desc">
+            Im Sand sind <strong>6 Knochen</strong> versteckt!<br />
+            2× tippen = Loch buddeln 🕳️<br />
+            Oskars Nase hilft dir:<br />
+            <strong>👃 = Knochen ist nebenan!</strong>
+          </div>
+          <button class="dg-start-btn" onclick="dgBeginGame()">BUDDELN! 🐾</button>
+        </div>
+      </div>
+
+      <!-- GAME AREA -->
+      <div id="dgGameArea" class="dg-game-area hidden">
+        <div class="hud">
+          <div class="hud-title">Level 7 🦴</div>
+          <div class="hud-sub">Finde alle Knochen!</div>
+          <div class="hud-score" id="dgCounter">🦴 0 / 6</div>
+        </div>
+
+        <div class="dg-content">
+          <div class="dg-oskar-row">
+            <img id="dgOskar" src="assets/OskarCartoon.png" class="dg-oskar" alt="Oskar" />
+            <div class="dg-bubble" id="dgBubble">Hier irgendwo sind Knochen! 🤔</div>
+          </div>
+
+          <div class="dg-grid" id="dgGrid"></div>
+
+          <div class="dg-digs" id="dgDigs">🕳️ 0 Löcher gebuddelt</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════════════ LEVEL 8 – LECKERLI-LAUF (PSEUDO-3D) ═════════════ -->
+
+    <div class="screen" id="level8">
+      <button
+        class="back-btn"
+        onclick="
+          r3Stop()
+          showScreen('intro')
+        "
+      >
+        🏠
+      </button>
+
+      <!-- START SCREEN -->
+      <div id="r3StartScreen" class="r3-start-screen">
+        <div class="r3-start-card">
+          <div class="r3-start-emoji">🐕💨</div>
+          <div class="r3-start-title">Leckerli-Lauf!</div>
+          <div class="r3-start-desc">
+            Oskar rennt den Strandweg entlang!<br />
+            <strong>Zieh Oskar mit dem Finger</strong><br />
+            nach links und rechts ↔️<br />
+            Sammle <strong>15 Leckerlis</strong> 🦴🍖⭐<br />
+            Aber tritt nicht in den 💩!
+          </div>
+          <button class="r3-start-btn" onclick="r3Begin()">LOS! 🐾</button>
+        </div>
+      </div>
+
+      <!-- GAME AREA -->
+      <div id="r3GameArea" class="r3-game-area hidden">
+        <div class="r3-sky"></div>
+        <div class="r3-sun"></div>
+        <div class="r3-sea"></div>
+        <div class="r3-ground"></div>
+        <div class="r3-path"></div>
+
+        <div class="r3-world" id="r3World"></div>
+
+        <div id="r3OskarWrap" class="r3-oskar-wrap">
+          <img id="r3Oskar" class="r3-oskar" src="assets/OskarBadehose.png" alt="Oskar rennt" />
+        </div>
+
+        <div class="hud">
+          <div class="hud-title">Level 8 🌅</div>
+          <div class="hud-sub">Sammle die Leckerlis!</div>
+          <div class="hud-score" id="r3Score">🦴 0/15</div>
+        </div>
+
+        <div class="r3-drag-hint" id="r3DragHint">↔️ Zieh Oskar hin und her!</div>
+        <div id="r3Flash" class="r3-flash"></div>
+      </div>
+    </div>
+
+    <!-- PWA Install Prompt -->
+    <div
+      id="pwaInstallBanner"
+      class="pwa-banner"
+      style="display: none"
+      role="dialog"
+      aria-label="App installieren"
+    >
+      <div class="pwa-banner-content">
+        <span class="pwa-banner-icon">🐾</span>
+        <div class="pwa-banner-text">
+          <strong>Oskar Beach Stories</strong>
+          <span id="pwaInstallHint"></span>
+        </div>
+        <button id="pwaInstallBtn" class="pwa-install-btn" style="display: none">
+          Installieren
+        </button>
+        <button id="pwaDismissBtn" class="pwa-dismiss-btn" aria-label="Schließen">✕</button>
+      </div>
+    </div>
+
+    <script src="game/config.js?v=15"></script>
+    <script src="game/utils.js?v=16"></script>
+    <script src="game/storage.js?v=15"></script>
+    <script src="game/level1.js?v=15"></script>
+    <script src="game/level3.js?v=15"></script>
+    <script src="game/level3_match.js?v=16"></script>
+    <script src="game/level4_memory.js?v=16"></script>
+    <script src="game/level_frogger.js?v=15"></script>
+    <script src="game/level_dance.js?v=15"></script>
+    <script src="game/level_dig.js?v=15"></script>
+    <script src="game/level_run3d.js?v=16"></script>
+    <script src="game/main.js?v=16"></script>
+    <script src="game/pwa.js?v=15"></script>
+  </body>
 </html>

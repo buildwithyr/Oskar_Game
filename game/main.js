@@ -15,14 +15,10 @@ const preloadImages = [
   ASSETS.OSKAR_DANCE_FLIP
 ]
 
-preloadImages.forEach(src => {
+preloadImages.forEach((src) => {
   const img = new Image()
   img.src = src
 })
-
-
-
-
 
 /* ══════════════════════════════════════
    BOOT SPLASH
@@ -30,11 +26,10 @@ preloadImages.forEach(src => {
 
 setTimeout(() => {
   const splash = document.getElementById("bootSplash")
-  if(!splash) return
+  if (!splash) return
   splash.classList.add("boot-splash-hide")
   setTimeout(() => splash.remove(), 550)
 }, 1200)
-
 
 /* ══════════════════════════════════════
    EVENT LISTENERS (zentral)
@@ -87,7 +82,6 @@ document.getElementById("levelBtn8").addEventListener("click", () => {
   startRun3dLevel()
 })
 
-
 // LEVEL 1 - Catch game input
 l1SetupInput()
 
@@ -96,27 +90,35 @@ l3SetupInput()
 
 // LEVEL 2 - Beach Run jump (tap on level2 screen)
 // touchstart springt sofort (kein Warten auf click) – Home-Button bleibt ausgenommen
-document.getElementById("level2").addEventListener("touchstart", (e) => {
-  if(e.target.closest(".back-btn")) return
-  if(document.getElementById("level2").classList.contains("active")){
-    e.preventDefault()
-    l3Jump()
-  }
-}, { passive: false })
+document.getElementById("level2").addEventListener(
+  "touchstart",
+  (e) => {
+    if (e.target.closest(".back-btn")) return
+    if (document.getElementById("level2").classList.contains("active")) {
+      e.preventDefault()
+      l3Jump()
+    }
+  },
+  { passive: false }
+)
 
 document.getElementById("level2").addEventListener("click", () => {
-  if(document.getElementById("level2").classList.contains("active")){
+  if (document.getElementById("level2").classList.contains("active")) {
     l3Jump()
   }
 })
 
 // LEVEL 5 - Strandpromenade D-Pad
-document.querySelectorAll("#frogDpad .frog-dpad-btn").forEach(btn => {
+document.querySelectorAll("#frogDpad .frog-dpad-btn").forEach((btn) => {
   btn.addEventListener("click", () => frogMove(btn.dataset.fdir))
-  btn.addEventListener("touchstart", (e) => {
-    e.preventDefault()
-    frogMove(btn.dataset.fdir)
-  }, { passive: false })
+  btn.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault()
+      frogMove(btn.dataset.fdir)
+    },
+    { passive: false }
+  )
 })
 
 // LEVEL 5 - Wischen/Tippen direkt auf dem Spielfeld
@@ -126,12 +128,16 @@ frogBindFieldInput()
 r3BindInput()
 
 // LEVEL 6 - Tanz-Pads
-document.querySelectorAll("#dcPads .dc-pad").forEach(btn => {
+document.querySelectorAll("#dcPads .dc-pad").forEach((btn) => {
   btn.addEventListener("click", () => dcPadPress(Number(btn.dataset.pad)))
-  btn.addEventListener("touchstart", (e) => {
-    e.preventDefault()
-    dcPadPress(Number(btn.dataset.pad))
-  }, { passive: false })
+  btn.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault()
+      dcPadPress(Number(btn.dataset.pad))
+    },
+    { passive: false }
+  )
 })
 
 // Global keyboard: Level 2 space/up + Level 5 arrows
@@ -146,8 +152,16 @@ document.addEventListener("keydown", (e) => {
   }
 
   if (active === "level5") {
-    const map = { ArrowUp:"up", ArrowDown:"down", ArrowLeft:"left", ArrowRight:"right",
-                  KeyW:"up",    KeyS:"down",       KeyA:"left",      KeyD:"right" }
+    const map = {
+      ArrowUp: "up",
+      ArrowDown: "down",
+      ArrowLeft: "left",
+      ArrowRight: "right",
+      KeyW: "up",
+      KeyS: "down",
+      KeyA: "left",
+      KeyD: "right"
+    }
     if (map[e.code]) {
       e.preventDefault()
       frogMove(map[e.code])
@@ -155,8 +169,16 @@ document.addEventListener("keydown", (e) => {
   }
 
   if (active === "level6") {
-    const padMap = { Digit1: 0, Digit2: 1, Digit3: 2, Digit4: 3,
-                     Numpad1: 0, Numpad2: 1, Numpad3: 2, Numpad4: 3 }
+    const padMap = {
+      Digit1: 0,
+      Digit2: 1,
+      Digit3: 2,
+      Digit4: 3,
+      Numpad1: 0,
+      Numpad2: 1,
+      Numpad3: 2,
+      Numpad4: 3
+    }
     if (padMap[e.code] !== undefined) {
       e.preventDefault()
       dcPadPress(padMap[e.code])
@@ -164,7 +186,13 @@ document.addEventListener("keydown", (e) => {
   }
 
   if (active === "level8") {
-    if (e.code === "ArrowLeft"  || e.code === "KeyA") { e.preventDefault(); r3Steer(-1) }
-    if (e.code === "ArrowRight" || e.code === "KeyD") { e.preventDefault(); r3Steer(1) }
+    if (e.code === "ArrowLeft" || e.code === "KeyA") {
+      e.preventDefault()
+      r3Steer(-1)
+    }
+    if (e.code === "ArrowRight" || e.code === "KeyD") {
+      e.preventDefault()
+      r3Steer(1)
+    }
   }
 })

@@ -34,7 +34,7 @@ const L3_COLLISION_MARGIN = 18
 const L3_OBSTACLE_SPACING = 400
 
 // Level 3 - Match3
-const EMOJIS = ["🐶","🦴","🌴","🥏","🍖","☀️","🌊"]
+const EMOJIS = ["🐶", "🦴", "🌴", "🥏", "🍖", "☀️", "🌊"]
 const BOARD_COLS = 7
 const BOARD_ROWS = 7
 const MATCH_WIN_SCORE = 300

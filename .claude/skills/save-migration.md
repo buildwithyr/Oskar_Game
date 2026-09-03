@@ -7,6 +7,7 @@ Wie man das versionierte Speichersystem in `game/storage.js` sicher erweitert �
 ## Wann ist dieser Skill nötig?
 
 Immer wenn sich die Datenstruktur des Spielstands ändert:
+
 - Neues Level hinzugefügt (neue Statistikfelder, neuer Highscore-Key)
 - Feld umbenannt oder gelöscht
 - Neues Feature mit eigenem Speicherbedarf (z. B. tägliche Challenges)
@@ -20,7 +21,7 @@ Drei Stellen müssen immer zusammen angefasst werden:
 ### 1. `CURRENT_SAVE_VERSION` hochzählen
 
 ```js
-const CURRENT_SAVE_VERSION = 6   // war 5, jetzt 6
+const CURRENT_SAVE_VERSION = 6 // war 5, jetzt 6
 ```
 
 ### 2. `DEFAULT_PLAYER_DATA` anpassen
@@ -33,13 +34,13 @@ const DEFAULT_PLAYER_DATA = {
   // … bestehende Felder …
   statistics: {
     // … bestehende Statistiken …
-    level9Completed: 0,    // NEU
-    myLevelGamesPlayed: 0, // NEU
+    level9Completed: 0, // NEU
+    myLevelGamesPlayed: 0 // NEU
   },
   highscores: {
     // … bestehende Scores …
-    level9: 0,             // NEU
-  },
+    level9: 0 // NEU
+  }
 }
 ```
 
@@ -60,8 +61,8 @@ if (data.saveVersion < 6) {
 
 ```js
 for (const key of [
-  'altesStatistikFeld',      // NEU: hier eintragen, wenn ein Feld entfernt wird
-  'level9Completed',         // Beispiel: gelöschtes Level
+  "altesStatistikFeld", // NEU: hier eintragen, wenn ein Feld entfernt wird
+  "level9Completed" // Beispiel: gelöschtes Level
 ]) {
   delete filled.statistics[key]
 }
@@ -81,11 +82,11 @@ for (const key of [
 
 ## Bestehende Versionshistorie
 
-| Version | Änderung |
-|---|---|
-| v0 | Initialer Stand (kein explizites Versionsfeld) |
-| v1 | Basisstruktur: bones, achievements, statistics, highscores |
-| v2 | Crab-Statistiken entfernt; Frogger + Level 8 hinzugefügt |
-| v3 | Dance- und Dig-Level |
-| v4 | Pseudo-3D-Runner |
-| v5 | Kompaktierung 11-Slot → 8-Slot-Layout |
+| Version | Änderung                                                   |
+| ------- | ---------------------------------------------------------- |
+| v0      | Initialer Stand (kein explizites Versionsfeld)             |
+| v1      | Basisstruktur: bones, achievements, statistics, highscores |
+| v2      | Crab-Statistiken entfernt; Frogger + Level 8 hinzugefügt   |
+| v3      | Dance- und Dig-Level                                       |
+| v4      | Pseudo-3D-Runner                                           |
+| v5      | Kompaktierung 11-Slot → 8-Slot-Layout                      |

@@ -6,13 +6,13 @@ Ein neues Mini-Game-Level zu Oskar Beach Stories hinzufügen. Dieser Skill besch
 
 ## Welche Dateien sind betroffen?
 
-| Datei | Was tun |
-|---|---|
-| `game/level_X.js` | Neue Level-Datei anlegen |
-| `game/config.js` | Neue Konstanten eintragen |
-| `game/storage.js` | `DEFAULT_PLAYER_DATA` und Migration erweitern → siehe Skill `save-migration` |
-| `game/main.js` | Event-Listener für den Level-Button verdrahten |
-| `index.html` | Screen-`<div>` und `<script>`-Tag einfügen |
+| Datei               | Was tun                                                                                       |
+| ------------------- | --------------------------------------------------------------------------------------------- |
+| `game/level_X.js`   | Neue Level-Datei anlegen                                                                      |
+| `game/config.js`    | Neue Konstanten eintragen                                                                     |
+| `game/storage.js`   | `DEFAULT_PLAYER_DATA` und Migration erweitern → siehe Skill `save-migration`                  |
+| `game/main.js`      | Event-Listener für den Level-Button verdrahten                                                |
+| `index.html`        | Screen-`<div>` und `<script>`-Tag einfügen                                                    |
 | `service-worker.js` | Neue Datei in `PRECACHE_URLS` aufnehmen, `CACHE_VERSION` hochzählen → siehe Skill `pwa-cache` |
 
 ---
@@ -28,21 +28,25 @@ Ein neues Mini-Game-Level zu Oskar Beach Stories hinzufügen. Dieser Skill besch
 const XY_SOME_VALUE = 42
 
 // ── State ───────────────────────────────────────────────────────
-let xyRunning  = false
-let xyRafId    = null
-let xyTimers   = new Set()   // alle laufenden setTimeout-IDs
+let xyRunning = false
+let xyRafId = null
+let xyTimers = new Set() // alle laufenden setTimeout-IDs
 
 // ── Entry Point ─────────────────────────────────────────────────
 function startXyLevel() {
   xyStop()
-  showScreen('levelX')
+  showScreen("levelX")
 
   // DOM aufbauen …
 
-  setGameTimeout(() => {
-    xyRunning = true
-    xyLoop()
-  }, 50, xyTimers)
+  setGameTimeout(
+    () => {
+      xyRunning = true
+      xyLoop()
+    },
+    50,
+    xyTimers
+  )
 }
 
 // ── Game Loop ───────────────────────────────────────────────────
@@ -55,36 +59,39 @@ function xyLoop() {
 // ── Stop / Cleanup ──────────────────────────────────────────────
 function xyStop() {
   xyRunning = false
-  if (xyRafId) { cancelAnimationFrame(xyRafId); xyRafId = null }
+  if (xyRafId) {
+    cancelAnimationFrame(xyRafId)
+    xyRafId = null
+  }
   clearGameTimeouts(xyTimers)
 }
 
 // ── Win ─────────────────────────────────────────────────────────
 function xyWin() {
   xyStop()
-  awardLevelWin(X)   // Knochen + Statistik
+  awardLevelWin(X) // Knochen + Statistik
   showLevelComplete({
-    title: '🎉 Gewonnen!',
-    text: 'Kurze Beschreibung',
-    button: 'Weiter',
+    title: "🎉 Gewonnen!",
+    text: "Kurze Beschreibung",
+    button: "Weiter",
     stars: 3,
-    next: () => showScreen('home')
+    next: () => showScreen("home")
   })
 }
 ```
 
 ### Wichtige Hilfs-Funktionen (aus `utils.js` / `storage.js`)
 
-| Funktion | Zweck |
-|---|---|
-| `showScreen(id)` | Wechselt den aktiven Screen |
-| `setGameTimeout(fn, ms, bag)` | `setTimeout` mit automatischem Tracking in der Timer-Bag |
-| `clearGameTimeouts(bag)` | Alle offenen Timeouts der Bag canceln |
-| `awardLevelWin(levelNumber)` | Knochen vergeben + Statistik hochzählen |
-| `showLevelComplete({...})` | Standard-Popup am Level-Ende anzeigen |
-| `showToast(msg)` | Kurze Meldung einblenden |
-| `vibe(pattern)` | Vibration (`VIBRATE.SMALL / .MEDIUM / .LARGE`) |
-| `updateHighscore(level, score)` | Highscore speichern, falls neuer Bestwert |
+| Funktion                        | Zweck                                                    |
+| ------------------------------- | -------------------------------------------------------- |
+| `showScreen(id)`                | Wechselt den aktiven Screen                              |
+| `setGameTimeout(fn, ms, bag)`   | `setTimeout` mit automatischem Tracking in der Timer-Bag |
+| `clearGameTimeouts(bag)`        | Alle offenen Timeouts der Bag canceln                    |
+| `awardLevelWin(levelNumber)`    | Knochen vergeben + Statistik hochzählen                  |
+| `showLevelComplete({...})`      | Standard-Popup am Level-Ende anzeigen                    |
+| `showToast(msg)`                | Kurze Meldung einblenden                                 |
+| `vibe(pattern)`                 | Vibration (`VIBRATE.SMALL / .MEDIUM / .LARGE`)           |
+| `updateHighscore(level, score)` | Highscore speichern, falls neuer Bestwert                |
 
 ---
 

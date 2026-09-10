@@ -70,6 +70,7 @@ function startRun3dLevel(){
 
 function r3Begin(){
   r3Stop()
+  GameManager.setActive("level8")
   r3Running     = true
   r3Lane        = 0
   r3OskarX      = 0
@@ -496,4 +497,19 @@ function r3Stop(){
   r3DecoEls = []
   const world = document.getElementById('r3World')
   if(world) world.innerHTML = ''
+  GameManager.clearActive("level8")
 }
+
+// App im Hintergrund: RAF anhalten. r3Loop gleicht beim Fortsetzen große
+// Zeitsprünge (>400ms) bereits selbst aus (siehe delta-Korrektur oben),
+// resume() muss also nur die Schleife neu anstoßen.
+function r3Pause(){
+  if(r3RafId){ cancelAnimationFrame(r3RafId); r3RafId = null }
+}
+
+function r3Resume(){
+  if(!r3Running) return
+  r3RafId = requestAnimationFrame(r3Loop)
+}
+
+GameManager.register("level8", { stop: r3Stop, pause: r3Pause, resume: r3Resume })

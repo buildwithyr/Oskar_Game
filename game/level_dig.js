@@ -34,6 +34,7 @@ function startDigLevel(){
 
 function dgBeginGame(){
   dgStopGame()
+  GameManager.setActive("level7")
   dgRunning    = true
   dgBonesFound = 0
   dgDigs       = 0
@@ -269,4 +270,7 @@ function dgStopGame(){
   clearGameTimeouts(dgTimers)
   if(dgOskarTimer){ clearTimeout(dgOskarTimer); dgOskarTimer = null }
   dgCells = []
+  GameManager.clearActive("level7")
 }
+
+GameManager.register("level7", { stop: dgStopGame })

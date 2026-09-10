@@ -1,12 +1,19 @@
 
 function vibe(pattern){
-  if(navigator.vibrate) navigator.vibrate(pattern)
+  if(!navigator.vibrate) return
+  try {
+    if(loadPlayerData().settings.vibration === false) return
+  } catch(e){ /* Speicher nicht lesbar -> im Zweifel vibrieren */ }
+  navigator.vibrate(pattern)
 }
 
 function showScreen(id){
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"))
   document.getElementById(id).classList.add("active")
-  if(id === "intro") updateBonesDisplay()
+  if(id === "intro"){
+    updateBonesDisplay()
+    if(typeof renderDailyWalk === "function") renderDailyWalk()
+  }
 }
 
 function updateBonesDisplay(){
@@ -38,9 +45,12 @@ function awardLevelWin(level, score = 0){
   }
 
   data.bones = (data.bones || 0) + 1
+  data.statistics.totalBonesEarned = (data.statistics.totalBonesEarned || 0) + 1
   savePlayerData(data)
 
   if(score > 0) updateHighscore(level, score)
+  if(typeof dailyWalkOnLevelWin === "function") dailyWalkOnLevelWin(level)
+  if(typeof collectionCheckUnlocks === "function") collectionCheckUnlocks()
 }
 
 function showLevelComplete({ title, text, button, next, stars = 3 }){

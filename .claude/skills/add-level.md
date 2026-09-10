@@ -10,10 +10,20 @@ Ein neues Mini-Game-Level zu Oskar Beach Stories hinzufügen. Dieser Skill besch
 |---|---|
 | `game/level_X.js` | Neue Level-Datei anlegen |
 | `game/config.js` | Neue Konstanten eintragen |
-| `game/storage.js` | `DEFAULT_PLAYER_DATA` und Migration erweitern → siehe Skill `save-migration` |
+| `game/storage.js` | `createDefaultPlayerData()` und Migration erweitern → siehe Skill `save-migration` |
 | `game/main.js` | Event-Listener für den Level-Button verdrahten |
-| `index.html` | Screen-`<div>` und `<script>`-Tag einfügen |
-| `service-worker.js` | Neue Datei in `PRECACHE_URLS` aufnehmen, `CACHE_VERSION` hochzählen → siehe Skill `pwa-cache` |
+| `index.html` | Screen-`<div>` und `<script>`-Tag einfügen (**nach** `game/game-manager.js`, vor `main.js`) |
+| `service-worker.js` | Neue Datei in `CORE_URLS` (Kern-Dateien wie JS) bzw. `OPTIONAL_URLS` (Bilder) aufnehmen, `CACHE_VERSION` hochzählen → siehe Skill `pwa-cache` |
+
+**Wichtig – eindeutiges Präfix wählen:** Jede Level-Datei braucht ein
+Funktions-/Variablen-Präfix, das in **keiner anderen** `game/*.js`-Datei
+verwendet wird, und das zur **echten** Levelnummer im Menü passt (nicht
+irgendeine interne Nummerierung). Genau eine solche Kollision
+(`l3StopGame()` gleichzeitig in Beach Run [echtes Level 2!] und Candy
+Match [Level 3] definiert) hat früher dafür gesorgt, dass die später
+geladene Datei die Stop-Funktion der anderen überschrieben hat – Beach
+Runs Loop lief nach dem Home-Button im Hintergrund weiter.
+`tests/static-checks.test.js` prüft das automatisch (`npm test`).
 
 ---
 
@@ -35,6 +45,7 @@ let xyTimers   = new Set()   // alle laufenden setTimeout-IDs
 // ── Entry Point ─────────────────────────────────────────────────
 function startXyLevel() {
   xyStop()
+  GameManager.setActive('levelX')
   showScreen('levelX')
 
   // DOM aufbauen …
@@ -57,7 +68,22 @@ function xyStop() {
   xyRunning = false
   if (xyRafId) { cancelAnimationFrame(xyRafId); xyRafId = null }
   clearGameTimeouts(xyTimers)
+  GameManager.clearActive('levelX')
 }
+
+// Nur nötig, wenn das Level einen echten requestAnimationFrame-Loop oder
+// setInterval-Timer hat, der im Hintergrund (App/Tab-Wechsel) weiterlaufen
+// könnte. Turn-basierte Level (Memory, Tanzparty, ...) brauchen das nicht.
+function xyPause() {
+  if (xyRafId) { cancelAnimationFrame(xyRafId); xyRafId = null }
+}
+function xyResume() {
+  if (!xyRunning) return
+  xyRafId = requestAnimationFrame(xyLoop)
+}
+
+// Am Dateiende registrieren, NACHDEM start/stop/pause/resume definiert sind:
+GameManager.register('levelX', { stop: xyStop, pause: xyPause, resume: xyResume })
 
 // ── Win ─────────────────────────────────────────────────────────
 function xyWin() {
@@ -103,10 +129,13 @@ Touch- und Keyboard-Handler für das neue Level ebenfalls hier eintragen (Muster
 
 ## Checkliste
 
-- [ ] `game/level_X.js` angelegt mit `start`, `stop`, `loop`, `win`
+- [ ] Eindeutiges Funktions-/Variablen-Präfix gewählt, das zur echten Levelnummer passt und in keiner anderen `game/*.js`-Datei vorkommt
+- [ ] `game/level_X.js` angelegt mit `start`, `stop`, `loop`, `win` (+ `pause`/`resume` bei echtem RAF-Loop/Timer)
+- [ ] `GameManager.register('levelX', { stop, pause?, resume? })` am Dateiende
 - [ ] Konstanten in `game/config.js` eingetragen
-- [ ] `storage.js` erweitert (DEFAULT_PLAYER_DATA + Migration + Version)
+- [ ] `storage.js` erweitert (`createDefaultPlayerData()` + Migration + Version)
 - [ ] Screen-`<div>` in `index.html` eingefügt
-- [ ] `<script src="game/level_X.js">` in `index.html` vor `main.js`
+- [ ] `<script src="game/level_X.js">` in `index.html` nach `game-manager.js`, vor `main.js`
 - [ ] Level-Button-Listener in `main.js` eingetragen
-- [ ] `service-worker.js` aktualisiert (neue Datei + CACHE_VERSION bump)
+- [ ] `service-worker.js` aktualisiert (neue Datei in CORE_URLS/OPTIONAL_URLS + CACHE_VERSION bump)
+- [ ] `npm test` läuft grün (deckt Namenskollisionen und fehlende start/stop automatisch ab)

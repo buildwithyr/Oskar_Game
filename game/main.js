@@ -2,13 +2,16 @@
    PRELOAD ASSETS
 ══════════════════════════════════════ */
 
+// Nur Bilder, die auf dem Start-/Intro-Screen oder in Level 1-3 sofort
+// gebraucht werden. ASSETS.OSKAR_CHAIR (OskarLiegestuhl.png) wird aktuell
+// von keinem Screen angezeigt und wurde daher aus dem Eager-Preload
+// entfernt – spätere Level laden ihre Bilder ohnehin bei Levelstart.
 const preloadImages = [
   ASSETS.OSKAR_DEFAULT,
   ASSETS.OSKAR_TONGUE_LEFT,
   ASSETS.OSKAR_TONGUE_RIGHT,
   ASSETS.OSKAR_SWIMSUIT,
   ASSETS.OSKAR_JUMP,
-  ASSETS.OSKAR_CHAIR,
   ASSETS.POOP,
   ASSETS.KREBS,
   ASSETS.OSKAR_DANCE,
@@ -40,11 +43,26 @@ setTimeout(() => {
    EVENT LISTENERS (zentral)
 ══════════════════════════════════════ */
 
+// Einstellungen (Bewegung/Schrift) direkt beim Start anwenden, damit sie
+// schon vor dem ersten Besuch des Einstellungen-Screens wirken.
+applySettingsToDOM(loadPlayerData().settings)
+
 // START SCREEN
 document.getElementById("startPlayBtn").addEventListener("click", () => {
   vibe(VIBRATE.SMALL)
   showScreen("intro")
 })
+
+// SAMMELALBUM + EINSTELLUNGEN
+document.getElementById("bonesChipBtn").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  openCollection()
+})
+document.getElementById("settingsBtn").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  openSettings()
+})
+settingsSetupInput()
 
 // LEVEL SELECT
 document.getElementById("levelBtn1").addEventListener("click", () => {
@@ -54,7 +72,7 @@ document.getElementById("levelBtn1").addEventListener("click", () => {
 
 document.getElementById("levelBtn2").addEventListener("click", () => {
   vibe(VIBRATE.SMALL)
-  startLevel3()
+  startLevel2()
 })
 
 document.getElementById("levelBtn3").addEventListener("click", () => {
@@ -92,7 +110,7 @@ document.getElementById("levelBtn8").addEventListener("click", () => {
 l1SetupInput()
 
 // LEVEL 3 - Candy Match drag input
-l3SetupInput()
+matchSetupInput()
 
 // LEVEL 2 - Beach Run jump (tap on level2 screen)
 // touchstart springt sofort (kein Warten auf click) – Home-Button bleibt ausgenommen
@@ -100,13 +118,13 @@ document.getElementById("level2").addEventListener("touchstart", (e) => {
   if(e.target.closest(".back-btn")) return
   if(document.getElementById("level2").classList.contains("active")){
     e.preventDefault()
-    l3Jump()
+    l2Jump()
   }
 }, { passive: false })
 
 document.getElementById("level2").addEventListener("click", () => {
   if(document.getElementById("level2").classList.contains("active")){
-    l3Jump()
+    l2Jump()
   }
 })
 
@@ -141,7 +159,7 @@ document.addEventListener("keydown", (e) => {
   if (active === "level2") {
     if (e.code === "Space" || e.code === "ArrowUp") {
       e.preventDefault()
-      l3Jump()
+      l2Jump()
     }
   }
 

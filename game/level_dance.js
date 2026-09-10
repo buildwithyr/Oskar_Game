@@ -31,6 +31,7 @@ function startDanceLevel(){
 
 function dcBeginGame(){
   dcStopGame()
+  GameManager.setActive("level6")
   dcRunning = true
   dcRound   = 0
   dcLives   = DC_LIVES
@@ -247,6 +248,9 @@ function dcStopGame(){
   clearGameTimeouts(dcTimers)
   const pads = document.getElementById("dcPads")
   if(pads) pads.classList.remove("dc-watching")
+  GameManager.clearActive("level6")
   document.querySelectorAll("#dcPads .dc-pad").forEach(p => p.classList.remove("dc-lit"))
   document.querySelectorAll(".dc-confetti").forEach(c => c.remove())
 }
+
+GameManager.register("level6", { stop: dcStopGame })

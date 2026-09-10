@@ -22,16 +22,16 @@ const LEVEL1_SNACK_CLICK_DELAY = 250
 
 // Level 2 - Beach Run
 
-const L3_GROUND = 0
-const L3_JUMP_VEL = -18
-const L3_GRAVITY = 1.0
-const L3_WIN_DIST = 150
-const L3_SPEED_START = 3.5
-const L3_SPEED_MAX = 7.5
-const L3_SPEED_INCREASE = 0.008
-const L3_SPEED_FRAME_RATE = 0.05
-const L3_COLLISION_MARGIN = 18
-const L3_OBSTACLE_SPACING = 400
+const L2_GROUND = 0
+const L2_JUMP_VEL = -18
+const L2_GRAVITY = 1.0
+const L2_WIN_DIST = 150
+const L2_SPEED_START = 3.5
+const L2_SPEED_MAX = 7.5
+const L2_SPEED_INCREASE = 0.008
+const L2_SPEED_FRAME_RATE = 0.05
+const L2_COLLISION_MARGIN = 18
+const L2_OBSTACLE_SPACING = 400
 
 // Level 3 - Match3
 const EMOJIS = ["🐶","🦴","🌴","🥏","🍖","☀️","🌊"]

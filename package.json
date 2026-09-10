@@ -1,0 +1,10 @@
+{
+  "name": "oskar-beach-stories",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Oskar Beach Stories – Browsergame (Vanilla HTML/CSS/JS, kein Build-Step nötig).",
+  "scripts": {
+    "test": "node tests/run-all.js",
+    "start": "python3 -m http.server 8000"
+  }
+}

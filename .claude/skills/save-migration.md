@@ -23,23 +23,25 @@ Drei Stellen müssen immer zusammen angefasst werden:
 const CURRENT_SAVE_VERSION = 6   // war 5, jetzt 6
 ```
 
-### 2. `DEFAULT_PLAYER_DATA` anpassen
+### 2. `createDefaultPlayerData()` anpassen
 
-Neue Felder hier eintragen – das ist der Fallback für frische Installationen und der Merge-Baustein für Migration:
+Neue Felder hier eintragen – das ist der Fallback für frische Installationen und der Merge-Baustein für Migration. **Wichtig:** `createDefaultPlayerData()` ist eine Funktion, die bei jedem Aufruf ein frisches Objekt zurückgibt (keine geteilte Konstante!). Ein `{ ...DEFAULT_PLAYER_DATA }` würde verschachtelte Objekte (statistics, highscores, …) nur per Referenz kopieren – Änderungen an einem Spielstand hätten dann auch den nächsten frischen Spielstand mitverändert.
 
 ```js
-const DEFAULT_PLAYER_DATA = {
-  saveVersion: CURRENT_SAVE_VERSION,
-  // … bestehende Felder …
-  statistics: {
-    // … bestehende Statistiken …
-    level9Completed: 0,    // NEU
-    myLevelGamesPlayed: 0, // NEU
-  },
-  highscores: {
-    // … bestehende Scores …
-    level9: 0,             // NEU
-  },
+function createDefaultPlayerData() {
+  return {
+    saveVersion: CURRENT_SAVE_VERSION,
+    // … bestehende Felder …
+    statistics: {
+      // … bestehende Statistiken …
+      level9Completed: 0,    // NEU
+      myLevelGamesPlayed: 0, // NEU
+    },
+    highscores: {
+      // … bestehende Scores …
+      level9: 0,             // NEU
+    },
+  }
 }
 ```
 
@@ -89,3 +91,4 @@ for (const key of [
 | v3 | Dance- und Dig-Level |
 | v4 | Pseudo-3D-Runner |
 | v5 | Kompaktierung 11-Slot → 8-Slot-Layout |
+| v6 | Rettet Beach-Run-Highscores, die durch den l3StopGame-Namenskollisionsbug fälschlich unter level3 landeten; fügt `collection` (Sammelalbum) und `settings` hinzu; `DEFAULT_PLAYER_DATA` wurde zur Factory `createDefaultPlayerData()` |

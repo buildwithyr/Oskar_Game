@@ -11,7 +11,8 @@ let dragStart       = null // { row, col, x, y }
 let matchTimers     = new Set()
 
 function startLevel3Match(){
-  l3StopGame()
+  matchStopGame()
+  GameManager.setActive("level3")
 
   matchScore = 0
   matchBusy  = false
@@ -22,6 +23,7 @@ function startLevel3Match(){
 
   showScreen("level3")
   initMatchBoard()
+  matchEnsureSolvable()
   renderMatchBoard()
 }
 
@@ -48,6 +50,92 @@ function randomEmoji(row, col){
     (row >= 2 && matchBoard[row-1]?.[col] === emoji && matchBoard[row-2]?.[col] === emoji)
   )
   return emoji
+}
+
+// ── Sackgassen-Erkennung ─────────────────────────
+// Reine Funktionen (kein DOM), damit sie sowohl im Spiel als auch
+// isoliert in Tests laufen können (siehe tests/candy-match.test.js).
+
+function cloneBoard(board){
+  return board.map(row => row.slice())
+}
+
+function findMatchesOn(board){
+  const rows = board.length
+  const cols = board[0] ? board[0].length : 0
+  const matched = new Set()
+
+  for(let r = 0; r < rows; r++){
+    for(let c = 0; c < cols - 2; c++){
+      const e = board[r][c]
+      if(e != null && e === board[r][c+1] && e === board[r][c+2]){
+        matched.add(`${r},${c}`)
+        matched.add(`${r},${c+1}`)
+        matched.add(`${r},${c+2}`)
+      }
+    }
+  }
+
+  for(let r = 0; r < rows - 2; r++){
+    for(let c = 0; c < cols; c++){
+      const e = board[r][c]
+      if(e != null && e === board[r+1][c] && e === board[r+2][c]){
+        matched.add(`${r},${c}`)
+        matched.add(`${r+1},${c}`)
+        matched.add(`${r+2},${c}`)
+      }
+    }
+  }
+
+  return [...matched].map(k => {
+    const [r, c] = k.split(",").map(Number)
+    return { r, c }
+  })
+}
+
+// Testet, ob mindestens ein einzelner Nachbar-Tausch (rechts oder unten)
+// irgendwo auf dem Feld zu einer Reihe von 3 führt.
+function boardHasValidMove(board){
+  const rows = board.length
+  const cols = board[0] ? board[0].length : 0
+  const test = cloneBoard(board)
+
+  const trySwap = (r1, c1, r2, c2) => {
+    const tmp = test[r1][c1]
+    test[r1][c1] = test[r2][c2]
+    test[r2][c2] = tmp
+  }
+
+  for(let r = 0; r < rows; r++){
+    for(let c = 0; c < cols; c++){
+      if(c + 1 < cols){
+        trySwap(r, c, r, c + 1)
+        const found = findMatchesOn(test).length > 0
+        trySwap(r, c, r, c + 1)
+        if(found) return true
+      }
+      if(r + 1 < rows){
+        trySwap(r, c, r + 1, c)
+        const found = findMatchesOn(test).length > 0
+        trySwap(r, c, r + 1, c)
+        if(found) return true
+      }
+    }
+  }
+  return false
+}
+
+// Beim Start und nach jedem Nachrücken geprüft: gibt es keinen gültigen
+// Zug mehr, mischt Oskar freundlich neu – ohne dass Punkte verloren gehen.
+function matchEnsureSolvable(){
+  let attempts = 0
+  while(!boardHasValidMove(matchBoard) && attempts < 30){
+    initMatchBoard()
+    attempts++
+  }
+  if(attempts > 0 && typeof showToast === "function"){
+    showToast("🔀 Oskar mischt neu!", 1400)
+  }
 }
 
 function renderMatchBoard(){
@@ -95,7 +183,7 @@ function renderMatchBoard(){
 // regardless of where the finger/cursor ends up, bound once here
 // instead of re-bound on every renderMatchBoard() call.
 
-function l3SetupInput(){
+function matchSetupInput(){
   document.addEventListener("touchend", e => {
     if(!dragStart || matchBusy){ dragStart = null; return }
     e.preventDefault()
@@ -160,34 +248,7 @@ function swapCells(r1, c1, r2, c2){
 }
 
 function findMatches(){
-  const matched = new Set()
-
-  for(let r = 0; r < BOARD_ROWS; r++){
-    for(let c = 0; c < BOARD_COLS - 2; c++){
-      const e = matchBoard[r][c]
-      if(e === matchBoard[r][c+1] && e === matchBoard[r][c+2]){
-        matched.add(`${r},${c}`)
-        matched.add(`${r},${c+1}`)
-        matched.add(`${r},${c+2}`)
-      }
-    }
-  }
-
-  for(let r = 0; r < BOARD_ROWS - 2; r++){
-    for(let c = 0; c < BOARD_COLS; c++){
-      const e = matchBoard[r][c]
-      if(e === matchBoard[r+1][c] && e === matchBoard[r+2][c]){
-        matched.add(`${r},${c}`)
-        matched.add(`${r+1},${c}`)
-        matched.add(`${r+2},${c}`)
-      }
-    }
-  }
-
-  return [...matched].map(k => {
-    const [r, c] = k.split(",").map(Number)
-    return { r, c }
-  })
+  return findMatchesOn(matchBoard)
 }
 
 function processMatches(){
@@ -195,6 +256,7 @@ function processMatches(){
 
   if(matches.length === 0){
     matchBusy = false
+    matchEnsureSolvable()
     renderMatchBoard()
     checkWin()
     return
@@ -256,9 +318,17 @@ function checkWin(){
   }
 }
 
-function l3StopGame(){
+function matchStopGame(){
   matchBusy = false
   matchWon = false
   dragStart = null
   clearGameTimeouts(matchTimers)
+  GameManager.clearActive("level3")
+}
+
+GameManager.register("level3", { stop: matchStopGame })
+
+// Node-Testhaken (im Browser wirkungslos, da `module` dort nicht existiert).
+if(typeof module !== "undefined" && module.exports){
+  module.exports = { findMatchesOn, boardHasValidMove, cloneBoard }
 }

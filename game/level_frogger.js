@@ -70,6 +70,7 @@ let frogTimerTick  = null
 let frogDead       = false  // briefly true during death anim
 let frogShells     = []     // bonus shells on logs
 let frogTimers     = new Set()
+let frogLastNow    = 0
 
 // ── Entry Point ─────────────────────────────────────────────────
 function startFroggerLevel() {
@@ -82,6 +83,7 @@ function startFroggerLevel() {
 
 function frogStartGame() {
   frogStop()
+  GameManager.setActive("level5")
   frogRunning = true
 
   document.getElementById('frogStartScreen').classList.add('hidden')
@@ -218,15 +220,22 @@ function frogSpawnShells() {
 }
 
 // ── Game Loop ─────────────────────────────────────────────────────
-function frogLoop() {
+// dt = vergangene Zeit in "60Hz-Frame-Äquivalenten" (siehe Level 2 / Level 8).
+// Macht Autos, Baumstämme und das Log-Drift bildratenunabhängig.
+function frogLoop(now) {
   if (!frogRunning) return
+
+  if (!frogLastNow) frogLastNow = now
+  let dt = (now - frogLastNow) / (1000 / 60)
+  frogLastNow = now
+  dt = Math.min(Math.max(dt, 0), 3)
 
   const fieldEl = document.getElementById('frogField')
   const fieldW  = fieldEl ? fieldEl.offsetWidth : FROG_W
 
   // Update obstacle positions
   frogObstacles.forEach(obs => {
-    obs.x += obs.speed * obs.dir
+    obs.x += obs.speed * obs.dir * dt
     // Wrap around
     if (obs.dir > 0 && obs.x > fieldW + 10)        obs.x = -obs.w - 10
     if (obs.dir < 0 && obs.x < -obs.w - 10)        obs.x = fieldW + 10
@@ -235,7 +244,7 @@ function frogLoop() {
 
   // Drift with log
   if (frogOnLog && !frogDead) {
-    frogX += frogOnLog.speed * frogOnLog.dir
+    frogX += frogOnLog.speed * frogOnLog.dir * dt
     // Fell off screen edge while on log
     if (frogX < -FROG_OSKAR_W / 2 || frogX > fieldW + FROG_OSKAR_W / 2) {
       frogDie()
@@ -444,6 +453,7 @@ function frogRespawn() {
   frogX      = frogFieldW() / 2
   frogOnLog  = null
   frogDead   = false
+  frogLastNow = 0
   frogResetTimer()
   frogRenderOskar()
   frogStartTimer()
@@ -574,8 +584,27 @@ function frogStop() {
   clearGameTimeouts(frogTimers)
   frogRafId    = null
   frogTimerTick = null
+  frogLastNow  = 0
   frogObstacles.forEach(o => { if (o.el) o.el = null })
   frogObstacles = []
   frogShells    = []
   frogOnLog     = null
+  GameManager.clearActive("level5")
 }
+
+// App im Hintergrund: RAF-Loop und 60s-Timer anhalten. Ohne das würde der
+// Timer im Hintergrund (throttled, aber nicht gestoppt) weiterlaufen und
+// könnte Oskar sterben lassen, während niemand hinschaut.
+function frogPause() {
+  if (frogRafId)     { cancelAnimationFrame(frogRafId); frogRafId = null }
+  if (frogTimerTick) { clearInterval(frogTimerTick);    frogTimerTick = null }
+}
+
+function frogResume() {
+  if (!frogRunning || frogDead) return
+  frogLastNow = 0
+  frogRafId = requestAnimationFrame(frogLoop)
+  frogStartTimer()
+}
+
+GameManager.register("level5", { stop: frogStop, pause: frogPause, resume: frogResume })

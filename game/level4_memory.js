@@ -12,6 +12,7 @@ let memTimers  = new Set()
 
 function startLevel4Memory(){
   l4StopGame()
+  GameManager.setActive("level4")
 
   memCards   = []
   memFlipped = []
@@ -112,4 +113,7 @@ function l4StopGame(){
   memBusy = false
   memFlipped = []
   clearGameTimeouts(memTimers)
+  GameManager.clearActive("level4")
 }
+
+GameManager.register("level4", { stop: l4StopGame })

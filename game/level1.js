@@ -21,6 +21,8 @@ let l1TongueTimer  = null
 let l1Timers      = new Set()
 
 function startLevel1(){
+  GameManager.setActive("level1")
+
   l1Caught   = 0
   l1Treats   = []
   l1OskarX   = 50
@@ -57,7 +59,23 @@ function l1StopGame(){
   if(l1SpawnTimer){ clearInterval(l1SpawnTimer);   l1SpawnTimer = null }
   if(l1TongueTimer){ clearTimeout(l1TongueTimer);  l1TongueTimer = null }
   clearGameTimeouts(l1Timers)
+  GameManager.clearActive("level1")
 }
+
+// App im Hintergrund: RAF-Loop und Spawn-Timer anhalten, ohne den
+// Fortschritt (l1Caught, Positionen) zu verlieren.
+function l1Pause(){
+  if(l1RafId)     { cancelAnimationFrame(l1RafId); l1RafId = null }
+  if(l1SpawnTimer){ clearInterval(l1SpawnTimer);   l1SpawnTimer = null }
+}
+
+function l1Resume(){
+  if(!l1Running) return
+  l1RafId      = requestAnimationFrame(l1Loop)
+  l1SpawnTimer = setInterval(l1SpawnTreat, L1_SPAWN_INTERVAL)
+}
+
+GameManager.register("level1", { stop: l1StopGame, pause: l1Pause, resume: l1Resume })
 
 function l1PositionOskar(){
   const oskar = document.getElementById("l1Oskar")

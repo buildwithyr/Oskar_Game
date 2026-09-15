@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'oskar-v12';
+const CACHE_VERSION = 'oskar-v13';
 const CACHE_NAME = `oskar-beach-stories-${CACHE_VERSION}`;
 
 // Base URL derived from service worker location (works on GitHub Pages subpaths)
@@ -54,7 +54,9 @@ self.addEventListener('install', event => {
           })
         )
       );
-    }).then(() => self.skipWaiting())
+    })
+    // No self.skipWaiting() here on purpose: the new worker stays in
+    // "waiting" state until the player confirms via the update banner.
   );
 });
 
@@ -116,7 +118,7 @@ self.addEventListener('fetch', event => {
 
 // Handle update messages from the app
 self.addEventListener('message', event => {
-  if (event.data === 'SKIP_WAITING') {
+  if (event.data === 'SKIP_WAITING' || event.data?.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
 });

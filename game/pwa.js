@@ -14,15 +14,15 @@ if ('serviceWorker' in navigator) {
           const newWorker = reg.installing;
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              console.log('[PWA] New version available, updating...');
-              newWorker.postMessage('SKIP_WAITING');
+              console.log('[PWA] New version available, waiting for user confirmation...');
+              showUpdateBanner(newWorker);
             }
           });
         });
       })
       .catch(err => console.warn('[PWA] Service Worker registration failed:', err));
 
-    // Reload once after SW takes control (only triggers on update, not first load)
+    // Reload once the new SW has taken control (only after the player confirmed the update)
     let refreshing = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (!refreshing) {
@@ -31,6 +31,20 @@ if ('serviceWorker' in navigator) {
       }
     });
   });
+}
+
+// Update banner: shown once a new SW is installed and waiting
+function showUpdateBanner(waitingWorker) {
+  const banner = document.getElementById('pwaUpdateBanner');
+  const updateBtn = document.getElementById('pwaUpdateBtn');
+  if (!banner || !updateBtn) return;
+
+  banner.style.display = 'flex';
+
+  updateBtn.addEventListener('click', () => {
+    updateBtn.disabled = true;
+    waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+  }, { once: true });
 }
 
 // Install Prompt Logic

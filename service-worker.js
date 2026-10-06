@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'oskar-v13';
+const CACHE_VERSION = 'oskar-v14';
 const CACHE_NAME = `oskar-beach-stories-${CACHE_VERSION}`;
 
 // Base URL derived from service worker location (works on GitHub Pages subpaths)
@@ -8,21 +8,22 @@ const BASE_URL = new URL('./', self.location).href;
 const PRECACHE_URLS = [
   BASE_URL,
   BASE_URL + 'index.html',
-  BASE_URL + 'style.css',
+  BASE_URL + 'style.css?v=19',
+  BASE_URL + 'coastal.css?v=1',
   BASE_URL + 'manifest.json',
-  BASE_URL + 'game/config.js',
-  BASE_URL + 'game/utils.js',
-  BASE_URL + 'game/storage.js',
-  BASE_URL + 'game/main.js',
-  BASE_URL + 'game/level1.js',
-  BASE_URL + 'game/level_frogger.js',
-  BASE_URL + 'game/level3.js',
-  BASE_URL + 'game/level3_match.js',
-  BASE_URL + 'game/level4_memory.js',
-  BASE_URL + 'game/level_dance.js',
-  BASE_URL + 'game/level_dig.js',
-  BASE_URL + 'game/level_run3d.js',
-  BASE_URL + 'game/pwa.js',
+  BASE_URL + 'game/config.js?v=15',
+  BASE_URL + 'game/utils.js?v=20',
+  BASE_URL + 'game/storage.js?v=15',
+  BASE_URL + 'game/main.js?v=20',
+  BASE_URL + 'game/level1.js?v=15',
+  BASE_URL + 'game/level_frogger.js?v=15',
+  BASE_URL + 'game/level3.js?v=15',
+  BASE_URL + 'game/level3_match.js?v=20',
+  BASE_URL + 'game/level4_memory.js?v=16',
+  BASE_URL + 'game/level_dance.js?v=15',
+  BASE_URL + 'game/level_dig.js?v=15',
+  BASE_URL + 'game/level_run3d.js?v=16',
+  BASE_URL + 'game/pwa.js?v=16',
   BASE_URL + 'icons/icon-192.png',
   BASE_URL + 'icons/icon-512.png',
   BASE_URL + 'icons/apple-touch-icon.png',

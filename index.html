@@ -10,8 +10,8 @@
   <link rel="manifest" href="manifest.json">
 
   <!-- Theme & Status Bar -->
-  <meta name="theme-color" content="#E8763A">
-  <meta name="background-color" content="#F6C878">
+  <meta name="theme-color" content="#102F3A">
+  <meta name="background-color" content="#102F3A">
 
   <!-- iOS PWA Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -36,6 +36,7 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="style.css?v=19">
+  <link rel="stylesheet" href="coastal.css?v=1">
 </head>
 
 <body>
@@ -61,19 +62,23 @@
 
 <div class="screen active" id="start">
 
-  <div class="start-sun"></div>
+  <div class="start-sun" aria-hidden="true"></div>
+  <div class="coast-horizon" aria-hidden="true"></div>
   <div class="start-palm start-palm-left" aria-hidden="true">🌴</div>
   <div class="start-palm start-palm-right" aria-hidden="true">🌴</div>
 
   <div class="start-content">
     <div class="start-wordmark">
+      <p class="start-kicker">KLEINER HUND. GROSSES ABENTEUER.</p>
       <div class="start-title">OSKAR</div>
       <div class="start-subtitle">BEACH STORIES</div>
     </div>
 
     <img src="assets/OskarBadehose.png" class="start-hero" alt="Oskar">
 
-    <button class="start-play-btn" id="startPlayBtn">SPIELEN ▸</button>
+    <p class="start-copy">Sonne auf der Nase.<br>Das nächste Abenteuer vor den Pfoten.</p>
+    <button class="start-play-btn" id="startPlayBtn">Ab an den Strand <span aria-hidden="true">↗</span></button>
+    <span class="start-caption">8 Minispiele · Dein Tempo · Dein Oskar</span>
   </div>
 
   <a href="https://instagram.com/oskar.the.jackrussel/" target="_blank" rel="noopener noreferrer" class="start-footer">📸 @oskar.the.jackrussel</a>
@@ -86,8 +91,8 @@
 
   <div class="intro-header">
     <div class="intro-header-left">
-      <p class="intro-eyebrow">Moin, Oskar! ☀️</p>
-      <h1 class="intro-title">Wohin heute?</h1>
+      <p class="intro-eyebrow">OSKAR / BEACH STORIES</p>
+      <h1 class="intro-title">Dein nächstes Abenteuer.</h1>
     </div>
     <div class="bones-chip">
       <span class="bones-chip-icon">🦴</span>
@@ -95,54 +100,77 @@
     </div>
   </div>
 
+  <button class="featured-adventure" id="featuredPlayBtn">
+    <span class="featured-copy"><span class="feature-kicker">MEER. SONNE. LECKERLIS.</span>
+    <strong>Einfach loslaufen.</strong><span>Mit Oskar am Meer entlang.</span>
+    <span class="feature-action">Leckerli-Lauf spielen ↗</span></span>
+    <img src="assets/OskarBadehose.png" alt="" class="featured-oskar">
+  </button>
+  <div class="section-heading"><h2>Entdecke die Spiele</h2><span>08 Abenteuer</span></div>
   <div class="menu-cards">
 
     <button class="level-card card-1" id="levelBtn1">
       <div class="card-icon-chip chip-1"><span class="card-icon">🍖</span></div>
-      <div class="card-label">Level 1</div>
+      <div class="card-label">GESCHICK <span>01</span></div>
       <div class="card-name">Snack Hunt</div>
+      <div class="card-description">Leckerlis fangen</div>
+      <div class="card-bottom"><span class="card-progress" id="progress1">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-2" id="levelBtn2">
       <div class="card-icon-chip chip-2"><span class="card-icon">🥏</span></div>
-      <div class="card-label">Level 2</div>
+      <div class="card-label">ACTION <span>02</span></div>
       <div class="card-name">Beach Run</div>
+      <div class="card-description">Hüpfen. Rennen. Weiter.</div>
+      <div class="card-bottom"><span class="card-progress" id="progress2">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-3" id="levelBtn3">
       <div class="card-icon-chip chip-3"><span class="card-icon">🍭</span></div>
-      <div class="card-label">Level 3</div>
+      <div class="card-label">KNOBELN <span>03</span></div>
       <div class="card-name">Candy Match</div>
+      <div class="card-description">Drei in eine Reihe</div>
+      <div class="card-bottom"><span class="card-progress" id="progress3">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-4" id="levelBtn4">
       <div class="card-icon-chip chip-4"><span class="card-icon">🧠</span></div>
-      <div class="card-label">Level 4</div>
+      <div class="card-label">MERKEN <span>04</span></div>
       <div class="card-name">Oskar Memory</div>
+      <div class="card-description">Finde die gleichen Paare</div>
+      <div class="card-bottom"><span class="card-progress" id="progress4">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-5" id="levelBtn5">
       <div class="card-icon-chip chip-5"><span class="card-icon">🐕</span></div>
-      <div class="card-label">Level 5</div>
+      <div class="card-label">GESCHICK <span>05</span></div>
       <div class="card-name">Strandpromenade</div>
+      <div class="card-description">Sicher ans andere Ufer</div>
+      <div class="card-bottom"><span class="card-progress" id="progress5">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-6" id="levelBtn6">
       <div class="card-icon-chip chip-6"><span class="card-icon">🎵</span></div>
-      <div class="card-label">Level 6</div>
+      <div class="card-label">RHYTHMUS <span>06</span></div>
       <div class="card-name">Tanzparty</div>
+      <div class="card-description">Oskars Schritte nachtanzen</div>
+      <div class="card-bottom"><span class="card-progress" id="progress6">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-7" id="levelBtn7">
       <div class="card-icon-chip chip-7"><span class="card-icon">🦴</span></div>
-      <div class="card-label">Level 7</div>
+      <div class="card-label">ENTDECKEN <span>07</span></div>
       <div class="card-name">Buddel-Spaß</div>
+      <div class="card-description">Auf die Nase, fertig, los</div>
+      <div class="card-bottom"><span class="card-progress" id="progress7">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-8" id="levelBtn8">
       <div class="card-icon-chip chip-8"><span class="card-icon">🌅</span></div>
-      <div class="card-label">Level 8</div>
+      <div class="card-label">ACTION <span>08</span></div>
       <div class="card-name">Leckerli-Lauf 3D</div>
+      <div class="card-description">Dein Lauf am Meer</div>
+      <div class="card-bottom"><span class="card-progress" id="progress8">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
   </div>
@@ -159,7 +187,7 @@
 
 <div class="screen" id="level1">
 
-  <button class="back-btn" onclick="l1StopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="l1StopGame(); showScreen('intro')">‹</button>
 
   <div class="hud">
     <div class="hud-title">Level 1 🍖</div>
@@ -175,7 +203,7 @@
 
 <div class="screen" id="level2">
 
-  <button class="back-btn back-btn-fixed" onclick="l3StopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn back-btn-fixed" aria-label="Zur Spielauswahl" onclick="l3StopGame(); showScreen('intro')">‹</button>
 
   <div class="sun"></div>
   <div class="cartoon-cloud cloud-1"></div>
@@ -221,7 +249,7 @@
 
 <div class="screen" id="level3">
 
-  <button class="back-btn" onclick="l3StopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="matchStopGame(); showScreen('intro')">‹</button>
 
   <div class="hud">
     <div class="hud-title">Level 3 🍭</div>
@@ -239,7 +267,7 @@
 
 <div class="screen" id="level4">
 
-  <button class="back-btn" onclick="l4StopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="l4StopGame(); showScreen('intro')">‹</button>
 
   <div class="hud">
     <div class="hud-title">Level 4 🧠</div>
@@ -255,7 +283,7 @@
 
 <div class="screen" id="level5">
 
-  <button class="back-btn" onclick="frogStop(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="frogStop(); showScreen('intro')">‹</button>
 
   <!-- START SCREEN -->
   <div id="frogStartScreen" class="frog-start-screen">
@@ -299,7 +327,7 @@
 
 <div class="screen" id="level6">
 
-  <button class="back-btn" onclick="dcStopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="dcStopGame(); showScreen('intro')">‹</button>
 
   <!-- START SCREEN -->
   <div id="dcStartScreen" class="dc-start-screen">
@@ -349,7 +377,7 @@
 
 <div class="screen" id="level7">
 
-  <button class="back-btn" onclick="dgStopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="dgStopGame(); showScreen('intro')">‹</button>
 
   <!-- START SCREEN -->
   <div id="dgStartScreen" class="dg-start-screen">
@@ -394,7 +422,7 @@
 
 <div class="screen" id="level8">
 
-  <button class="back-btn" onclick="r3Stop(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="r3Stop(); showScreen('intro')">‹</button>
 
   <!-- START SCREEN -->
   <div id="r3StartScreen" class="r3-start-screen">
@@ -461,17 +489,17 @@
 </div>
 
 <script src="game/config.js?v=15"></script>
-<script src="game/utils.js?v=16"></script>
+<script src="game/utils.js?v=20"></script>
 <script src="game/storage.js?v=15"></script>
 <script src="game/level1.js?v=15"></script>
 <script src="game/level3.js?v=15"></script>
-<script src="game/level3_match.js?v=16"></script>
+<script src="game/level3_match.js?v=20"></script>
 <script src="game/level4_memory.js?v=16"></script>
 <script src="game/level_frogger.js?v=15"></script>
 <script src="game/level_dance.js?v=15"></script>
 <script src="game/level_dig.js?v=15"></script>
 <script src="game/level_run3d.js?v=16"></script>
-<script src="game/main.js?v=16"></script>
+<script src="game/main.js?v=20"></script>
 <script src="game/pwa.js?v=16"></script>
 
 </body>

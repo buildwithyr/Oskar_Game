@@ -168,3 +168,9 @@ document.addEventListener("keydown", (e) => {
     if (e.code === "ArrowRight" || e.code === "KeyD") { e.preventDefault(); r3Steer(1) }
   }
 })
+
+// Featured adventure uses the existing level lifecycle and controls.
+document.getElementById("featuredPlayBtn").addEventListener("click", () => {
+  vibe(VIBRATE.SMALL)
+  startRun3dLevel()
+})

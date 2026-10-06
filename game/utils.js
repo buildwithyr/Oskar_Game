@@ -7,11 +7,21 @@ function showScreen(id){
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"))
   document.getElementById(id).classList.add("active")
   if(id === "intro") updateBonesDisplay()
+  window.scrollTo(0, 0)
 }
 
 function updateBonesDisplay(){
   const el = document.getElementById("bonesCount")
-  if(el) el.textContent = loadPlayerData().bones
+  const data = loadPlayerData()
+  if(el) el.textContent = data.bones
+  for(let level = 1; level <= 8; level++){
+    const progress = document.getElementById(`progress${level}`)
+    const wins = data.statistics[`level${level}Completed`] || 0
+    if(progress){
+      progress.textContent = wins ? `${wins}× geschafft` : 'Bereit für dich'
+      progress.classList.toggle('is-complete', wins > 0)
+    }
+  }
 }
 
 function setGameTimeout(handler, delay, bag){

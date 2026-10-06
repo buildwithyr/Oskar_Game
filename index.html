@@ -10,8 +10,8 @@
   <link rel="manifest" href="manifest.json">
 
   <!-- Theme & Status Bar -->
-  <meta name="theme-color" content="#E8763A">
-  <meta name="background-color" content="#F6C878">
+  <meta name="theme-color" content="#eaf3ee">
+  <meta name="background-color" content="#eaf3ee">
 
   <!-- iOS PWA Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -36,6 +36,7 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="style.css?v=19">
+  <link rel="stylesheet" href="coastal.css?v=2">
 </head>
 
 <body>
@@ -61,22 +62,42 @@
 
 <div class="screen active" id="start">
 
-  <div class="start-sun"></div>
-  <div class="start-palm start-palm-left" aria-hidden="true">🌴</div>
-  <div class="start-palm start-palm-right" aria-hidden="true">🌴</div>
+  <header class="beach-topbar">
+    <a class="beach-brand" href="./" aria-label="Oskar Beach Stories Startseite"><span aria-hidden="true">↗</span> OSKAR<span class="brand-note">BEACH STORIES</span></a>
+    <span class="beach-weather">☀ <span>MEERZEIT</span></span>
+  </header>
+  <svg class="beach-landscape" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <circle cx="950" cy="210" r="42" fill="#fffaf0"/>
+    <path d="M520 390 690 260 810 342 900 290 1060 370 1200 295V660H520Z" fill="#c3d9d0"/>
+    <path d="m690 260 44 149 76-67-120-82m210 30 29 137 131-57Z" fill="#adcdbf"/>
+    <path d="M0 430Q300 390 570 442T1200 421V900H0Z" fill="#c7e0d7"/>
+    <path d="M0 515Q320 470 620 526T1200 500" fill="none" stroke="#e5f1e8" stroke-width="3"/>
+    <path d="M1200 482C800 515 920 710 400 900H1200Z" fill="#f9fbf1"/>
+    <path d="M1200 560C920 615 1020 800 710 900H1200Z" fill="#e8eddb"/>
+    <g fill="none" stroke="#a9c4b6" stroke-opacity=".25"><path d="M1170 535C820 645 1000 745 610 900"/><path d="M1200 576C960 670 1080 800 810 900"/><path d="M1180 604C1010 730 1130 820 920 900"/></g>
+    <g transform="translate(1090 590) rotate(8)"><ellipse cx="15" cy="30" rx="85" ry="12" fill="#315e50" opacity=".08"/><path d="M0 0V-175" stroke="#638078" stroke-width="8"/><path d="M0-175q-80-55-125 25 72-40 125-25" fill="#477966"/><path d="M0-175q60-65 115 8-64-32-115-8" fill="#689883"/><path d="M0-175q-15-85-85-73 55 23 85 73" fill="#315e50"/><path d="M0-175q32-82 75-68-43 25-75 68" fill="#689883"/></g>
+    <g transform="translate(905 700)"><ellipse cx="10" cy="50" rx="68" ry="10" fill="#315e50" opacity=".08"/><path d="M0 45V-72" stroke="#638078" stroke-width="4"/><path d="M-64-35Q0-112 64-35Z" fill="#f36b42"/><path d="M-20-35Q0-112 20-35Z" fill="#ffe8c9"/></g>
+  </svg>
 
   <div class="start-content">
     <div class="start-wordmark">
-      <div class="start-title">OSKAR</div>
-      <div class="start-subtitle">BEACH STORIES</div>
+      <p class="start-kicker"><span class="status-dot"></span> BEACH PLAYGROUND <span class="location-line"></span> 08 SPIELE</p>
+      <h1 class="start-title">Weniger Alltag.<br>Mehr <span>Oskar.</span></h1>
     </div>
 
     <img src="assets/OskarBadehose.png" class="start-hero" alt="Oskar">
 
-    <button class="start-play-btn" id="startPlayBtn">SPIELEN ▸</button>
+    <p class="start-copy">Nur du, Oskar und das Meer.<br>Welches Abenteuer wartet heute?</p>
+    <button class="start-play-btn" id="startPlayBtn">Ab an den Strand <span aria-hidden="true">↗</span></button>
+    <span class="start-caption">KEIN DOWNLOAD. EINFACH LOS.</span>
+    <div class="beach-instructions">
+      <div><span class="gesture-box" aria-hidden="true">↔</span><p><strong>Tippen & ziehen</strong><small>Für deine Daumen gemacht</small></p></div>
+      <div><span class="gesture-box" aria-hidden="true">↗</span><p><strong>Spielen & entdecken</strong><small>Acht kleine Abenteuer am Meer</small></p></div>
+    </div>
   </div>
 
-  <a href="https://instagram.com/oskar.the.jackrussel/" target="_blank" rel="noopener noreferrer" class="start-footer">📸 @oskar.the.jackrussel</a>
+  <span class="beach-edition">MADE FOR THE GOOD DAYS.</span>
+  <a href="https://instagram.com/oskar.the.jackrussel/" target="_blank" rel="noopener noreferrer" class="start-footer">@oskar.the.jackrussel ↗</a>
 
 </div>
 
@@ -86,8 +107,8 @@
 
   <div class="intro-header">
     <div class="intro-header-left">
-      <p class="intro-eyebrow">Moin, Oskar! ☀️</p>
-      <h1 class="intro-title">Wohin heute?</h1>
+      <p class="intro-eyebrow">OSKAR / BEACH STORIES</p>
+      <h1 class="intro-title">Dein nächstes Abenteuer.</h1>
     </div>
     <div class="bones-chip">
       <span class="bones-chip-icon">🦴</span>
@@ -95,54 +116,77 @@
     </div>
   </div>
 
+  <button class="featured-adventure" id="featuredPlayBtn">
+    <span class="featured-copy"><span class="feature-kicker">MEER. SONNE. LECKERLIS.</span>
+    <strong>Einfach loslaufen.</strong><span>Mit Oskar am Meer entlang.</span>
+    <span class="feature-action">Leckerli-Lauf spielen ↗</span></span>
+    <img src="assets/OskarBadehose.png" alt="" class="featured-oskar">
+  </button>
+  <div class="section-heading"><h2>Entdecke die Spiele</h2><span>08 Abenteuer</span></div>
   <div class="menu-cards">
 
     <button class="level-card card-1" id="levelBtn1">
       <div class="card-icon-chip chip-1"><span class="card-icon">🍖</span></div>
-      <div class="card-label">Level 1</div>
+      <div class="card-label">GESCHICK <span>01</span></div>
       <div class="card-name">Snack Hunt</div>
+      <div class="card-description">Leckerlis fangen</div>
+      <div class="card-bottom"><span class="card-progress" id="progress1">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-2" id="levelBtn2">
       <div class="card-icon-chip chip-2"><span class="card-icon">🥏</span></div>
-      <div class="card-label">Level 2</div>
+      <div class="card-label">ACTION <span>02</span></div>
       <div class="card-name">Beach Run</div>
+      <div class="card-description">Hüpfen. Rennen. Weiter.</div>
+      <div class="card-bottom"><span class="card-progress" id="progress2">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-3" id="levelBtn3">
       <div class="card-icon-chip chip-3"><span class="card-icon">🍭</span></div>
-      <div class="card-label">Level 3</div>
+      <div class="card-label">KNOBELN <span>03</span></div>
       <div class="card-name">Candy Match</div>
+      <div class="card-description">Drei in eine Reihe</div>
+      <div class="card-bottom"><span class="card-progress" id="progress3">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-4" id="levelBtn4">
       <div class="card-icon-chip chip-4"><span class="card-icon">🧠</span></div>
-      <div class="card-label">Level 4</div>
+      <div class="card-label">MERKEN <span>04</span></div>
       <div class="card-name">Oskar Memory</div>
+      <div class="card-description">Finde die gleichen Paare</div>
+      <div class="card-bottom"><span class="card-progress" id="progress4">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-5" id="levelBtn5">
       <div class="card-icon-chip chip-5"><span class="card-icon">🐕</span></div>
-      <div class="card-label">Level 5</div>
+      <div class="card-label">GESCHICK <span>05</span></div>
       <div class="card-name">Strandpromenade</div>
+      <div class="card-description">Sicher ans andere Ufer</div>
+      <div class="card-bottom"><span class="card-progress" id="progress5">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-6" id="levelBtn6">
       <div class="card-icon-chip chip-6"><span class="card-icon">🎵</span></div>
-      <div class="card-label">Level 6</div>
+      <div class="card-label">RHYTHMUS <span>06</span></div>
       <div class="card-name">Tanzparty</div>
+      <div class="card-description">Oskars Schritte nachtanzen</div>
+      <div class="card-bottom"><span class="card-progress" id="progress6">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-7" id="levelBtn7">
       <div class="card-icon-chip chip-7"><span class="card-icon">🦴</span></div>
-      <div class="card-label">Level 7</div>
+      <div class="card-label">ENTDECKEN <span>07</span></div>
       <div class="card-name">Buddel-Spaß</div>
+      <div class="card-description">Auf die Nase, fertig, los</div>
+      <div class="card-bottom"><span class="card-progress" id="progress7">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
     <button class="level-card card-8" id="levelBtn8">
       <div class="card-icon-chip chip-8"><span class="card-icon">🌅</span></div>
-      <div class="card-label">Level 8</div>
+      <div class="card-label">ACTION <span>08</span></div>
       <div class="card-name">Leckerli-Lauf 3D</div>
+      <div class="card-description">Dein Lauf am Meer</div>
+      <div class="card-bottom"><span class="card-progress" id="progress8">Bereit für dich</span><span class="card-arrow" aria-hidden="true">↗</span></div>
     </button>
 
   </div>
@@ -159,7 +203,7 @@
 
 <div class="screen" id="level1">
 
-  <button class="back-btn" onclick="l1StopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="l1StopGame(); showScreen('intro')">‹</button>
 
   <div class="hud">
     <div class="hud-title">Level 1 🍖</div>
@@ -175,7 +219,7 @@
 
 <div class="screen" id="level2">
 
-  <button class="back-btn back-btn-fixed" onclick="l3StopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn back-btn-fixed" aria-label="Zur Spielauswahl" onclick="l3StopGame(); showScreen('intro')">‹</button>
 
   <div class="sun"></div>
   <div class="cartoon-cloud cloud-1"></div>
@@ -221,7 +265,7 @@
 
 <div class="screen" id="level3">
 
-  <button class="back-btn" onclick="l3StopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="matchStopGame(); showScreen('intro')">‹</button>
 
   <div class="hud">
     <div class="hud-title">Level 3 🍭</div>
@@ -239,7 +283,7 @@
 
 <div class="screen" id="level4">
 
-  <button class="back-btn" onclick="l4StopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="l4StopGame(); showScreen('intro')">‹</button>
 
   <div class="hud">
     <div class="hud-title">Level 4 🧠</div>
@@ -255,7 +299,7 @@
 
 <div class="screen" id="level5">
 
-  <button class="back-btn" onclick="frogStop(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="frogStop(); showScreen('intro')">‹</button>
 
   <!-- START SCREEN -->
   <div id="frogStartScreen" class="frog-start-screen">
@@ -299,7 +343,7 @@
 
 <div class="screen" id="level6">
 
-  <button class="back-btn" onclick="dcStopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="dcStopGame(); showScreen('intro')">‹</button>
 
   <!-- START SCREEN -->
   <div id="dcStartScreen" class="dc-start-screen">
@@ -349,7 +393,7 @@
 
 <div class="screen" id="level7">
 
-  <button class="back-btn" onclick="dgStopGame(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="dgStopGame(); showScreen('intro')">‹</button>
 
   <!-- START SCREEN -->
   <div id="dgStartScreen" class="dg-start-screen">
@@ -394,7 +438,7 @@
 
 <div class="screen" id="level8">
 
-  <button class="back-btn" onclick="r3Stop(); showScreen('intro')">🏠</button>
+  <button class="back-btn" aria-label="Zur Spielauswahl" onclick="r3Stop(); showScreen('intro')">‹</button>
 
   <!-- START SCREEN -->
   <div id="r3StartScreen" class="r3-start-screen">
@@ -461,17 +505,17 @@
 </div>
 
 <script src="game/config.js?v=15"></script>
-<script src="game/utils.js?v=16"></script>
+<script src="game/utils.js?v=20"></script>
 <script src="game/storage.js?v=15"></script>
 <script src="game/level1.js?v=15"></script>
 <script src="game/level3.js?v=15"></script>
-<script src="game/level3_match.js?v=16"></script>
+<script src="game/level3_match.js?v=20"></script>
 <script src="game/level4_memory.js?v=16"></script>
 <script src="game/level_frogger.js?v=15"></script>
 <script src="game/level_dance.js?v=15"></script>
 <script src="game/level_dig.js?v=15"></script>
 <script src="game/level_run3d.js?v=16"></script>
-<script src="game/main.js?v=16"></script>
+<script src="game/main.js?v=20"></script>
 <script src="game/pwa.js?v=16"></script>
 
 </body>
